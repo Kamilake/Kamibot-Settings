@@ -1,7 +1,7 @@
 import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-
+import fetchChannelListApi from '../../api/fetchChannelListApi';
 
 
 
@@ -9,16 +9,29 @@ import Autocomplete from '@mui/material/Autocomplete';
 export default function ControllableStates({ value, setValue }) {
 
 
-  // let options = ['Option 1', 'Option 2'];
-  let options = top100Films.map((option) => {
-    const firstLetter = option.name[0].toUpperCase();
-    return {
-      firstLetter: /[0-9]/.test(firstLetter) ? '0-9' : firstLetter,
-      ...option,
-    };
-  });
+  // let options = top100Films.map((option) => {
+  // const firstLetter = option.channelName[0].toUpperCase();
+  // return {
+  //   firstLetter: /[0-9]/.test(firstLetter) ? '0-9' : firstLetter,
+  //   ...option,
+  // }; // 글자 순서대로 정렬하는 코드, 나중에 필요할지도 모르니 남겨두기
+  // });
   // const [value, setValue] = React.useState(options[0]);
   const [inputValue, setInputValue] = React.useState('');
+
+  const { data, loading, error } = fetchChannelListApi();
+
+
+
+
+    const channelArray = data;
+
+//   if (!loading) {
+// console.log("options2 : ", data);
+//   }
+
+
+
   return (
     <>
       {/* // <div> */}
@@ -26,7 +39,7 @@ export default function ControllableStates({ value, setValue }) {
       {/* <div>{`inputValue: '${inputValue}'`}</div> */}
       {/* <br /> */}
       <Autocomplete
-        isOptionEqualToValue={(option, value) => option.id === value.id}
+        isOptionEqualToValue={(option, value) => option.channelId === value.channelId}
         value={value}
         onChange={(event, newValue) => {
           setValue(newValue);
@@ -36,24 +49,16 @@ export default function ControllableStates({ value, setValue }) {
           setInputValue(newInputValue);
         }}
         id="controllable-states-demo"
-        // options={options}
-        options={options.sort((a, b) => -b.firstLetter.localeCompare(a.firstLetter))}
-        groupBy={(option) => option.firstLetter}
-        getOptionLabel={(option) => option.name}
-        sx={{ width: 300 }}
+        options={channelArray}
+        // options={options.sort((a, b) => -b.categoryName.localeCompare(a.categoryName))} // 카테고리별 ABC순 정렬하는 코드, 나중에 필요할지도 모르니 남겨두기
+        groupBy={(option) => option.categoryName}
+        getOptionLabel={(option) => option.channelName}
+        // sx={{ width: 300 }}
         renderInput={(params) => <TextField {...params} label="채널" />}
+        fullWidth={true}
       />
-      {/* // </div> */}
     </>
   );
 }
 
 
-// Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
-const top100Films = [
-  { name: 'The Shawshank Redemption', id: 1994 },
-  { name: 'The Godfather', id: 1972 },
-  { name: 'The Godfather: Part II', id: 1974 },
-  { name: 'The Dark Knight', id: 2008 },
-  { name: '12 Angry Men', id: 1957 },
-];
