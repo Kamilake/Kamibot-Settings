@@ -39,18 +39,22 @@ const SmallAvatar = styled(Avatar)(({ theme }) => ({
   border: `2px solid ${theme.palette.background.paper}`,
 }));
 
-export default function BadgeAvatars({userName="Kamilake", avatarUrl="/static/images/avatar/1.jpg"}) {
+export default function BadgeAvatars({ userName = "Kamilake", avatarUrl = "" }) {
   return (
-    <Stack direction="row" spacing={2}>
-      <StyledBadge
-        overlap="circular"
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        variant="dot"
-      >
-        <Avatar alt={userName} src={avatarUrl} />        
-      </StyledBadge>
-              {/* 상하 가운데 정렬, 닉네임 출력, 굵게, 크게 */}
-              <div style={{textAlign: "center", marginTop: "0px", fontWeight: "bold", fontSize: "25px"}}>{userName}</div>
-    </Stack>
+    <>
+      <Stack direction="row" spacing={userName == "" ? 0 : 1}>
+        <StyledBadge
+          overlap="circular"
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+          variant="dot"
+        >
+          <Avatar src={avatarUrl}  alt={userName}/>
+        </StyledBadge>
+        {/* 상하 가운데 정렬, 닉네임 출력, 굵게, 크게 */}
+        {userName == "" ? null :
+          <div style={{ textAlign: "center", marginTop: "2px", fontWeight: "bold", fontSize: "25px", whiteSpace: 'pre-wrap', wordBreak: 'keep-all' }}>{userName}</div>}
+      </Stack>
+
+    </>
   );
 }
