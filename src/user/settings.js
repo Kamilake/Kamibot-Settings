@@ -3,9 +3,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
+import NestedList from './components/NestedList';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
+
+import { SnackbarProvider } from 'notistack'
 
 import ControllableStates from './components/ControllableStates';
 
@@ -27,7 +29,7 @@ export default function settings() {
 
 
   if (channelSelectValue == null)
-    channelSelectValue = { "firstLetter": "0-9", "channelName": "채널을 골라주세요!", "channelId": -1 };
+    channelSelectValue = { "firstLetter": "0-9", "channelName": "", "channelId": -2 };
 
   React.useEffect(() => {
 
@@ -54,18 +56,16 @@ export default function settings() {
   return (
     <Container maxWidth="sm">
       <Box sx={{ my: 1 }}>
-        <Header title="설정" />
+        <Header title="설정" userAvatarUrl={data.userAvatarUrl} />
         <Typography variant="h4" gutterBottom component="div">
-        {channelSelectValue.channelName ? channelSelectValue.channelName : `채널별` } 설정
+          {channelSelectValue.channelName ? channelSelectValue.channelName : `채널별`} 설정
         </Typography>
         <Divider /> <br />
         <ControllableStates
           value={channelSelectValue}
           setValue={setChannelSelectValue}
         />
-        <br />
-        {` 고른거: ${channelSelectValue.channelName} `}
-        <br></br>{` 채널 ID: ${channelSelectValue.channelId} `}
+          <NestedList channelSelectValue={channelSelectValue} channelId={channelSelectValue.channelId} />
         <Typography variant="h4" gutterBottom component="div">
           {loading ? `서버 전역` : data.guildName} 설정
         </Typography>
@@ -73,7 +73,7 @@ export default function settings() {
 
         {/* <TextField id="outlined-basic" label="JSON" variant="outlined" value={loading ? 'Loading...' : JSON.stringify(data)} multiline rows={4} fullWidth /> */}
         {/* <br></br> */}
-        <br />
+        {/* <br />
         안녕하세요 {data.userEffectiveName}님!<br />
         <img src={data.userAvatarUrl} width="100px" /><br />
         현재 채널 이름: {data.channelName}<br />
@@ -83,6 +83,8 @@ export default function settings() {
         현재 길드 ID: {data.guildId}<br />
         현재 길드 이름: {data.guildName}<br />
 
+        {`채널 고른거: ${channelSelectValue.channelName} `}
+        <br></br>{` 채널 ID: ${channelSelectValue.channelId} `} */}
 
         {/* <br />
           <br />
@@ -101,6 +103,7 @@ export default function settings() {
         <ProTip />
         <Molu />
       </Box>
+      <SnackbarProvider maxSnack={5} autoHideDuration={1000} />
     </Container >
   );
 }
