@@ -21,10 +21,10 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import Switch from '@mui/material/Switch';
 
-import { enqueueSnackbar, closeSnackbar } from 'notistack'
+import { enqueueSnackbar } from 'notistack'
 
 import fetchChannelInfoApi from '../../api/fetchChannelInfoApi';
-import setChannelFuncApi from '../../api/setLlmApi';
+import setChannelFuncApi from '../../api/setChannelFuncApi';
 
 export default function NestedList({ channelSelectValue, channelId }) {
   const [open, setOpen] = React.useState(true);

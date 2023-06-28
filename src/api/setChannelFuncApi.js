@@ -1,4 +1,4 @@
-// fetchInfoApi.js
+// setChannelFuncApi.js
 import usePost from "./usePost";
 import axios from 'axios';
 import { enqueueSnackbar, closeSnackbar } from 'notistack'
