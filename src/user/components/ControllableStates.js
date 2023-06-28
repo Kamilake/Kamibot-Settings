@@ -43,6 +43,7 @@ export default function ControllableStates({ value, setValue }) {
         value={value}
         onChange={(event, newValue) => {
           setValue(newValue);
+          document.activeElement.blur();
         }}
         inputValue={inputValue}
         onInputChange={(event, newInputValue) => {
