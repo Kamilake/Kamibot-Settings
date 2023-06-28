@@ -12,6 +12,7 @@
     "@mui/material": "latest",
     "axios": "latest",
     "cross-env": "latest",
+    "notistack": "^3.0.1",
     "react": "latest",
     "react-dom": "latest",
     "react-router-dom": "latest"
