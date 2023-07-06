@@ -1,9 +1,12 @@
 // setChannelFuncApi.js
-import usePost from "./usePost";
+import * as React from 'react';
 import axios from 'axios';
 import { enqueueSnackbar, closeSnackbar } from 'notistack'
+import IconButton from '@mui/material/IconButton';
+import IconClose from '@mui/icons-material/Close';
 
-const setChannelFuncApi = async (func, channelId, enabled, callbackData,setSwitchStates) => {
+
+const setChannelFuncApi = async (func, channelId, enabled, callbackData, setSwitchStates) => {
   const nowSettingSnackbarId = enqueueSnackbar('설정 중...', { variant: 'info', autoHideDuration: 10000 });
   try {
     let data = await postData(
@@ -18,10 +21,16 @@ const setChannelFuncApi = async (func, channelId, enabled, callbackData,setSwitc
     //   enabled: enabled
     // }
     // );
-    console.log("API Response: success: " + data.success + ", message: " + data.message);
-    if (!data.success) {
+    console.log("API Response: success: " + (data?.success == 'true') + ", message: " + data.message);
+    if ((data?.success != 'true')) {
       closeSnackbar(nowSettingSnackbarId);
-      enqueueSnackbar('설정에 실패했어요: ' + data.message, { variant: 'error' });
+      enqueueSnackbar('설정에 실패했어요: ' + data.message, {
+        variant: 'error', autoHideDuration: 5000, action: (key) => (
+          <IconButton onClick={() => closeSnackbar(key)}>
+            <IconClose />
+          </IconButton>
+        )
+      });
       setSwitchStates((prevState) => ({
         ...prevState,
         [func]: !prevState[func],
@@ -33,7 +42,7 @@ const setChannelFuncApi = async (func, channelId, enabled, callbackData,setSwitc
     return data;
   } catch (error) {
     closeSnackbar(nowSettingSnackbarId);
-    enqueueSnackbar('설정에 실패했어요: ' + error, { variant: 'error' });
+    enqueueSnackbar('설정에 실패했어요: ' + error, { variant: 'error', autoHideDuration: 5000 });
     setSwitchStates((prevState) => ({
       ...prevState,
       [func]: !prevState[func],
