@@ -44,7 +44,7 @@ export default function home() {
         <br />
         <Box>
           <Skeleton variant="text" sx={{ fontSize: '1rem' }} animation="wave" /> <br />
-
+          홈은 여전히 공사중이에요! 아직 여기에는 아무 것도 없어요. <br />
           {/* For other variants, adjust the size with `width` and `height` */}
           <Skeleton variant="circular" width={60} height={60} animation="wave" /> <br />
           <Skeleton variant="rounded" height={40} animation="wave" /> <br />
