@@ -32,6 +32,7 @@ export default function NestedList({ channelSelectValue, channelId }) {
   var listItemData = [
     { id: "emote_upscale", text: "이모지 업스케일링", icon: <AddReactionIcon />, shortName: '이모지 업스케일링' },
     { id: "hello_world", text: "Sent mail", icon: <SendIcon />, shortName: 'Sent mail', disabled: true },
+    { id: "vchannel", text: "가변 음성채널 트리거 채널", icon: <RecordVoiceOverIcon />, shortName: '가변 음성채널', disabled: false },
     { id: "tts", text: "음성으로 읽어주기(TTS)", icon: <RecordVoiceOverIcon />, shortName: 'TTS', disabled: true },
     { id: "stable_diffusion", text: "AI 그림 그리기", icon: <PhotoFilterIcon />, shortName: 'AI그림' },
     { id: "wave", text: "안녕하세요!", icon: <WavingHandIcon />, shortName: '안녕하세요', disabled: true },
@@ -59,22 +60,17 @@ export default function NestedList({ channelSelectValue, channelId }) {
     // enqueueSnackbar(listItemData.find(item => item.id === id).shortName + " 설정을 " + (state ? "비" : "") + "활성화했어요.", { variant: 'success' });
   };
 
-
-
-
   React.useEffect(() => {
     if (!loading && data.name !== undefined) {
       setSwitchStates((prevState) => ({
         ...prevState,
         ['llm']: data.llm,
         ['emote_upscale']: data.minicuda,
+        ['vchannel']: data.vchannel,
       }));
       enqueueSnackbar(data.name + " 채널을 로드했어요.");
     }
   }, [data]); // 사용자가 채널을 선택할 때마다 실행
-
-
-
 
 
   return (
@@ -94,7 +90,7 @@ export default function NestedList({ channelSelectValue, channelId }) {
             <ListItemIcon>
               {item.icon}
             </ListItemIcon>
-            <ListItemText primary={item.text} />
+            <ListItemText primary={item.text} disabled={false} />
             <Switch checked={!!switchStates[item.id]} onClick={() => { }} disabled={loading} />
           </ListItemButton> : null
       ))}
