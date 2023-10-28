@@ -26,6 +26,14 @@ export default function home() {
   var userName = data?.user?.username;
   var avatar = data?.user?.avatar;
 
+  // data 콘솔에 출력
+  console.log("data: ", data);
+
+  // 만약 데이터가 {}이면 로그인 페이지로 리디렉션 (kami.com/login)
+  if (JSON.stringify(data) === JSON.stringify({})) {
+    window.location.href = "https://discord.com/api/oauth2/authorize?client_id=1019061779357245521&permissions=295064431696&scope=bot%20applications.commands";
+  }
+
   return (
     <Container maxWidth="sm">
       <Box sx={{ my: 1 }}>
