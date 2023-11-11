@@ -29,14 +29,14 @@ import fetchChannelInfoApi from '../../api/fetchChannelInfoApi';
 import setChannelFuncApi from '../../api/setChannelFuncApi';
 
 export default function NestedList({ channelSelectValue, channelId }) {
-  const [open, setOpen] = React.useState(true);
+  const [opens, setOpens] = React.useState({});
   let { data, loading, error } = fetchChannelInfoApi({ channelId });
   var listItemData = [
     { id: "emote_upscale", text: "이모지 업스케일링", icon: <AddReactionIcon />, shortName: '이모지 업스케일링' },
     { id: "hello_world", text: "Sent mail", icon: <SendIcon />, shortName: 'Sent mail', disabled: true },
     { id: "twitter_embed", text: "트위터 링크에 미리보기 임베드 표시", icon: <Twitter />, shortName: '트위터 임베드', disabled: false },
     { id: "vchannel", text: "가변 음성채널 트리거 채널", icon: <RecordVoiceOverIcon />, shortName: '가변 음성채널', disabled: false },
-    { id: "auto_tts", text: "대화하면 TTS 자동으로 켜기", icon: <VoiceChatIcon />, shortName: 'TTS', disabled: true },
+    { id: "auto_tts", text: "대화하면 TTS 자동으로 켜기", icon: <VoiceChatIcon />, shortName: 'TTS', category: 'tts', disabled: true },
     { id: "ai_toolkit", text: "AI Toolkit (인공지능 그림, 도구 모음)", icon: <PhotoFilterIcon />, shortName: 'AI 툴킷' },
     { id: "wave", text: "안녕하세요!", icon: <WavingHandIcon />, shortName: '안녕하세요', disabled: true },
     { id: "changelog", text: "카미봇의 멋진 업데이트 소식 받아보기!", icon: <TipsAndUpdatesIcon />, shortName: '업데이트 소식', disabled: true },
@@ -45,8 +45,19 @@ export default function NestedList({ channelSelectValue, channelId }) {
     // 다른 아이템들...
   ];
 
-  const handleClick = () => {
-    setOpen(!open);
+  // 카테고리 리스트
+  var categoryList = [
+    { id: "tts", text: "음성으로 읽어주기(TTS)", icon: <VoiceChatIcon /> },
+    { id: "llm", text: "인공지능 메세지 답장", icon: <ChatIcon /> },
+  ];
+  // 카테고리
+  const categories = [...new Set(listItemData.map(item => item.category).filter(Boolean))];
+
+  const handleClick = (id) => {
+    setOpens((prevOpen) => ({
+      ...prevOpen,
+      [id]: !prevOpen[id],
+    }));
   };
 
   const [switchStates, setSwitchStates] = React.useState({});
@@ -77,7 +88,6 @@ export default function NestedList({ channelSelectValue, channelId }) {
     }
   }, [data]); // 사용자가 채널을 선택할 때마다 실행
 
-
   return (
     <List
       sx={{ width: '100%', bgcolor: 'background.paper' }}
@@ -88,7 +98,7 @@ export default function NestedList({ channelSelectValue, channelId }) {
           일반 설정 (채널: {channelSelectValue.channelId})
         </ListSubheader>
       }
-    > {/* handleSwitchToggle(item_id, state) */}
+    >
       {listItemData.map((item) => (
         item.category == null ?
           <ListItemButton key={item.id} onClick={() => handleSwitchToggle(item.id, switchStates[item.id])} disabled={loading || item.disabled}>
@@ -99,29 +109,37 @@ export default function NestedList({ channelSelectValue, channelId }) {
             <Switch checked={!!switchStates[item.id]} onClick={() => { }} disabled={loading} />
           </ListItemButton> : null
       ))}
-      <ListItemButton onClick={handleClick}>
-        <ListItemIcon>
-          <ChatIcon />
-        </ListItemIcon>
-        {/*  { id: "llm", text: "인공지능 메세지 답장", icon: <ChatIcon />, shortName: '대화하기', hidden: true }, */}
-        {/* id가 llm인 요소 가져오기 */}
-        <ListItemText primary={"인공지능 메세지 답장"} />
-        {open ? <ExpandLess /> : <ExpandMore />}
-      </ListItemButton>
-      <Collapse in={open} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          {listItemData.map((item) => (
-            item.category == 'llm' ?
-              <ListItemButton sx={{ pl: 4 }} key={item.id} onClick={() => handleSwitchToggle(item.id, switchStates[item.id])} disabled={loading || item.disabled}>
-                <ListItemIcon>
-                  {item.icon}
-                </ListItemIcon>
-                <ListItemText primary={item.text} />
-                <Switch checked={!!switchStates[item.id]} onClick={() => { }} disabled={loading} />
-              </ListItemButton> : null
-          ))}
-        </List>
-      </Collapse>
+      {
+        categories.map(category => (
+          <>
+            <ListItemButton onClick={() => handleClick(category)}>
+              <ListItemIcon>
+                {listItemData.find(item => item.category === category).icon}
+              </ListItemIcon>
+              {/* id가 llm인 요소 가져오기 */}
+              <ListItemText primary={categoryList.find(item => item.id === category).text} />
+              {opens[category] ? <ExpandLess /> : <ExpandMore />}
+            </ListItemButton>
+            <Collapse in={opens[category]} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                {
+                  // 해당 category의 항목만 순회합니다.
+                  listItemData.map(item => (
+                    item.category === category ?
+                      <ListItemButton sx={{ pl: 4 }} key={item.id} onClick={() => handleSwitchToggle(item.id, switchStates[item.id])} disabled={loading || item.disabled}>
+                        <ListItemIcon>
+                          {item.icon}
+                        </ListItemIcon>
+                        <ListItemText primary={item.text} />
+                        <Switch checked={!!switchStates[item.id]} onClick={() => { }} disabled={loading} />
+                      </ListItemButton> : null
+                  ))
+                }
+              </List>
+            </Collapse>
+          </>
+        ))
+      }
     </List>
   );
 }
