@@ -3,7 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
-import NestedList from './components/NestedList';
+import NestedChannelSettingsList from './components/NestedChannelSettingsList';
+import NestedGuildSettingsList from './components/NestedGuildSettingsList';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 
@@ -56,20 +57,23 @@ export default function settings() {
   return (
     <Container maxWidth="sm">
       <Box sx={{ my: 1 }}>
-        <Header title="설정" userAvatarUrl={data.userAvatarUrl} />
-        <Typography variant="h4" gutterBottom component="div">
-          {channelSelectValue.channelName ? channelSelectValue.channelName : `채널별`} 설정
-        </Typography>
-        <Divider /> <br />
+        <Header title="서버 설정" userAvatarUrl={data.userAvatarUrl} />
         <ControllableStates
           value={channelSelectValue}
           setValue={setChannelSelectValue}
-        />
-          <NestedList channelSelectValue={channelSelectValue} channelId={channelSelectValue.channelId} />
+        /><br />
         <Typography variant="h4" gutterBottom component="div">
-          {loading ? `서버 전역` : data.guildName} 설정
+          {channelSelectValue.channelName ? channelSelectValue.channelName : `채널별`} 설정
         </Typography>
-        <Divider /> <br />
+        <Divider />
+          <NestedChannelSettingsList channelSelectValue={channelSelectValue} channelId={channelSelectValue.channelId} />
+          <br />
+        <Typography variant="h4" gutterBottom component="div">
+          {loading ? `서버` : data.guildName} 전체 설정
+        </Typography>
+        <Divider />
+        <NestedGuildSettingsList channelSelectValue={channelSelectValue} channelId={channelSelectValue.channelId} />
+          <br />
 
         {/* <TextField id="outlined-basic" label="JSON" variant="outlined" value={loading ? 'Loading...' : JSON.stringify(data)} multiline rows={4} fullWidth /> */}
         {/* <br></br> */}

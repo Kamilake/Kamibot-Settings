@@ -6,8 +6,9 @@ import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import BottomNavigation from '@mui/material/BottomNavigation';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import HomeIcon from '@mui/icons-material/Home';
+import StorageIcon from '@mui/icons-material/Storage';
 import SettingsIcon from '@mui/icons-material/Settings';
 import HelpIcon from '@mui/icons-material/Help';
 
@@ -86,8 +87,8 @@ function Root() {
           zIndex: 100
         }}
       >
-        <BottomNavigationAction label="홈" icon={<HomeIcon />} />
-        <BottomNavigationAction label="설정" icon={<SettingsIcon />} />
+        <BottomNavigationAction label="개인" icon={<AccountCircleIcon />} />
+        <BottomNavigationAction label="서버" icon={<StorageIcon />} />
         <BottomNavigationAction label="도움말" icon={<HelpIcon />} />
       </BottomNavigation>
       <Box pb={7}></Box>
