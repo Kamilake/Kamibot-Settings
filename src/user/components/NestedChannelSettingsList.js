@@ -9,16 +9,17 @@ import Collapse from '@mui/material/Collapse';
 
 import SendIcon from '@mui/icons-material/Send';
 import Twitter from '@mui/icons-material/Twitter';
-import AddReactionIcon from '@mui/icons-material/AddReaction';
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
 import VoiceChatIcon from '@mui/icons-material/VoiceChat';
 import CampaignIcon from '@mui/icons-material/Campaign';
 import PhotoFilterIcon from '@mui/icons-material/PhotoFilter';
+import AddReactionIcon from '@mui/icons-material/AddReaction';
 import WavingHandIcon from '@mui/icons-material/WavingHand';
 import ChatIcon from '@mui/icons-material/Chat';
 import MarkChatReadIcon from '@mui/icons-material/MarkChatRead';
 import ReviewsIcon from '@mui/icons-material/Reviews';
 import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
+import GTranslateIcon from '@mui/icons-material/GTranslate';
 
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
@@ -29,7 +30,7 @@ import { enqueueSnackbar } from 'notistack'
 import fetchChannelInfoApi from '../../api/fetchChannelInfoApi';
 import setChannelFuncApi from '../../api/setChannelFuncApi';
 
-export default function NestedList({ channelSelectValue, channelId }) {
+export default function NestedChannelSettingsList({ channelSelectValue, channelId }) {
   const [opens, setOpens] = React.useState({});
   let { data, loading, error } = fetchChannelInfoApi({ channelId });
   var listItemData = [
@@ -37,13 +38,15 @@ export default function NestedList({ channelSelectValue, channelId }) {
     { id: "hello_world", text: "Sent mail", icon: <SendIcon />, shortName: 'Sent mail', disabled: true },
     { id: "twitter_embed", text: "트위터 링크에 미리보기 임베드 표시", icon: <Twitter />, shortName: '트위터 임베드', disabled: false },
     { id: "vchannel", text: "가변 음성채널 트리거 채널", icon: <RecordVoiceOverIcon />, shortName: '가변 음성채널', disabled: false },
-    { id: "auto_tts", text: "대화하면 TTS 자동으로 켜기", icon: <VoiceChatIcon />, shortName: 'TTS', category: 'tts', disabled: true },
-    { id: "tts_join_noti", text: "음성 채널 입장/퇴장 알려주기", icon: <CampaignIcon />, shortName: '입퇴장 알림', category: 'tts', disabled: true },
+    { id: "auto_tts", text: "대화하면 TTS 켜지는 채널", icon: <VoiceChatIcon />, shortName: 'TTS', category: 'tts', disabled: false },
+    { id: "tts_join_notify", text: "음성 채널 입장/퇴장 알려주기", icon: <CampaignIcon />, shortName: '입퇴장 알림', category: 'tts' },
     { id: "ai_toolkit", text: "AI Toolkit (인공지능 그림, 도구 모음)", icon: <PhotoFilterIcon />, shortName: 'AI 툴킷' },
+    { id: "emote_upload", text: "커스텀 이모지 업로드 전용 채널", icon: <AddReactionIcon />, shortName: '이모지 업로드' },
     { id: "wave", text: "안녕하세요!", icon: <WavingHandIcon />, shortName: '안녕하세요', disabled: true },
     { id: "changelog", text: "카미봇의 멋진 업데이트 소식 받아보기!", icon: <TipsAndUpdatesIcon />, shortName: '업데이트 소식', disabled: true },
     { id: "llm", text: "카미봇이 대답하기", icon: <MarkChatReadIcon />, shortName: '대화하기', category: 'llm' },
     { id: "gpt4", text: "카미봇 Pro (GPT4)", icon: <ReviewsIcon />, shortName: '카미봇 Pro', category: 'llm', disabled: true },
+    { id: "translate", text: "Papago 실시간 번역 채널", icon: <GTranslateIcon />, shortName: '번역', disabled: true },
     // 다른 아이템들...
   ];
 
@@ -85,6 +88,9 @@ export default function NestedList({ channelSelectValue, channelId }) {
         ['twitter_embed']: data.twitter_embed,
         ['emote_upscale']: data.minicuda,
         ['vchannel']: data.vchannel,
+        ['emote_upload']: data.emote_upload,
+        ['tts_join_notify']: data.tts_join_notify,
+        ['auto_tts']: data.auto_tts,
       }));
       enqueueSnackbar(data.name + " 채널을 로드했어요.");
     }
