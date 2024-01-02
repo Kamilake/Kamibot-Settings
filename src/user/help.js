@@ -30,20 +30,23 @@ export default function help() {
           <Typography variant="h4" gutterBottom component="div">
             도움말
           </Typography>
+          <Typography variant="h6" gutterBottom component="div">
+            앗, 죄송해요ㅠ 도움말 작성이 늦어지고 있어요.<br />대신 /help 명령을 통해 카미봇의 도움말을 확인할 수 있어요!
+          </Typography>
           <List component="nav" aria-label="main mailbox folders">
-            <ListItem button>
+            <ListItem button disabled>
               <ListItemText primary="일반" />
             </ListItem>
             <Divider />
-            <ListItem button>
+            <ListItem button disabled>
               <ListItemText primary="프로필" />
             </ListItem>
             <Divider />
-            <ListItem button>
+            <ListItem button disabled>
               <ListItemText primary="알림" />
             </ListItem>
           </List>
-          <Button variant="contained" color="primary" onClick={gohome}>설정으로 이동 </Button>
+          <Button variant="contained" color="primary" onClick={gohome}>서버 설정으로 돌아가기</Button>
           {/*  */}
         </div>
         <ProTip />
