@@ -50,7 +50,7 @@ module.exports = {
     compress: true,
     port: 40081,
     host: '0.0.0.0',
-    allowedHosts: ['kamibot.kami.live'],
+    allowedHosts: ['kamibot.kami.live','cf-kamibot.kami.live'],
     historyApiFallback: true,
   },
   resolve: {
