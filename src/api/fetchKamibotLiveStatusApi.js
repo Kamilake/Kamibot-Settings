@@ -4,7 +4,7 @@ import useFetch from "./useFetch";
 const fetchKamibotLiveStatusApi = () => {
 
   let { data, loading, error } = useFetch(
-    'https://kamibot.kami.live/api/liveStatus'
+    '/api/liveStatus'
   );
 
   if (loading) {

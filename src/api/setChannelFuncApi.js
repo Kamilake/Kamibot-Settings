@@ -10,7 +10,7 @@ const setChannelFuncApi = async (func, channelId, enabled, callbackData, setSwit
   const nowSettingSnackbarId = enqueueSnackbar('설정 중...', { variant: 'info', autoHideDuration: 10000 });
   try {
     let data = await postData(
-      'https://kamibot.kami.live/api/channel/' + func,
+      '/api/channel/' + func,
       {
         channelId: channelId,
         enabled: enabled

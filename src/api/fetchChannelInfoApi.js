@@ -3,7 +3,7 @@ import useFetch from "./useFetch";
 
 const fetchChannelInfoApi = ({channelId}) => {
   let { data, loading, error } = useFetch(
-    'https://kamibot.kami.live/api/channel?channelId=' + channelId
+    '/api/channel?channelId=' + channelId
   );
   
 

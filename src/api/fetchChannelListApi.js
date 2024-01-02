@@ -4,7 +4,7 @@ import useFetch from "./useFetch";
 const fetchChannelListApi = () => {
 
   let { data, loading, error } = useFetch(
-    'https://kamibot.kami.live/api/channelList'
+    '/api/channelList'
   );
 
   if (loading) {
