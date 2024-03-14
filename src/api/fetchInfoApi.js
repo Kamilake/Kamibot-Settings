@@ -17,6 +17,8 @@ const fetchInfoApi = () => {
       "userName": "kamikami",
       "guildId": "1234567890",
       "guildName": "길드이름",
+      "ttsActor": "kyuri",
+      "ttsFriendlyName": "카미",
     }
   }
   return { data, loading, error };
