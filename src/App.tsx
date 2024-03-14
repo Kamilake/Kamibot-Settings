@@ -9,19 +9,14 @@ import BottomNavigation from '@mui/material/BottomNavigation';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import StorageIcon from '@mui/icons-material/Storage';
-import SettingsIcon from '@mui/icons-material/Settings';
 import HelpIcon from '@mui/icons-material/Help';
-
-
-import Container from '@mui/material/Container';
 
 import HomePage from './user/home';
 import SettingsPage from './user/settings';
 import HelpPage from './user/help';
-// npm install react-router-dom axios
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-function Copyright() {
+function Copyright(): React.ReactElement {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
       {'Copyright © '}
@@ -34,23 +29,16 @@ function Copyright() {
   );
 }
 
-// var [value, setValue] = React.useState(0);
-function Root() {
-  var [value, setValue] = React.useState(0);
+function Root(): React.ReactElement {
+  const [value, setValue] = React.useState<number>(0);
   const navigate = useNavigate();
   const location = useLocation();
-
 
   React.useEffect(() => {
     let pathname = location.pathname;
     let paths = ['/user/home', '/user/settings', '/user/help'];
-    // setValue(location.pathname);
-    // console.log(location.pathname);
-    // console.log(paths.indexOf(location.pathname));
     setValue(paths.indexOf(location.pathname));
   }, [location]);
-
-
 
   return (
     <div>
@@ -61,23 +49,21 @@ function Root() {
         <Route path={"/user/help"} element={<HelpPage />}></Route>
       </Routes>
 
-
       <BottomNavigation
         showLabels
         value={value}
         onChange={(event, newValue) => {
           setValue(newValue);
           // Router
-          if (newValue == 0) {
+          if (newValue === 0) {
             navigate('/user/home' + location.search);
           }
-          if (newValue == 1) {
+          if (newValue === 1) {
             navigate('/user/settings' + location.search);
           }
-          if (newValue == 2) {
+          if (newValue === 2) {
             navigate('/user/help' + location.search);
           }
-
         }}
         sx={{
           position: 'fixed',
@@ -98,24 +84,14 @@ function Root() {
   );
 }
 
-
-
-export default function App() {
-  // const setValue = Root.setValue;
-  // const value = Root.value;
-
+const App: React.FC = () => {
   return (
     <div className="App">
-      {/*  */}
-      {/* <Container maxWidth="sm"> */}
       <BrowserRouter>
-
         <Root />
-
       </BrowserRouter>
-      {/* </Container> */}
-
-
     </div>
   );
 }
+
+export default App;

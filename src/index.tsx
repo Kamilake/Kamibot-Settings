@@ -5,7 +5,12 @@ import { ThemeProvider } from '@mui/material/styles';
 import App from './App';
 import theme from './theme';
 
-const rootElement = document.getElementById('root');
+const rootElement: HTMLElement | null = document.getElementById('root');
+
+if (!rootElement) {
+  throw new Error("Couldn't find root element");
+}
+
 const root = createRoot(rootElement);
 
 root.render(

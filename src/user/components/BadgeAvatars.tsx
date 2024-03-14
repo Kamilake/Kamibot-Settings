@@ -39,7 +39,12 @@ const SmallAvatar = styled(Avatar)(({ theme }) => ({
   border: `2px solid ${theme.palette.background.paper}`,
 }));
 
-export default function BadgeAvatars({ userName = "Kamilake", avatarUrl = "" }) {
+interface BadgeAvatarsProps {
+  userName?: string;
+  avatarUrl?: string;
+}
+
+const BadgeAvatars: React.FC<BadgeAvatarsProps> = ({ userName = "Kamilake", avatarUrl = "" }) => {
   return (
     <>
       <Stack direction="row" spacing={userName == "" ? 0 : 1}>
@@ -58,3 +63,5 @@ export default function BadgeAvatars({ userName = "Kamilake", avatarUrl = "" }) 
     </>
   );
 }
+
+export default BadgeAvatars;
