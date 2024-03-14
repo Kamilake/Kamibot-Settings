@@ -46,7 +46,7 @@ export default function NestedChannelSettingsList({ channelSelectValue, channelI
     { id: "changelog", text: "카미봇의 멋진 업데이트 소식 받아보기!", icon: <TipsAndUpdatesIcon />, shortName: '업데이트 소식', disabled: true },
     { id: "llm", text: "카미봇이 대답하기", icon: <MarkChatReadIcon />, shortName: '대화하기', category: 'llm' },
     { id: "gpt4", text: "카미봇 Pro (GPT4)", icon: <ReviewsIcon />, shortName: '카미봇 Pro', category: 'llm', disabled: true },
-    { id: "translate", text: "Papago 실시간 번역 채널", icon: <GTranslateIcon />, shortName: '번역', disabled: true },
+    { id: "translate", text: "다국어 실시간 번역 채널", icon: <GTranslateIcon />, shortName: '번역', disabled: true },
     // 다른 아이템들...
   ];
 
