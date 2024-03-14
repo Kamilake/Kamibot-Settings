@@ -11,15 +11,22 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 
+interface DrawerState {
+  top: boolean;
+  left: boolean;
+  bottom: boolean;
+  right: boolean;
+}
+
 export default function myDrawer() {
-  const [state, setState] = React.useState({
+  const [state, setState] = React.useState<DrawerState>({
     top: false,
     left: false,
     bottom: false,
     right: false,
   });
 
-  const toggleDrawer = (anchor, open) => (event) => {
+  const toggleDrawer = (anchor: keyof DrawerState, open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
     }
@@ -27,7 +34,7 @@ export default function myDrawer() {
     setState({ ...state, [anchor]: open });
   };
 
-  const list = (anchor) => (
+  const list = (anchor: keyof DrawerState) => (
     <Box
       sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
       role="presentation"
@@ -63,21 +70,4 @@ export default function myDrawer() {
   );
 
   return {toggleDrawer, list};
-
-  // return (
-  //   <div>
-  //     {['left', 'right', 'top', 'bottom'].map((anchor) => (
-  //       <React.Fragment key={anchor}>
-  //         <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
-  //         <Drawer
-  //           anchor={anchor}
-  //           open={state[anchor]}
-  //           onClose={toggleDrawer(anchor, false)}
-  //         >
-  //           {list(anchor)}
-  //         </Drawer>
-  //       </React.Fragment>
-  //     ))}
-  //   </div>
-  // );
 }

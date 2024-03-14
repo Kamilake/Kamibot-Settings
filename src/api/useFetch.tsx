@@ -1,11 +1,11 @@
-// useFetch.js
-import axios from 'axios';
+// useFetch.tsx
+import axios, { AxiosResponse } from 'axios';
 import { useState, useEffect } from 'react';
 
-const useFetch = (url) => {
-  const [data, setData] = useState(null);
+const useFetch = <T,>(url: string): { data: T | null, loading: boolean, error: any } => {
+  const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<any>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,7 +28,7 @@ const useFetch = (url) => {
 
 
         // 서버에 GET 요청을 보냅니다.
-        const response = await axios.get(url, {
+        const response: AxiosResponse<T> = await axios.get(url, {
           params: {
             data: dataParam
           }

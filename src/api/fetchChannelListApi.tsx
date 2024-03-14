@@ -1,9 +1,22 @@
-// fetchChannelListApi.js
+// fetchChannelListApi.tsx
 import useFetch from "./useFetch";
 
-const fetchChannelListApi = () => {
+interface ChannelData {
+  channelName: string;
+  channelType: string;
+  channelId: number;
+  categoryName: string;
+}
 
-  let { data, loading, error } = useFetch(
+interface FetchResult {
+  data: ChannelData[] | null;
+  loading: boolean;
+  error: any;
+}
+
+const fetchChannelListApi = (): FetchResult => {
+
+  let { data, loading, error } = useFetch<ChannelData[]>(
     '/api/channelList'
   );
 
@@ -16,7 +29,6 @@ const fetchChannelListApi = () => {
       { channelName: 'The Dark Knight', channelType: "PRIVATE", channelId: 2008, categoryName: "일반b" },
       { channelName: '12 Angry Men', channelType: "PRIVATE", channelId: 1957, categoryName: "일반b" },
     ];
-
   }
   return { data, loading, error };
 };

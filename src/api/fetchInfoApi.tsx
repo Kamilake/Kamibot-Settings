@@ -1,9 +1,27 @@
-// fetchInfoApi.js
+// fetchInfoApi.tsx
 import useFetch from "./useFetch";
 
-const fetchInfoApi = () => {
+interface InfoData {
+  userEffectiveName: string;
+  userAvatarUrl: string;
+  channelName: string;
+  channelType: string;
+  userName: string;
+  guildId: string;
+  guildName: string;
+  ttsActor: string;
+  ttsFriendlyName: string;
+}
 
-  let { data, loading, error } = useFetch(
+interface FetchResult {
+  data: InfoData | null;
+  loading: boolean;
+  error: any;
+}
+
+const fetchInfoApi = (): FetchResult => {
+
+  let { data, loading, error } = useFetch<InfoData>(
     '/api/info'
   );
 

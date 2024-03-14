@@ -2,36 +2,27 @@ import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import fetchActorListApi from '../../api/fetchActorListApi';
-// import actorList from './ActorLists';
 import Hangul from 'hangul-js';
 import setUserFuncApi from '../../api/setUserFuncApi';
-
 
 // ThemeProvider 
 import { createTheme } from '@mui/material/styles';
 import { ThemeProvider } from '@mui/material/styles';
 
-
-import { enqueueSnackbar } from 'notistack'
-
-// React.useState switchStates
-
-// function findActorByName(displayName) {
-//   return actorList.find(actor => actor.displayName === displayName);
-// }
-
-function setTtsActor(value) {
-  if (value === "로드 중...") return;
-  console.log("setTtsActor: ", value);
-  // const actor = findActorByName(value);
-  const actor = value;
-  setUserFuncApi('tts_actor', actor, '보이스 설정을 변경했어요!');
+interface Actor {
+  id: string;
+  displayName: string;
+  categoryName: string;
+  disabled: boolean;
 }
 
-export default function VoiceActorComboBox({ value, setValue }) {
+interface VoiceActorComboBoxProps {
+  value: Actor;
+  setValue: (value: Actor) => void;
+}
 
-
-  const [inputValue, setInputValue] = React.useState('');
+export default function VoiceActorComboBox({ value, setValue }: VoiceActorComboBoxProps) {
+  const [inputValue, setInputValue] = React.useState<string>('');
   const { data, loading, error } = fetchActorListApi();
 
   const theme = createTheme({
@@ -76,43 +67,39 @@ export default function VoiceActorComboBox({ value, setValue }) {
 
 
   const channelArray = data
-    .sort((a, b) => a.displayName.localeCompare(b.displayName)) // 먼저 displayName으로 정렬
-    .sort((a, b) => a.categoryName.localeCompare(b.categoryName)); // 그 다음 categoryName으로 정렬
-
-
+    .sort((a: Actor, b: Actor) => a.displayName.localeCompare(b.displayName)) // 먼저 displayName으로 정렬
+    .sort((a: Actor, b: Actor) => a.categoryName.localeCompare(b.categoryName)); // 그 다음 categoryName으로 정렬
 
   return (
     <ThemeProvider theme={theme}>
       <Autocomplete
-        isOptionEqualToValue={(option, value) => option.id === value.id}
+        isOptionEqualToValue={(option: Actor, value: Actor) => option.id === value.id}
         value={value}
-        onChange={(event, newValue) => {
-          setValue(newValue);
-          document.activeElement.blur();
-          console.log("newValue: ", newValue);
-          if (newValue?.id === undefined)
-            return;
-          setTtsActor(newValue.id);
+        onChange={(event: any, newValue: Actor | null) => {
+          if (newValue) {
+            setValue(newValue);
+            document.activeElement.blur();
+            if (newValue?.id !== undefined)
+              setUserFuncApi('tts_actor', newValue.id, '보이스 설정을 변경했어요!');
+          }
         }}
         inputValue={inputValue}
-        onInputChange={(event, newInputValue) => {
+        onInputChange={(event: any, newInputValue: string) => {
           setInputValue(newInputValue);
         }}
         id="controllable-states-demo"
         options={channelArray}
-        groupBy={(option) => option.categoryName}
-        getOptionLabel={(option) => option?.displayName}
-        getOptionDisabled={(option) => option?.disabled}
-        // sx={{ width: 300 }}
+        groupBy={(option: Actor) => option.categoryName}
+        getOptionLabel={(option: Actor) => option?.displayName}
+        getOptionDisabled={(option: Actor) => option?.disabled}
         renderInput={(params) => {
-          // params.inputProps.style = { fontFamily: 'Noto Color Emoji' };
           params.InputProps.style = { fontFamily: 'Noto Color Emoji' };
           return <TextField {...params} label="보이스" />
         }}
         fullWidth={true}
-        filterOptions={(options, params) => {
+        filterOptions={(options: Actor[], params: any) => {
           const inputValue = params.inputValue.toLowerCase();
-          const filtered = options.filter((option) =>
+          const filtered = options.filter((option: Actor) =>
             Hangul.search(option?.displayName?.toLowerCase(), inputValue) !== -1
           );
           return filtered;

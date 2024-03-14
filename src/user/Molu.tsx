@@ -1,7 +1,8 @@
 import * as React from 'react';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-export default function Molu() {
+
+const Molu: React.FC = () => {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
       {'Copyright © '}
@@ -13,3 +14,5 @@ export default function Molu() {
     </Typography>
   );
 }
+
+export default Molu;

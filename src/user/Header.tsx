@@ -6,7 +6,12 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import BadgeAvatars from './components/BadgeAvatars';
 
-export default function Header({ title, userAvatarUrl }) {
+interface HeaderProps {
+  title: string;
+  userAvatarUrl: string;
+}
+
+const Header: React.FC<HeaderProps> = ({ title, userAvatarUrl }) => {
   return (
         <div>
           <AppBar position="fixed">
@@ -26,3 +31,5 @@ export default function Header({ title, userAvatarUrl }) {
         </div>
   );
 }
+
+export default Header;

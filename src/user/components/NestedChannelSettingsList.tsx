@@ -113,7 +113,7 @@ export default function NestedChannelSettingsList({ channelSelectValue, channelI
             <ListItemIcon>
               {item.icon}
             </ListItemIcon>
-            <ListItemText primary={item.text} disabled={false} />
+            <ListItemText primary={item.text} />
             <Switch checked={!!switchStates[item.id]} onClick={() => { }} disabled={loading} />
           </ListItemButton> : null
       ))}

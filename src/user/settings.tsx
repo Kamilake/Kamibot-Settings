@@ -4,7 +4,6 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import NestedChannelSettingsList from './components/NestedChannelSettingsList';
-import NestedGuildSettingsList from './components/NestedGuildSettingsList';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 
@@ -17,20 +16,26 @@ import ProTip from './ProTip';
 import Molu from './Molu';
 import fetchInfoApi from '../api/fetchInfoApi';
 import myDrawer from './drawer';
-export default function settings() {
+
+interface ChannelSelectValue {
+  firstLetter: string;
+  channelName: string;
+  channelId: number;
+}
+
+const Settings: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  function gohome() {
+  const gohome = (): void => {
     navigate('/user/home' + location.search);
   }
 
-  var { data, loading, error } = fetchInfoApi();
-  let [channelSelectValue, setChannelSelectValue] = React.useState({ "firstLetter": "0-9", "channelName": "채널을 골라주세요!", "channelId": -1 });
-
+  const { data, loading, error } = fetchInfoApi();
+  const [channelSelectValue, setChannelSelectValue] = React.useState<ChannelSelectValue>({ "firstLetter": "0-9", "channelName": "채널을 골라주세요!", "channelId": -1 });
 
   if (channelSelectValue == null)
-    channelSelectValue = { "firstLetter": "0-9", "channelName": "", "channelId": -2 };
+    setChannelSelectValue({ "firstLetter": "0-9", "channelName": "", "channelId": -2 });
 
   React.useEffect(() => {
 
@@ -41,19 +46,16 @@ export default function settings() {
     }
     if (channelSelectValue.channelId == -1) return;
     // alert(`value has changed to: ${channelSelectValue.channelId}`);
-  }, [channelSelectValue, loading]); // value를 의존성 배열에 추가
 
-
-
-
-
-
+  }, [channelSelectValue, loading]);
 
   if (error) return <div>Error occurred!
     <br />
     {error.message}
   </div>;
-  var myDrawer2 = myDrawer();
+
+  const myDrawer2 = myDrawer();
+
   return (
     <Container maxWidth="sm">
       <Box sx={{ my: 1 }}>
@@ -99,10 +101,8 @@ export default function settings() {
           <br />
           <br /> */}
         <Button variant="contained" color="primary" onClick={gohome}> 홈으로 이동 </Button>
-        {/* <Button variant="contained" color='primary' onClick={myDrawer.toggleDrawer('right', true)}></Button> */}
         <Button >테스트</Button>
 
-        {/*  */}
         <ProTip />
         <Molu />
       </Box>
@@ -116,3 +116,5 @@ export default function settings() {
     </Container >
   );
 }
+
+export default Settings;

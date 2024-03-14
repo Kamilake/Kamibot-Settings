@@ -1,4 +1,3 @@
-// NestedList.js
 import * as React from 'react';
 import ListSubheader from '@mui/material/ListSubheader';
 import List from '@mui/material/List';
@@ -6,6 +5,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
+import { enqueueSnackbar } from 'notistack';
 
 import SendIcon from '@mui/icons-material/Send';
 import Twitter from '@mui/icons-material/Twitter';
@@ -26,50 +26,67 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import Switch from '@mui/material/Switch';
 
-import { enqueueSnackbar } from 'notistack'
-
 import fetchChannelInfoApi from '../../api/fetchChannelInfoApi';
 import setGuildFuncApi from '../../api/setGuildFuncApi';
 
-export default function NestedGuildSettingsList({ channelSelectValue, channelId }) {
-    const [opens, setOpens] = React.useState({});
-    let { data, loading, error } = fetchChannelInfoApi({ channelId });
-    var listItemData = [
-      { id: "deactivate", text: "카미봇 비활성화", icon: <PublicOffIcon />, shortName: 'deactivate', disabled: true },
-      { id: "hello_world", text: "Sent mail", icon: <SendIcon />, shortName: 'Sent mail', disabled: true },
-      { id: "auto_tts", text: "전체 설정 기능은 여전히 개발 중이에요", icon: <VoiceChatIcon />, shortName: 'TTS', category: 'tts', disabled: true },
-      { id: "wave", text: "전체 설정 기능은 여전히 개발 중이에요", icon: <WavingHandIcon />, shortName: '안녕하세요', disabled: true },
-      { id: "changelog", text: "1", icon: <TipsAndUpdatesIcon />, shortName: '업데이트 소식', disabled: true },
-      { id: "gpt4", text: "카미봇 Pro (GPT4)", icon: <ReviewsIcon />, shortName: '카미봇 Pro', category: 'llm', disabled: true },
-      // 다른 아이템들...
-    ];
+interface ListItemData {
+  id: string;
+  text: string;
+  icon: JSX.Element;
+  shortName: string;
+  category?: string;
+  disabled: boolean;
+}
 
-  // 카테고리 리스트
-  var categoryList = [
+interface CategoryList {
+  id: string;
+  text: string;
+  icon: JSX.Element;
+}
+
+interface NestedGuildSettingsListProps {
+  channelSelectValue: { channelId: string };
+  channelId: string;
+}
+
+export default function NestedGuildSettingsList({ channelSelectValue, channelId }: NestedGuildSettingsListProps) {
+  const [opens, setOpens] = React.useState<Record<string, boolean>>({});
+  let { data, loading, error } = fetchChannelInfoApi({ channelId });
+
+  const listItemData: ListItemData[] = [
+    { id: "deactivate", text: "카미봇 비활성화", icon: <PublicOffIcon />, shortName: 'deactivate', disabled: true },
+    { id: "hello_world", text: "Sent mail", icon: <SendIcon />, shortName: 'Sent mail', disabled: true },
+    { id: "auto_tts", text: "전체 설정 기능은 여전히 개발 중이에요", icon: <VoiceChatIcon />, shortName: 'TTS', category: 'tts', disabled: true },
+    { id: "wave", text: "전체 설정 기능은 여전히 개발 중이에요", icon: <WavingHandIcon />, shortName: '안녕하세요', disabled: true },
+    { id: "changelog", text: "1", icon: <TipsAndUpdatesIcon />, shortName: '업데이트 소식', disabled: true },
+    { id: "gpt4", text: "카미봇 Pro (GPT4)", icon: <ReviewsIcon />, shortName: '카미봇 Pro', category: 'llm', disabled: true },
+    // 다른 아이템들...
+  ];
+
+  const categoryList: CategoryList[] = [
     { id: "tts", text: "샘플 카테고리 1", icon: <VoiceChatIcon /> },
     { id: "llm", text: "샘플 카테고리 2", icon: <ChatIcon /> },
   ];
+
   // 카테고리
   const categories = [...new Set(listItemData.map(item => item.category).filter(Boolean))];
 
-  const handleClick = (id) => {
+  const handleClick = (id: string) => {
     setOpens((prevOpen) => ({
       ...prevOpen,
       [id]: !prevOpen[id],
     }));
   };
 
-  const [switchStates, setSwitchStates] = React.useState({});
-  // setGuildFuncApi('llm', true);
-  const handleSwitchToggle = (id, state) => {
+  const [switchStates, setSwitchStates] = React.useState<Record<string, boolean>>({});
+
+  const handleSwitchToggle = (id: string, state: boolean) => {
     setSwitchStates((prevState) => ({
       ...prevState,
       [id]: !prevState[id],
     }));
-    console.log(id + " : " + !state);
 
-
-    setGuildFuncApi(id, channelId, !state, (listItemData.find(item => item.id === id).shortName + " 설정을 " + (state ? "비" : "") + "활성화했어요."), setSwitchStates);
+    setGuildFuncApi(id, channelId, !state, (listItemData.find(item => item.id === id)?.shortName + " 설정을 " + (state ? "비" : "") + "활성화했어요."), setSwitchStates);
     // enqueueSnackbar(listItemData.find(item => item.id === id).shortName + " 설정을 " + (state ? "비" : "") + "활성화했어요.", { variant: 'success' });
   };
 
@@ -88,7 +105,7 @@ export default function NestedGuildSettingsList({ channelSelectValue, channelId 
       }));
       enqueueSnackbar(data.name + " 채널을 로드했어요.");
     }
-  }, [data]); // 사용자가 채널을 선택할 때마다 실행
+  }, [data]);  // 사용자가 채널을 선택할 때마다 실행
 
   return (
     <List
@@ -116,9 +133,9 @@ export default function NestedGuildSettingsList({ channelSelectValue, channelId 
           <>
             <ListItemButton onClick={() => handleClick(category)}>
               <ListItemIcon>
-                {listItemData.find(item => item.category === category).icon}
+                {listItemData.find(item => item.category === category)?.icon}
               </ListItemIcon>
-              <ListItemText primary={categoryList.find(item => item.id === category).text} />
+              <ListItemText primary={categoryList.find(item => item.id === category)?.text} />
               {opens[category] ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
             <Collapse in={opens[category]} timeout="auto" unmountOnExit>

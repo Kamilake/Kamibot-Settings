@@ -1,11 +1,17 @@
-// usePost.js
-import axios from 'axios';
+// usePost.tsx
+import axios, { AxiosResponse } from 'axios';
 import { useState, useEffect } from 'react';
 
-const usePost = (url, param) => {
-  const [data, setData] = useState(null);
+interface PostResult<T> {
+  data: T | null;
+  loading: boolean;
+  error: any;
+}
+
+const usePost = <T,>(url: string, param: object): PostResult<T> => {
+  const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<any>(null);
 
   useEffect(() => {
     const postData = async () => {
@@ -22,7 +28,7 @@ const usePost = (url, param) => {
         console.log("userUrlParam: " + userUrlParam);
 
         // 서버에 data 헤더와 함께 POST 요청을 보냅니다.
-        const response = await axios.post(url, Object.assign({
+        const response: AxiosResponse<T> = await axios.post(url, Object.assign({
           data: userUrlParam
         }, param));
 
@@ -43,7 +49,7 @@ const usePost = (url, param) => {
     };
 
     postData();
-  }, [url]);
+  }, [url, param]);
   return { data, loading, error };
 };
 

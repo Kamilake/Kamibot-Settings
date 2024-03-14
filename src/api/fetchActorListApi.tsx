@@ -1,26 +1,35 @@
+// fetchActorListApi.tsx
 import useFetch from "./useFetch";
-// import React from 'react';
 
-// fetchActorListApi.js
+interface ActorData {
+  displayName: string;
+  id: string;
+  gender: string;
+  language: string;
+  categoryName: string;
+  disabled: boolean;
+}
 
-const fetchActorListApi = () => {
+interface FetchResult {
+  data: ActorData[] | null;
+  loading: boolean;
+  error: any;
+}
 
-  let { data, loading, error } = useFetch(
+const fetchActorListApi = (): FetchResult => {
+
+  let { data, loading, error } = useFetch<ActorData[]>(
     '/api/actorList'
   );
 
-  // let data = [];
-  // let loading = true;
-  // let error = null;
-
   if (loading) {
-  //예제 json 데이터로 대신 표시
-  data = [
-    {
-      "displayName": "로딩중...", "id": "auto", "gender": "f",
-      "language": "ko-KR", "categoryName": "", "disabled": true
-    },
-  ];
+    //예제 json 데이터로 대신 표시
+    data = [
+      {
+        "displayName": "로딩중...", "id": "auto", "gender": "f",
+        "language": "ko-KR", "categoryName": "", "disabled": true
+      },
+    ];
   }
   return { data, loading, error };
 };

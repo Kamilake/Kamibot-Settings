@@ -3,12 +3,18 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import fetchChannelListApi from '../../api/fetchChannelListApi';
 
+interface Channel {
+  channelId: string;
+  channelName: string;
+  categoryName: string;
+}
 
+interface ControllableStatesProps {
+  value: Channel;
+  setValue: (value: Channel) => void;
+}
 
-
-export default function ControllableStates({ value, setValue }) {
-
-
+export default function ControllableStates({ value, setValue }: ControllableStatesProps) {
   // let options = top100Films.map((option) => {
   // const firstLetter = option.channelName[0].toUpperCase();
   // return {
@@ -17,20 +23,11 @@ export default function ControllableStates({ value, setValue }) {
   // }; // 글자 순서대로 정렬하는 코드, 나중에 필요할지도 모르니 남겨두기
   // });
   // const [value, setValue] = React.useState(options[0]);
-  const [inputValue, setInputValue] = React.useState('');
+  const [inputValue, setInputValue] = React.useState<string>('');
 
   const { data, loading, error } = fetchChannelListApi();
 
-
-
-
-    const channelArray = data;
-
-//   if (!loading) {
-// console.log("options2 : ", data);
-//   }
-
-
+  const channelArray = data;
 
   return (
     <>
@@ -39,22 +36,23 @@ export default function ControllableStates({ value, setValue }) {
       {/* <div>{`inputValue: '${inputValue}'`}</div> */}
       {/* <br /> */}
       <Autocomplete
-        isOptionEqualToValue={(option, value) => option.channelId === value.channelId}
+        isOptionEqualToValue={(option: Channel, value: Channel) => option.channelId === value.channelId}
         value={value}
-        onChange={(event, newValue) => {
-          setValue(newValue);
-          document.activeElement.blur();
+        onChange={(event: any, newValue: Channel | null) => {
+          if (newValue) {
+            setValue(newValue);
+            document.activeElement.blur();
+          }
         }}
         inputValue={inputValue}
-        onInputChange={(event, newInputValue) => {
+        onInputChange={(event: any, newInputValue: string) => {
           setInputValue(newInputValue);
         }}
         id="controllable-states-demo"
-        options={channelArray}
         // options={options.sort((a, b) => -b.categoryName.localeCompare(a.categoryName))} // 카테고리별 ABC순 정렬하는 코드, 나중에 필요할지도 모르니 남겨두기
-        groupBy={(option) => option.categoryName}
-        getOptionLabel={(option) => option.channelName}
-        // sx={{ width: 300 }}
+        options={channelArray}
+        groupBy={(option: Channel) => option.categoryName}
+        getOptionLabel={(option: Channel) => option.channelName}
         renderInput={(params) => <TextField {...params} label="채널" />}
         fullWidth={true}
       />

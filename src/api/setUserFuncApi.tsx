@@ -1,15 +1,20 @@
-// setUserFuncApi.js
+// setUserFuncApi.tsx
 import * as React from 'react';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { enqueueSnackbar, closeSnackbar } from 'notistack'
 import IconButton from '@mui/material/IconButton';
 import IconClose from '@mui/icons-material/Close';
 
+interface ResponseData {
+  success: string;
+  message: string;
+}
+
 // 기능(String) , 사용자 ID(String), 값(Boolean), 스낵바 메시지(String)
-const setUserFuncApi = async (func, value, callbackData) => {
+const setUserFuncApi = async (func: string, value: boolean, callbackData: string): Promise<ResponseData | null> => {
   const nowSettingSnackbarId = enqueueSnackbar('설정 중...', { variant: 'info', autoHideDuration: 10000 });
   try {
-    let data = await postData(
+    let data: ResponseData = await postData(
       '/api/user/' + func,
       {
         value: value
@@ -45,10 +50,7 @@ const setUserFuncApi = async (func, value, callbackData) => {
 
 export default setUserFuncApi;
 
-
-async function postData(url, param) {
-
-
+async function postData(url: string, param: { value: boolean }): Promise<ResponseData> {
   try {
     // 사용자 브라우저의 GET 파라미터를 가져옵니다.
     const urlParams = new URLSearchParams(window.location.search);
@@ -59,25 +61,20 @@ async function postData(url, param) {
     }
     console.log("setChannelFuncApi: " + url, param);
 
-
-
     let requestParam = Object.assign({
       data: userUrlParam
     }, param)
 
     console.log("request: " + JSON.stringify(requestParam));
     // 서버에 data 헤더와 함께 POST 요청을 보냅니다.
-    const response = await axios.post(url, requestParam);
+    const response: AxiosResponse<ResponseData> = await axios.post(url, requestParam);
 
     console.log("setChannelFuncApi Response: " + response.data);
 
     return response.data;
 
   } catch (error) {
-
     console.log("setChannelFuncApi Error: " + error);
-
-    return error;
-
+    throw error;
   }
 };

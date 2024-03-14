@@ -9,22 +9,22 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 
-
-
 import axios from "axios";
 import Molu from './Molu';
 import Header from './Header';
-export default function help() {
+
+const Help: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  // const [data, setData] = useState(null);
+
   function gohome() {
     navigate('/user/settings' + location.search);
   }
+
   return (
     <Container maxWidth="sm">
       <Box sx={{ my: 1 }}>
-        <Header title="도움말" />
+        <Header title="도움말" userAvatarUrl={undefined} />
         <div className="home">
           <Typography variant="h4" gutterBottom component="div">
             도움말
@@ -54,3 +54,5 @@ export default function help() {
     </Container>
   );
 }
+
+export default Help;

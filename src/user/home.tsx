@@ -5,12 +5,10 @@ import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import Skeleton from '@mui/material/Skeleton';
 import Divider from '@mui/material/Divider';
 
 // ThemeProvider 
 import { createTheme } from '@mui/material/styles';
-import { ThemeProvider } from '@mui/material/styles';
 
 import fetchActorListApi from '../api/fetchActorListApi';
 
@@ -22,7 +20,6 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import InfoIcon from '@mui/icons-material/Info';
 
-
 import BadgeAvatars from './components/BadgeAvatars';
 import Link from '@mui/material/Link';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
@@ -30,21 +27,34 @@ import VoiceActorComboBox from './components/VoiceActorComboBox';
 
 import fetchInfoApi from '../api/fetchInfoApi';
 
-
-
-import ProTip from './ProTip';
-import axios from "axios";
 import Molu from './Molu';
 import Header from './Header';
-// import actorList from './components/ActorLists';
 
+// function findActorById(id, actorData) {
+//   return actorData.find(actor => actor.id === id);
+// }
+// actorData:   data = [
+//   {
+//     "displayName": "로딩중...", "id": "auto", "gender": "f",
+//     "language": "ko-KR", "categoryName": "", "disabled": true
+//   },
+// ];
+interface Actor {
+  displayName: string;
+  id: string;
+  gender: string;
+  language: string;
+  categoryName: string;
+  disabled: boolean;
+}
 
-function findActorById(id, actorData) {
+function findActorById(id: string, actorData: Actor[]): Actor | undefined {
   return actorData.find(actor => actor.id === id);
 }
 
 
-export default function home() {
+
+const Home: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { data: actorData, loading: actorLoading, error: actorError } = fetchActorListApi();
@@ -70,10 +80,10 @@ export default function home() {
   let [voiceActorValue, setVoiceActorValue] = React.useState({ "displayName": "로드 중...", "id": "notset", "gender": "f", "language": "ko-KR" });
 
   React.useEffect(() => {
-    if (!loading && !actorLoading)
-      setVoiceActorValue(findActorById(data.ttsActor == "notset" ? "kyuri" : data.ttsActor, actorData));
+    if (!loading && !actorLoading && data && actorData) {
+      setVoiceActorValue(findActorById(data.ttsActor == "notset" ? "kyuri" : data.ttsActor, actorData) || voiceActorValue);
+    }
   }, [loading, actorLoading]);
-
 
   const theme = createTheme({
     components: {
@@ -95,10 +105,7 @@ export default function home() {
     },
   });
 
-  let memberName = data?.userEffectiveName ? `${data.userEffectiveName}님` : "여러분";
-
-
-
+  // let memberName = data?.userEffectiveName ? `${data.userEffectiveName}님` : "여러분";
 
   return (
     <Container maxWidth="sm">
@@ -113,7 +120,6 @@ export default function home() {
             <br />
           </>}
           홈은 여전히 공사중이어서 아직 여기에 이것 저것 채우는 중이에요.<br />
-
         </div>
         {/* For variant="text", adjust the height via font-size */}
         <br />
@@ -206,7 +212,6 @@ export default function home() {
           <br />
         </Box>
         <br />
-        {/* <ProTip /> */}
         <Molu />
       </Box>
       <SnackbarProvider
@@ -219,3 +224,5 @@ export default function home() {
     </Container>
   );
 }
+
+export default Home;
