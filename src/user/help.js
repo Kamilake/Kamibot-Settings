@@ -3,7 +3,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import ProTip from './ProTip';
 import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -47,9 +46,9 @@ export default function help() {
             </ListItem>
           </List>
           <Button variant="contained" color="primary" onClick={gohome}>서버 설정으로 돌아가기</Button>
-          {/*  */}
+          <br />
+          <br />
         </div>
-        <ProTip />
         <Molu />
       </Box>
     </Container>
