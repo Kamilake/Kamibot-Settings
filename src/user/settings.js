@@ -66,14 +66,14 @@ export default function settings() {
           {channelSelectValue.channelName ? channelSelectValue.channelName : `채널별`} 설정
         </Typography>
         <Divider />
-          <NestedChannelSettingsList channelSelectValue={channelSelectValue} channelId={channelSelectValue.channelId} />
-          <br />
+        <NestedChannelSettingsList channelSelectValue={channelSelectValue} channelId={channelSelectValue.channelId} />
+        <br />
         <Typography variant="h4" gutterBottom component="div">
           {loading ? `서버` : data.guildName} 전체 설정
         </Typography>
         <Divider />
-        <NestedGuildSettingsList channelSelectValue={channelSelectValue} channelId={channelSelectValue.channelId} />
-          <br />
+        {/* <NestedGuildSettingsList channelSelectValue={channelSelectValue} channelId={channelSelectValue.channelId} /> */}
+        <br />
 
         {/* <TextField id="outlined-basic" label="JSON" variant="outlined" value={loading ? 'Loading...' : JSON.stringify(data)} multiline rows={4} fullWidth /> */}
         {/* <br></br> */}
@@ -102,12 +102,17 @@ export default function settings() {
         {/* <Button variant="contained" color='primary' onClick={myDrawer.toggleDrawer('right', true)}></Button> */}
         <Button >테스트</Button>
 
-
         {/*  */}
         <ProTip />
         <Molu />
       </Box>
-      <SnackbarProvider maxSnack={5} autoHideDuration={1000} />
+      <SnackbarProvider
+        maxSnack={5}
+        autoHideDuration={1000}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }} />
     </Container >
   );
 }
