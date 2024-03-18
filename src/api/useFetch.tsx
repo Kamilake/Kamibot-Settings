@@ -2,8 +2,8 @@
 import axios, { AxiosResponse } from 'axios';
 import { useState, useEffect } from 'react';
 
-const useFetch = <T,>(url: string): { data: T | null, loading: boolean, error: any } => {
-  const [data, setData] = useState<T | null>(null);
+const useFetch = <T,>(url: string): { data: T, loading: boolean, error: any } => {
+  const [data, setData] = useState<T>({} as T);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<any>(null);
 
@@ -12,7 +12,7 @@ const useFetch = <T,>(url: string): { data: T | null, loading: boolean, error: a
       try {
         // 사용자 브라우저의 GET 파라미터를 가져옵니다.
         const urlParams = new URLSearchParams(window.location.search);
-        var dataParam = urlParams.get('data');
+        let dataParam = urlParams.get('data');
         //만약 data 파라미터가 없다면, "default"로 설정합니다.
         if (!dataParam) {
           dataParam = "default";
@@ -44,6 +44,7 @@ const useFetch = <T,>(url: string): { data: T | null, loading: boolean, error: a
 
     fetchData();
   }, [url]);
+
   return { data, loading, error };
 };
 

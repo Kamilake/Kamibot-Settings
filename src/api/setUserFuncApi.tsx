@@ -11,7 +11,7 @@ interface ResponseData {
 }
 
 // 기능(String) , 사용자 ID(String), 값(Boolean), 스낵바 메시지(String)
-const setUserFuncApi = async (func: string, value: boolean, callbackData: string): Promise<ResponseData | null> => {
+const setUserFuncApi = async (func: string, value: boolean | string | number, callbackData: string): Promise<ResponseData | null> => {
   const nowSettingSnackbarId = enqueueSnackbar('설정 중...', { variant: 'info', autoHideDuration: 10000 });
   try {
     let data: ResponseData = await postData(
@@ -50,11 +50,11 @@ const setUserFuncApi = async (func: string, value: boolean, callbackData: string
 
 export default setUserFuncApi;
 
-async function postData(url: string, param: { value: boolean }): Promise<ResponseData> {
+async function postData(url: string, param: { value: boolean | string | number }): Promise<ResponseData> {
   try {
     // 사용자 브라우저의 GET 파라미터를 가져옵니다.
     const urlParams = new URLSearchParams(window.location.search);
-    var userUrlParam = urlParams.get('data');
+    let userUrlParam = urlParams.get('data');
     //만약 data 파라미터가 없다면, "default"로 설정합니다.
     if (!userUrlParam) {
       userUrlParam = "default";

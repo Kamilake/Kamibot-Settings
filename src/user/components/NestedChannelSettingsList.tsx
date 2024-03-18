@@ -30,10 +30,20 @@ import { enqueueSnackbar } from 'notistack'
 import fetchChannelInfoApi from '../../api/fetchChannelInfoApi';
 import setChannelFuncApi from '../../api/setChannelFuncApi';
 
+
+interface ListItem {
+  id: string;
+  text: string;
+  icon: JSX.Element;
+  shortName: string;
+  category?: string;
+  disabled?: boolean;
+}
+
 export default function NestedChannelSettingsList({ channelSelectValue, channelId }) {
   const [opens, setOpens] = React.useState({});
   let { data, loading, error } = fetchChannelInfoApi({ channelId });
-  var listItemData = [
+  let listItemData = [
     { id: "emote_upscale", text: "이모지 업스케일링", icon: <AddReactionIcon />, shortName: '이모지 업스케일링' },
     { id: "hello_world", text: "Sent mail", icon: <SendIcon />, shortName: 'Sent mail', disabled: true },
     { id: "twitter_embed", text: "트위터 링크에 미리보기 임베드 표시", icon: <Twitter />, shortName: '트위터 임베드', disabled: false },
@@ -48,10 +58,10 @@ export default function NestedChannelSettingsList({ channelSelectValue, channelI
     { id: "gpt4", text: "카미봇 Pro (GPT4)", icon: <ReviewsIcon />, shortName: '카미봇 Pro', category: 'llm', disabled: true },
     { id: "translate", text: "다국어 실시간 번역 채널", icon: <GTranslateIcon />, shortName: '번역', disabled: true },
     // 다른 아이템들...
-  ];
+  ] as ListItem[];
 
   // 카테고리 리스트
-  var categoryList = [
+  let categoryList = [
     { id: "tts", text: "음성으로 읽어주기(TTS)", icon: <VoiceChatIcon /> },
     { id: "llm", text: "인공지능 메세지 답장", icon: <ChatIcon /> },
   ];

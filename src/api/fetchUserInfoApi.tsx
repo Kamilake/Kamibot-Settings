@@ -1,27 +1,28 @@
 // fetchInfoApi.tsx
 import useFetch from "./useFetch";
 
-interface InfoData {
+export interface User {
   userEffectiveName: string;
   userAvatarUrl: string;
   channelName: string;
+  channelId: number;
   channelType: string;
   userName: string;
-  guildId: string;
+  guildId: number;
   guildName: string;
   ttsActor: string;
   ttsFriendlyName: string;
 }
 
 interface FetchResult {
-  data: InfoData | null;
+  data: User;
   loading: boolean;
   error: any;
 }
 
-const fetchInfoApi = (): FetchResult => {
+const fetchUserInfoApi = (): FetchResult => {
 
-  let { data, loading, error } = useFetch<InfoData>(
+  let { data, loading, error } = useFetch<User>(
     '/api/info'
   );
 
@@ -33,7 +34,8 @@ const fetchInfoApi = (): FetchResult => {
       "channelName": "채널이름",
       "channelType": "PRIVATE",
       "userName": "kamikami",
-      "guildId": "1234567890",
+      "channelId": 1077136010883907696,
+      "guildId": 1234567890,
       "guildName": "길드이름",
       "ttsActor": "kyuri",
       "ttsFriendlyName": "카미",
@@ -42,4 +44,4 @@ const fetchInfoApi = (): FetchResult => {
   return { data, loading, error };
 };
 
-export default fetchInfoApi;
+export default fetchUserInfoApi;

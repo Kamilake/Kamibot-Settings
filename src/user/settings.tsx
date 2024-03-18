@@ -14,14 +14,10 @@ import ControllableStates from './components/ControllableStates';
 import Header from './Header';
 import ProTip from './ProTip';
 import Molu from './Molu';
-import fetchInfoApi from '../api/fetchInfoApi';
+import fetchUserInfoApi from '../api/fetchUserInfoApi';
 import myDrawer from './drawer';
 
-interface ChannelSelectValue {
-  firstLetter: string;
-  channelName: string;
-  channelId: number;
-}
+import { Channel } from '../api/fetchChannelListApi';
 
 const Settings: React.FC = () => {
   const navigate = useNavigate();
@@ -31,18 +27,29 @@ const Settings: React.FC = () => {
     navigate('/user/home' + location.search);
   }
 
-  const { data, loading, error } = fetchInfoApi();
-  const [channelSelectValue, setChannelSelectValue] = React.useState<ChannelSelectValue>({ "firstLetter": "0-9", "channelName": "채널을 골라주세요!", "channelId": -1 });
+  const { data: user, loading, error } = fetchUserInfoApi();
+  const [channelSelectValue, setChannelSelectValue] = React.useState<Channel>({
+    channelName: '로드 중...',
+    channelType: "PRIVATE",
+    channelId: -1,
+    categoryName: "일반",
+  });
 
-  if (channelSelectValue == null)
-    setChannelSelectValue({ "firstLetter": "0-9", "channelName": "", "channelId": -2 });
+  // if (channelSelectValue == null)
+  //   setChannelSelectValue({ "firstLetter": "0-9", "channelName": "", "channelId": -2 });
 
   React.useEffect(() => {
 
     // console.log(`value has changed to: ${channelSelectValue}`);
     // 채널 바꾸면 실행되는곳
     if (!loading && channelSelectValue.channelId == -1) {
-      setChannelSelectValue({ "firstLetter": "0-9", "channelName": data.channelName, "channelId": data.channelId });
+      setChannelSelectValue(
+        { 
+          channelName: user.channelName,
+          channelId: user.channelId,
+          channelType: user.channelType,
+          categoryName: "",
+         });
     }
     if (channelSelectValue.channelId == -1) return;
     // alert(`value has changed to: ${channelSelectValue.channelId}`);
@@ -59,7 +66,7 @@ const Settings: React.FC = () => {
   return (
     <Container maxWidth="sm">
       <Box sx={{ my: 1 }}>
-        <Header title="서버 설정" userAvatarUrl={data.userAvatarUrl} />
+        <Header title="서버 설정" userAvatarUrl={user.userAvatarUrl} />
         <ControllableStates
           value={channelSelectValue}
           setValue={setChannelSelectValue}
@@ -71,7 +78,7 @@ const Settings: React.FC = () => {
         <NestedChannelSettingsList channelSelectValue={channelSelectValue} channelId={channelSelectValue.channelId} />
         <br />
         <Typography variant="h4" gutterBottom component="div">
-          {loading ? `서버` : data.guildName} 전체 설정
+          {loading ? `서버` : user.guildName} 전체 설정
         </Typography>
         <Divider />
         {/* <NestedGuildSettingsList channelSelectValue={channelSelectValue} channelId={channelSelectValue.channelId} /> */}

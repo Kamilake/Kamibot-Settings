@@ -18,7 +18,7 @@ const usePost = <T,>(url: string, param: object): PostResult<T> => {
       try {
         // 사용자 브라우저의 GET 파라미터를 가져옵니다.
         const urlParams = new URLSearchParams(window.location.search);
-        var userUrlParam = urlParams.get('data');
+        let userUrlParam = urlParams.get('data');
         //만약 data 파라미터가 없다면, "default"로 설정합니다.
         if (!userUrlParam) {
           userUrlParam = "default";

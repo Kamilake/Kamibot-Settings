@@ -18,7 +18,7 @@ const setChannelFuncApi = async (func: string, channelId: string, enabled: boole
   const nowSettingSnackbarId = enqueueSnackbar('설정 중...', { variant: 'info', autoHideDuration: 10000 });
   try {
     let data: ResponseData = await postData(
-      '/api/channel/' + func,
+      '/api/guild/' + func,
       {
         channelId: channelId,
         enabled: enabled
@@ -65,7 +65,7 @@ async function postData(url: string, param: { channelId: string, enabled: boolea
   try {
     // 사용자 브라우저의 GET 파라미터를 가져옵니다.
     const urlParams = new URLSearchParams(window.location.search);
-    var userUrlParam = urlParams.get('data');
+    let userUrlParam = urlParams.get('data');
     //만약 data 파라미터가 없다면, "default"로 설정합니다.
     if (!userUrlParam) {
       userUrlParam = "default";

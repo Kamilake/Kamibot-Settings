@@ -25,29 +25,13 @@ import Link from '@mui/material/Link';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import VoiceActorComboBox from './components/VoiceActorComboBox';
 
-import fetchInfoApi from '../api/fetchInfoApi';
+import fetchUserInfoApi from '../api/fetchUserInfoApi';
 
 import Molu from './Molu';
 import Header from './Header';
 
-// function findActorById(id, actorData) {
-//   return actorData.find(actor => actor.id === id);
-// }
-// actorData:   data = [
-//   {
-//     "displayName": "로딩중...", "id": "auto", "gender": "f",
-//     "language": "ko-KR", "categoryName": "", "disabled": true
-//   },
-// ];
-interface Actor {
-  displayName: string;
-  id: string;
-  gender: string;
-  language: string;
-  categoryName: string;
-  disabled: boolean;
-}
-
+import { Actor } from '../api/fetchActorListApi';
+import { User } from '../api/fetchUserInfoApi';
 function findActorById(id: string, actorData: Actor[]): Actor | undefined {
   return actorData.find(actor => actor.id === id);
 }
@@ -58,32 +42,33 @@ const Home: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { data: actorData, loading: actorLoading, error: actorError } = fetchActorListApi();
-  // const [data, setData] = useState(null);
-  function gohome() {
-    navigate('/user/settings' + location.search);
-  }
 
-  var { data, loading, error } = fetchInfoApi();
-  var userName = data?.user?.username;
-  var avatar = data?.user?.avatar;
+  let actors: Actor[] = actorData;
+  let user: User = fetchUserInfoApi().data;
+  let { data: userData, loading: userLoading, error: userError } = fetchUserInfoApi();
 
-  // data 콘솔에 출력
-  console.log("data: ", data);
-
-  // 만약 데이터가 {}이면 로그인 페이지로 리디렉션 (kami.com/login)
-  if (JSON.stringify(data) === JSON.stringify({})) {
+  // 만약 데이터가 {}이면 로그인 페이지로 리디렉션
+  if (JSON.stringify(userData) === JSON.stringify({})) {
     window.location.href = "https://discord.com/application-directory/1019061779357245521";
   }
 
 
 
-  let [voiceActorValue, setVoiceActorValue] = React.useState({ "displayName": "로드 중...", "id": "notset", "gender": "f", "language": "ko-KR" });
+  let [voiceActorValue, setVoiceActorValue] = React.useState(
+    {
+      displayName: "로드 중...",
+      id: "notset",
+      gender: "f",
+      language: "ko-KR",
+      categoryName: "일반",
+      disabled: true,
+    });
 
   React.useEffect(() => {
-    if (!loading && !actorLoading && data && actorData) {
-      setVoiceActorValue(findActorById(data.ttsActor == "notset" ? "kyuri" : data.ttsActor, actorData) || voiceActorValue);
+    if (!userLoading && !actorLoading && userData && actorData) {
+      setVoiceActorValue(findActorById(userData.ttsActor == "notset" ? "kyuri" : userData.ttsActor, actorData) || voiceActorValue);
     }
-  }, [loading, actorLoading]);
+  }, [userLoading, actorLoading]);
 
   const theme = createTheme({
     components: {
@@ -107,16 +92,24 @@ const Home: React.FC = () => {
 
   // let memberName = data?.userEffectiveName ? `${data.userEffectiveName}님` : "여러분";
 
+  let userName = userData.userEffectiveName;
+  let avatar = userData.userAvatarUrl;
+  let channelName = userData.channelName;
+  let channelId = userData.channelId;
+  let guildName = userData.guildName;
+  let guildId = userData.guildId;
+
+
   return (
     <Container maxWidth="sm">
       <Box sx={{ my: 1 }}>
-        <Header title="개인 설정" userAvatarUrl={data.userAvatarUrl} />
+        <Header title="개인 설정" userAvatarUrl={avatar} />
         <div className="home">
-          <BadgeAvatars userName={data?.userEffectiveName + "님, 안녕하세요!"} avatarUrl={data.userAvatarUrl} />
+          <BadgeAvatars userName={userName + "님, 안녕하세요!"} avatarUrl={avatar} />
           <br />
-          {data.userEffectiveName} (도전과제 레벨 0)<br />
-          {data?.guildId == 0 ? null : <>
-            {data.guildName + ' => ' + data.channelName}
+          {userName} (도전과제 레벨 0)<br />
+          {guildId == 0 ? null : <>
+            {guildName + ' => ' + channelName}
             <br />
           </>}
           홈은 여전히 공사중이어서 아직 여기에 이것 저것 채우는 중이에요.<br />
@@ -132,7 +125,6 @@ const Home: React.FC = () => {
           <VoiceActorComboBox
             value={voiceActorValue}
             setValue={setVoiceActorValue}
-            style={{ fontFamily: 'Noto Color Emoji' }}
           />
           <br />
           {/*  style={{ fontFamily: 'Noto Color Emoji' }} */}

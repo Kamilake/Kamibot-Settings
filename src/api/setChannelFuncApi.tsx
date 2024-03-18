@@ -59,7 +59,7 @@ export default setChannelFuncApi;
 async function postData(url: string, param: { channelId: string, enabled: boolean }): Promise<ResponseData> {
   try {
     const urlParams = new URLSearchParams(window.location.search);
-    var userUrlParam = urlParams.get('data');
+    let userUrlParam = urlParams.get('data');
     if (!userUrlParam) {
       userUrlParam = "default";
     }
