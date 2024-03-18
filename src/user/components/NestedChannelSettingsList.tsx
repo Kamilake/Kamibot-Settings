@@ -39,26 +39,36 @@ interface ListItem {
   category?: string;
   disabled?: boolean;
 }
+const listItemData = [
+  { id: "emote_upscale", text: "이모지 업스케일링", icon: <AddReactionIcon />, shortName: '이모지 업스케일링' },
+  { id: "hello_world", text: "Sent mail", icon: <SendIcon />, shortName: 'Sent mail', disabled: true },
+  { id: "twitter_embed", text: "트위터 링크에 미리보기 임베드 표시", icon: <Twitter />, shortName: '트위터 임베드', disabled: false },
+  { id: "vchannel", text: "가변 음성채널 트리거 채널", icon: <RecordVoiceOverIcon />, shortName: '가변 음성채널', disabled: false },
+  { id: "auto_tts", text: "대화하면 TTS 켜지는 채널", icon: <VoiceChatIcon />, shortName: 'TTS', category: 'tts', disabled: false },
+  { id: "tts_join_notify", text: "음성 채널 입장/퇴장 알려주기", icon: <CampaignIcon />, shortName: '입퇴장 알림', category: 'tts' },
+  { id: "ai_toolkit", text: "AI Toolkit (인공지능 그림, 도구 모음)", icon: <PhotoFilterIcon />, shortName: 'AI 툴킷' },
+  { id: "emote_upload", text: "커스텀 이모지 업로드 전용 채널", icon: <AddReactionIcon />, shortName: '이모지 업로드' },
+  { id: "wave", text: "안녕하세요!", icon: <WavingHandIcon />, shortName: '안녕하세요', disabled: true },
+  { id: "changelog", text: "카미봇의 멋진 업데이트 소식 받아보기!", icon: <TipsAndUpdatesIcon />, shortName: '업데이트 소식', disabled: true },
+  { id: "llm", text: "카미봇이 대답하기", icon: <MarkChatReadIcon />, shortName: '대화하기', category: 'llm' },
+  { id: "gpt4", text: "카미봇 Pro (GPT4)", icon: <ReviewsIcon />, shortName: '카미봇 Pro', category: 'llm', disabled: true },
+  { id: "translate", text: "다국어 실시간 번역 채널", icon: <GTranslateIcon />, shortName: '번역', disabled: true },
+  // 다른 아이템들...
+] as ListItem[];
+// listItemData에서 id를 키로 사용하여 해당 아이템의 shortName을 가져옵니다.
+function getShortNameById(id: string): string {
+  const listItem = listItemData.find(item => item.id === id);
+  if (!listItem) {
+    return '[알 수 없음]';
+  }
+
+  return listItem.shortName;
+}
 
 export default function NestedChannelSettingsList({ channelSelectValue, channelId }) {
   const [opens, setOpens] = React.useState({});
   let { data, loading, error } = fetchChannelInfoApi({ channelId });
-  let listItemData = [
-    { id: "emote_upscale", text: "이모지 업스케일링", icon: <AddReactionIcon />, shortName: '이모지 업스케일링' },
-    { id: "hello_world", text: "Sent mail", icon: <SendIcon />, shortName: 'Sent mail', disabled: true },
-    { id: "twitter_embed", text: "트위터 링크에 미리보기 임베드 표시", icon: <Twitter />, shortName: '트위터 임베드', disabled: false },
-    { id: "vchannel", text: "가변 음성채널 트리거 채널", icon: <RecordVoiceOverIcon />, shortName: '가변 음성채널', disabled: false },
-    { id: "auto_tts", text: "대화하면 TTS 켜지는 채널", icon: <VoiceChatIcon />, shortName: 'TTS', category: 'tts', disabled: false },
-    { id: "tts_join_notify", text: "음성 채널 입장/퇴장 알려주기", icon: <CampaignIcon />, shortName: '입퇴장 알림', category: 'tts' },
-    { id: "ai_toolkit", text: "AI Toolkit (인공지능 그림, 도구 모음)", icon: <PhotoFilterIcon />, shortName: 'AI 툴킷' },
-    { id: "emote_upload", text: "커스텀 이모지 업로드 전용 채널", icon: <AddReactionIcon />, shortName: '이모지 업로드' },
-    { id: "wave", text: "안녕하세요!", icon: <WavingHandIcon />, shortName: '안녕하세요', disabled: true },
-    { id: "changelog", text: "카미봇의 멋진 업데이트 소식 받아보기!", icon: <TipsAndUpdatesIcon />, shortName: '업데이트 소식', disabled: true },
-    { id: "llm", text: "카미봇이 대답하기", icon: <MarkChatReadIcon />, shortName: '대화하기', category: 'llm' },
-    { id: "gpt4", text: "카미봇 Pro (GPT4)", icon: <ReviewsIcon />, shortName: '카미봇 Pro', category: 'llm', disabled: true },
-    { id: "translate", text: "다국어 실시간 번역 채널", icon: <GTranslateIcon />, shortName: '번역', disabled: true },
-    // 다른 아이템들...
-  ] as ListItem[];
+
 
   // 카테고리 리스트
   let categoryList = [
@@ -85,7 +95,7 @@ export default function NestedChannelSettingsList({ channelSelectValue, channelI
     console.log(id + " : " + !state);
 
 
-    setChannelFuncApi(id, channelId, !state, (listItemData.find(item => item.id === id).shortName + " 설정을 " + (state ? "비" : "") + "활성화했어요."), setSwitchStates);
+    setChannelFuncApi(id, channelId, !state, getShortNameById(id) + " 설정을 " + (state ? "비" : "") + "활성화했어요.", setSwitchStates);
     // enqueueSnackbar(listItemData.find(item => item.id === id).shortName + " 설정을 " + (state ? "비" : "") + "활성화했어요.", { variant: 'success' });
   };
 
@@ -129,6 +139,7 @@ export default function NestedChannelSettingsList({ channelSelectValue, channelI
       ))}
       {
         categories.map(category => (
+          category === undefined ? null :
           <>
             <ListItemButton onClick={() => handleClick(category)}>
               <ListItemIcon>
