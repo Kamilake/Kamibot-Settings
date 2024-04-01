@@ -1,4 +1,3 @@
-import React from 'react';
 import useFetch from "../../api/useFetch";
 
 interface Actor {
@@ -17,15 +16,19 @@ interface FetchResult {
 }
 
 const actorList = (): FetchResult => {
-  let { data, loading, error } = useFetch(
+  let { data, loading, error } = useFetch<Actor[]>(
     '/api/actorList'
   );
 
   if (loading) {
     data = [
       {
-        "displayName": "로딩중...", "id": "auto", "gender": "f",
-        "language": "ko-KR", "categoryName": "", "disabled": true
+        displayName: "로딩중...",
+        id: "auto",
+        gender: "f",
+        language: "ko-KR",
+        categoryName: "",
+        disabled: true
       },
     ];
   }

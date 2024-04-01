@@ -11,11 +11,11 @@ import { SnackbarProvider } from 'notistack'
 
 import ControllableStates from './components/ControllableStates';
 
-import Header from './Header';
-import ProTip from './ProTip';
-import Molu from './Molu';
+import Header from './components/Header';
+import ProTip from './components/ProTip';
+import Molu from './components/Molu';
 import fetchUserInfoApi from '../api/fetchUserInfoApi';
-import myDrawer from './drawer';
+import myDrawer from './components/drawer';
 
 import { Channel } from '../api/fetchChannelListApi';
 
@@ -23,8 +23,8 @@ const Settings: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const gohome = (): void => {
-    navigate('/user/home' + location.search);
+  const navigateToUserPersonalPage = (): void => {
+    navigate('/user/personal' + location.search);
   }
 
   const { data: user, loading, error } = fetchUserInfoApi();
@@ -107,7 +107,7 @@ const Settings: React.FC = () => {
           <br />
           <br />
           <br /> */}
-        <Button variant="contained" color="primary" onClick={gohome}> 홈으로 이동 </Button>
+        <Button variant="contained" color="primary" onClick={navigateToUserPersonalPage}> 홈으로 이동 </Button>
         <Button >테스트</Button>
 
         <ProTip />

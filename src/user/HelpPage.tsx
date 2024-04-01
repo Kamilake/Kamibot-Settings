@@ -10,8 +10,8 @@ import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 
 import axios from "axios";
-import Molu from './Molu';
-import Header from './Header';
+import Molu from './components/Molu';
+import Header from './components/Header';
 
 const Help: React.FC = () => {
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ const Help: React.FC = () => {
   return (
     <Container maxWidth="sm">
       <Box sx={{ my: 1 }}>
-        <Header title="도움말" userAvatarUrl={undefined} />
+        <Header title="도움말" userAvatarUrl={""} />
         <div className="home">
           <Typography variant="h4" gutterBottom component="div">
             도움말

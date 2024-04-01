@@ -27,8 +27,8 @@ import VoiceActorComboBox from './components/VoiceActorComboBox';
 
 import fetchUserInfoApi from '../api/fetchUserInfoApi';
 
-import Molu from './Molu';
-import Header from './Header';
+import Molu from './components/Molu';
+import Header from './components/Header';
 
 import { Actor } from '../api/fetchActorListApi';
 import { User } from '../api/fetchUserInfoApi';
@@ -38,7 +38,7 @@ function findActorById(id: string, actorData: Actor[]): Actor | undefined {
 
 
 
-const Home: React.FC = () => {
+const PersonalSettings: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { data: actorData, loading: actorLoading, error: actorError } = fetchActorListApi();
@@ -104,7 +104,7 @@ const Home: React.FC = () => {
     <Container maxWidth="sm">
       <Box sx={{ my: 1 }}>
         <Header title="개인 설정" userAvatarUrl={avatar} />
-        <div className="home">
+        <div className="personal">
           <BadgeAvatars userName={userName + "님, 안녕하세요!"} avatarUrl={avatar} />
           <br />
           {userName} (도전과제 레벨 0)<br />
@@ -217,4 +217,4 @@ const Home: React.FC = () => {
   );
 }
 
-export default Home;
+export default PersonalSettings;

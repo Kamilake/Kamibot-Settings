@@ -11,9 +11,9 @@ import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import StorageIcon from '@mui/icons-material/Storage';
 import HelpIcon from '@mui/icons-material/Help';
 
-import HomePage from './user/home';
-import SettingsPage from './user/settings';
-import HelpPage from './user/help';
+import PersonalSettingsPage from './user/PersonalSettingsPage';
+import SettingsPage from './user/ChannelSettingsPage';
+import HelpPage from './user/HelpPage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function Copyright(): React.ReactElement {
@@ -36,15 +36,15 @@ function Root(): React.ReactElement {
 
   React.useEffect(() => {
     let pathname = location.pathname;
-    let paths = ['/user/home', '/user/settings', '/user/help'];
+    let paths = ['/user/personal', '/user/settings', '/user/help'];
     setValue(paths.indexOf(location.pathname));
   }, [location]);
 
   return (
     <div>
       <Routes>
-        <Route path={"/"} element={<HomePage />}></Route>
-        <Route path={"/user/home"} element={<HomePage />}></Route>
+        <Route path={"/"} element={<PersonalSettingsPage />}></Route>
+        <Route path={"/user/personal"} element={<PersonalSettingsPage />}></Route>
         <Route path={"/user/settings"} element={<SettingsPage />}></Route>
         <Route path={"/user/help"} element={<HelpPage />}></Route>
       </Routes>
@@ -56,7 +56,7 @@ function Root(): React.ReactElement {
           setValue(newValue);
           // Router
           if (newValue === 0) {
-            navigate('/user/home' + location.search);
+            navigate('/user/personal' + location.search);
           }
           if (newValue === 1) {
             navigate('/user/settings' + location.search);
