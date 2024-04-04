@@ -1,13 +1,18 @@
 import React from "react";
 import { Smartphone } from '@mui/icons-material';
-import { FunctionInfo } from "../components/GuildSettingsGrid";
+import { FunctionInterface } from "../components/GuildSettingsGrid";
 
-const functionInfo: FunctionInfo = {
+const body =
+  <>
+    기능 2 본문
+  </>
+
+const functionInfo: FunctionInterface = {
   icon: <Smartphone />,
   title: '기능 2',
-  description: '이것은 기능 1의 설명의 예시입니다.',
+  description: '기능 2 설명',
   url: 'func_2',
-  data: <> 멍청이 </>
+  data: body
 };
 
 export default functionInfo;
