@@ -4,6 +4,7 @@ import axios, { AxiosResponse } from 'axios';
 import { enqueueSnackbar, closeSnackbar } from 'notistack'
 import IconButton from '@mui/material/IconButton';
 import IconClose from '@mui/icons-material/Close';
+import { postData } from './setChannelFuncApi';
 
 interface ResponseData {
   success: string;
@@ -49,32 +50,3 @@ const setUserFuncApi = async (func: string, value: boolean | string | number, ca
 };
 
 export default setUserFuncApi;
-
-async function postData(url: string, param: { value: boolean | string | number }): Promise<ResponseData> {
-  try {
-    // 사용자 브라우저의 GET 파라미터를 가져옵니다.
-    const urlParams = new URLSearchParams(window.location.search);
-    let userUrlParam = urlParams.get('data');
-    //만약 data 파라미터가 없다면, "default"로 설정합니다.
-    if (!userUrlParam) {
-      userUrlParam = "default";
-    }
-    console.log("setChannelFuncApi: " + url, param);
-
-    let requestParam = Object.assign({
-      data: userUrlParam
-    }, param)
-
-    console.log("request: " + JSON.stringify(requestParam));
-    // 서버에 data 헤더와 함께 POST 요청을 보냅니다.
-    const response: AxiosResponse<ResponseData> = await axios.post(url, requestParam);
-
-    console.log("setChannelFuncApi Response: " + response.data);
-
-    return response.data;
-
-  } catch (error) {
-    console.log("setChannelFuncApi Error: " + error);
-    throw error;
-  }
-};
