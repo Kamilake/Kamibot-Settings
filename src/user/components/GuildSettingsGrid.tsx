@@ -14,8 +14,7 @@ export interface FunctionInterface {
   data: JSX.Element;
 }
 
-import * as functions from '../functions';
-export const settingsFunctions = Object.values(functions);
+import settingsFunctions from '../functions';
 
 const GridButton = () => {
   const location = useLocation();
@@ -26,33 +25,24 @@ const GridButton = () => {
   }
 
 
-
   return (
     <Grid container spacing={2}>
       {settingsFunctions.map((item, index) => (
         <Grid item xs={12} sm={6} key={index}>
-          <Button fullWidth variant="outlined" sx={{ 
+          <Button fullWidth variant="outlined" sx={{
             borderRadius: '12px',
-             borderWidth: '2px',
-             boxShadow: '0 0 10px #9ecaed',
-              '&:hover, &:active': { borderWidth: '3px', boxShadow: '0 0 20px #9ecaed', }
-               }} onClick={() => navigateToGuildSubSettingsPage(item.url)}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '300px' }}>
-              <Box sx={{
-                borderRadius: '20%',
-                // boxShadow: 3,
-                border: '1px solid #9ecaed', // Add border
-                boxShadow: '0 0 6px #9ecaed',
-                paddingTop: '8px',
-                paddingRight: '10px',
-                paddingLeft: '10px',
-                paddingBottom: '3px',
-                backgroundColor: 'white',
-              }}>
-                {React.cloneElement(item.icon, { fontSize: "large" })}
+            borderWidth: '2px',
+            boxShadow: '0 0 10px #9ecaed',
+            '&:hover, &:active': { borderWidth: '3px', boxShadow: '0 0 20px #9ecaed', }
+          }} onClick={() => navigateToGuildSubSettingsPage(item.url)}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '300px' }} >
+              <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                <Box sx={{ marginRight: '7px' }}>
+                  {React.cloneElement(item.icon, { fontSize: "large" })}
+                </Box>
+                <Typography variant="h6" sx={{ marginTop: '-7px' }}>{item.title}</Typography>
               </Box>
-              <Typography variant="h6">{item.title}</Typography>
-              <Typography>{item.description}</Typography>
+              <Typography align="left">{item.description}</Typography>
             </Box>
           </Button>
         </Grid>
