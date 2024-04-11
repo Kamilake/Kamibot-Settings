@@ -1,4 +1,4 @@
-import { settingsFunctions } from './GuildSettingsGrid';
+import settingsFunctions from '../functions';
 
 import React from 'react';
 

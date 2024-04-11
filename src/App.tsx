@@ -34,7 +34,7 @@ function Copyright(): React.ReactElement {
   );
 }
 
-import {settingsFunctions} from './user/components/GuildSettingsGrid';
+import settingsFunctions from './user/functions';
 import FunctionLocator from './user/components/FunctionLocator';
 
 
