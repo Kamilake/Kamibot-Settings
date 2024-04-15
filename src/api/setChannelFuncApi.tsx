@@ -59,18 +59,22 @@ export default setChannelFuncApi;
 export async function postData(url: string, param: any): Promise<ResponseData> {
   try {
     const urlParams = new URLSearchParams(window.location.search);
-    let userUrlParam = urlParams.get('data');
-    if (!userUrlParam) {
-      userUrlParam = "default";
+    let jwt = urlParams.get('data');
+    if (!jwt) {
+      jwt = "default";
     }
     console.log("setChannelFuncApi: " + url, param);
 
     let requestParam = Object.assign({
-      data: userUrlParam
+      data: jwt
     }, param)
 
-    console.log("request: " + JSON.stringify(requestParam));
-    const response: AxiosResponse<ResponseData> = await axios.post(url, requestParam);
+    console.log("jwt: " + JSON.stringify(requestParam));
+    const response: AxiosResponse<ResponseData> = await axios.post(url, requestParam, {
+      headers: {
+        Authorization: `Bearer ${jwt}`
+      }
+    });
 
     console.log("setChannelFuncApi Response: " + response.data);
 

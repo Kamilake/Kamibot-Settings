@@ -18,27 +18,23 @@ const usePost = <T,>(url: string, param: object): PostResult<T> => {
       try {
         // 사용자 브라우저의 GET 파라미터를 가져옵니다.
         const urlParams = new URLSearchParams(window.location.search);
-        let userUrlParam = urlParams.get('data');
+        let jwt = urlParams.get('data');
         //만약 data 파라미터가 없다면, "default"로 설정합니다.
-        if (!userUrlParam) {
-          userUrlParam = "default";
+        if (!jwt) {
+          jwt = "default";
         }
 
         //콘솔 로그 파라미터
-        console.log("userUrlParam: " + userUrlParam);
+        console.log("userUrlParam: " + jwt);
 
-        // 서버에 data 헤더와 함께 POST 요청을 보냅니다.
+        // 서버에 data와 함께 POST 요청을 보냅니다.
         const response: AxiosResponse<T> = await axios.post(url, Object.assign({
-          data: userUrlParam
-        }, param));
-
-
-        // // 서버에 GET 요청을 보냅니다.
-        // const response = await axios.get(url, {
-        //   params: {
-        //     data: dataParam
-        //   }
-        // });
+          data: jwt
+        }, param), {
+          headers: {
+            Authorization: `Bearer ${jwt}`
+          }
+        });
 
         setData(response.data);
         setLoading(false);

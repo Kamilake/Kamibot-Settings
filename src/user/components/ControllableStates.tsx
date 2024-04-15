@@ -7,9 +7,10 @@ import { Channel } from '../../api/fetchChannelListApi';
 interface ControllableStatesProps {
   value: Channel;
   setValue: (value: Channel) => void;
+  disabled?: boolean;
 }
 
-export default function ControllableStates({ value, setValue }: ControllableStatesProps) {
+export default function ControllableStates({ value, setValue, disabled = false }: ControllableStatesProps) {
   const [inputValue, setInputValue] = React.useState<string>('');
   const { data, loading, error } = fetchChannelListApi();
   const channelArray = data;
@@ -34,6 +35,7 @@ export default function ControllableStates({ value, setValue }: ControllableStat
       getOptionLabel={(option: Channel) => option.channelName}
       renderInput={(params) => <TextField {...params} label="채널" />}
       fullWidth={true}
+      disabled={disabled}
     />
   );
 }

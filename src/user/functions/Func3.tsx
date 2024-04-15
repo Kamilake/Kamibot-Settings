@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Smartphone } from '@mui/icons-material';
+import { Smartphone, VoiceChat } from '@mui/icons-material';
 import { FunctionInterface } from "../components/GuildSettingsGrid";
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -23,9 +23,9 @@ const FunctionBody: React.FC = () => {
 };
 
 const functionInfo: FunctionInterface = {
-  icon: <Smartphone />,
-  title: '기능',
-  description: '기능 설명',
+  icon: <VoiceChat />,
+  title: '가변 음성 채널',
+  description: '필요할 때마다 음성 채널을 동적으로 만들고, 아무도 없으면 제거하기',
   url: 'func_example',
   data: <FunctionBody />
 };

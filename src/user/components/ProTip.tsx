@@ -12,6 +12,8 @@ const ProTip: React.FC = () => {
     <>이 설정 창의 UI는 <Link href="https://github.com/Kamilake/Kamibot-Settings">오픈소스로 공개</Link>되어 있어요!</>,
     <>카미봇의 모든 기능은 무료이며, 모든 비용은 카미가 내고 있어요.</>,
     <>여러분은 자신의 TTS 보이스를 변경할 수 있어요. <Link href={`/user/personal${window.location.search}`}>여기에서요!</Link></>,
+    <>채팅이나 TTS에서 카미봇이 여러분을 부르는 이름을 <Link href={`/user/personal${window.location.search}`}>바꿔보세요!</Link></>,
+    <>카미봇이 보내는 환영 메세지는 새로 오신 분의 이름과 프로필, 상황에 따라 바뀌어요.</>,
     <>어떤 보너스 팁을 추가해볼까요?</>,
     <>어떤 보너스 팁을 추가해볼까요?</>,
     // 추가 팁들...

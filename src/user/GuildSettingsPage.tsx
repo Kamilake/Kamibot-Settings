@@ -37,7 +37,7 @@ const Settings: React.FC = () => {
           {loading ? `서버` : user.guildName} 설정
         </Typography>
         <Divider />
-        <h2>이곳은 아직 공사중이에요. 아무것도 없어요!</h2>
+        <h2>이곳은 아직 공사중이에요. 아무것도 작동하지 않아요!</h2>
         그래도 만드는 거 구경하라고 열어둘게요.
         <br /><br />
         <GridButton></GridButton>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Smartphone } from '@mui/icons-material';
+import { PhotoFilter, Smartphone } from '@mui/icons-material';
 import { FunctionInterface } from "../components/GuildSettingsGrid";
 
 const body =
@@ -8,9 +8,9 @@ const body =
   </>
 
 const functionInfo: FunctionInterface = {
-  icon: <Smartphone />,
-  title: '기능 2',
-  description: '기능 2 설명',
+  icon: <PhotoFilter />,
+  title: 'AI 툴킷',
+  description: 'AI 그림, 동영상, 음성, 파일 변환 서비스',
   url: 'func_2',
   data: body
 };
