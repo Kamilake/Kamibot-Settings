@@ -29,9 +29,12 @@ import { enqueueSnackbar } from 'notistack'
 
 import fetchChannelInfoApi from '../../api/fetchChannelInfoApi';
 import setChannelFuncApi from '../../api/setChannelFuncApi';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton } from '@mui/material';
+import { HelpOutline } from '@mui/icons-material';
 
 
 interface ListItem {
+  help?: string;
   id: string;
   text: string;
   icon: JSX.Element;
@@ -40,7 +43,7 @@ interface ListItem {
   disabled?: boolean;
 }
 const listItemData = [
-  { id: "emote_upscale", text: "이모지 업스케일링", icon: <AddReactionIcon />, shortName: '이모지 업스케일링' },
+  { id: "emote_upscale", text: "이모지 업스케일링", icon: <AddReactionIcon />, shortName: '이모지 업스케일링', help: "이모지 업스케일링은 이모지를 크게 표시해요." },
   { id: "hello_world", text: "Sent mail", icon: <SendIcon />, shortName: 'Sent mail', disabled: true },
   { id: "twitter_embed", text: "트위터 링크에 미리보기 임베드 표시", icon: <Twitter />, shortName: '트위터 임베드', disabled: false },
   { id: "vchannel", text: "가변 음성채널 트리거 채널", icon: <RecordVoiceOverIcon />, shortName: '가변 음성채널', disabled: false },
@@ -85,6 +88,22 @@ export default function NestedChannelSettingsList({ channelSelectValue, channelI
     }));
   };
 
+
+  const [helpOpen, setHelpOpen] = React.useState({});
+
+  const handleHelpOpen = (id) => {
+    setHelpOpen(prevState => ({
+      ...prevState,
+      [id]: true,
+    }));
+  };
+
+  const handleHelpClose = (id) => {
+    setHelpOpen(prevState => ({
+      ...prevState,
+      [id]: false,
+    }));
+  };
   const [switchStates, setSwitchStates] = React.useState({});
   // setChannelFuncApi('llm', true);
   const handleSwitchToggle = (id, state) => {
@@ -129,43 +148,89 @@ export default function NestedChannelSettingsList({ channelSelectValue, channelI
     >
       {listItemData.map((item) => (
         item.category == null ?
-          <ListItemButton key={item.id} onClick={() => handleSwitchToggle(item.id, switchStates[item.id])} disabled={loading || item.disabled}>
-            <ListItemIcon>
-              {item.icon}
-            </ListItemIcon>
-            <ListItemText primary={item.text} />
-            <Switch checked={!!switchStates[item.id]} onClick={() => { }} disabled={loading} />
-          </ListItemButton> : null
+          <>
+            <ListItemButton key={item.id} onClick={() => handleSwitchToggle(item.id, switchStates[item.id])} disabled={loading || item.disabled}>
+              <ListItemIcon>
+                {item.icon}
+              </ListItemIcon>
+              <ListItemText primary={item.text} />
+              <IconButton onClick={(event) => {
+                event.stopPropagation();
+                handleHelpOpen(item.id);
+              }}
+                disabled={(!item.disabled && !item.help)}
+              >
+                <HelpOutline />
+              </IconButton>
+              <Switch checked={!!switchStates[item.id]} onClick={() => { }} disabled={loading} />
+            </ListItemButton>
+            <Dialog open={helpOpen[item.id] || false} onClose={() => handleHelpClose(item.id)}>
+              <DialogTitle>{"도움말"}</DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  {item.help}
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={() => handleHelpClose(item.id)} autoFocus>
+                  {"닫기"}
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </> : null
       ))}
       {
         categories.map(category => (
           category === undefined ? null :
-          <>
-            <ListItemButton onClick={() => handleClick(category)}>
-              <ListItemIcon>
-                {listItemData.find(item => item.category === category).icon}
-              </ListItemIcon>
-              <ListItemText primary={categoryList.find(item => item.id === category).text} />
-              {opens[category] ? <ExpandLess /> : <ExpandMore />}
-            </ListItemButton>
-            <Collapse in={opens[category]} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
-                {
-                  // 해당 category의 항목만 순회합니다.
-                  listItemData.map(item => (
-                    item.category === category ?
-                      <ListItemButton sx={{ pl: 4 }} key={item.id} onClick={() => handleSwitchToggle(item.id, switchStates[item.id])} disabled={loading || item.disabled}>
-                        <ListItemIcon>
-                          {item.icon}
-                        </ListItemIcon>
-                        <ListItemText primary={item.text} />
-                        <Switch checked={!!switchStates[item.id]} onClick={() => { }} disabled={loading} />
-                      </ListItemButton> : null
-                  ))
-                }
-              </List>
-            </Collapse>
-          </>
+            <>
+              <ListItemButton onClick={() => handleClick(category)}>
+                <ListItemIcon>
+                  {listItemData.find(item => item.category === category)?.icon}
+                </ListItemIcon>
+                <ListItemText primary={categoryList.find(item => item.id === category)?.text} />
+                {opens[category] ? <ExpandLess /> : <ExpandMore />}
+              </ListItemButton>
+              <Collapse in={opens[category]} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding>
+                  {
+                    // 해당 category의 항목만 순회합니다.
+                    listItemData.map(item => (
+                      item.category === category ?
+                        <>
+                          <ListItemButton sx={{ pl: 4 }} key={item.id} onClick={() => handleSwitchToggle(item.id, switchStates[item.id])} disabled={loading || item.disabled}>
+                            <ListItemIcon>
+                              {item.icon}
+                            </ListItemIcon>
+                            <ListItemText primary={item.text} />
+                            <IconButton onClick={(event) => {
+                              event.stopPropagation();
+                              handleHelpOpen(item.id);
+                            }}
+                              disabled={(!item.disabled && !item.help)}
+                            >
+                              <HelpOutline />
+                            </IconButton>
+                            <Switch checked={!!switchStates[item.id]} onClick={() => { }} disabled={loading} />
+                          </ListItemButton>
+                          <Dialog open={helpOpen[item.id] || false} onClose={() => handleHelpClose(item.id)}>
+                            <DialogTitle>{"도움말"}</DialogTitle>
+                            <DialogContent>
+                              <DialogContentText>
+                                {item.help}
+                              </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                              <Button onClick={() => handleHelpClose(item.id)} autoFocus>
+                                {"닫기"}
+                              </Button>
+                            </DialogActions>
+                          </Dialog>
+                        </> : null
+                    ))
+                  }
+                </List>
+              </Collapse>
+            </>
         ))
       }
     </List>
