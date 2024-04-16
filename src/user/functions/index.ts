@@ -6,7 +6,7 @@
 // GuildSettingsGrid.tsx 에서 사용됨
 
 import WelcomeMessageFunc from './WelcomeMessage';
-import Func1 from './Func1';
+import Func1 from './TTS';
 import Func2 from './Func2';
 import Func3 from './Func3'; 
 
