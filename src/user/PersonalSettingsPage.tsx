@@ -32,6 +32,8 @@ import Header from './components/Header';
 
 import { Actor } from '../api/fetchActorListApi';
 import { User } from '../api/fetchUserInfoApi';
+import Dropdown from './components/Dropdown';
+import { SelectChangeEvent } from '@mui/material';
 function findActorById(id: string, actorData: Actor[]): Actor | undefined {
   return actorData.find(actor => actor.id === id);
 }
@@ -52,8 +54,12 @@ const PersonalSettings: React.FC = () => {
     window.location.href = "https://discord.com/application-directory/1019061779357245521";
   }
 
+  const [emoteUpscale, setEmoteUpscale] = React.useState('default'); // 알림
 
-
+  // handleEmoteUpscaleChange
+  const handleEmoteUpscaleChange = (event: SelectChangeEvent<any>) => {
+    setEmoteUpscale(event.target.value as string);
+  };
   let [voiceActorValue, setVoiceActorValue] = React.useState(
     {
       displayName: "로드 중...",
@@ -115,6 +121,16 @@ const PersonalSettings: React.FC = () => {
           홈은 여전히 공사중이어서 아직 여기에 이것 저것 채우는 중이에요.<br />
         </div>
         {/* For variant="text", adjust the height via font-size */}
+        <Dropdown
+          label="내 이모지 확대"
+          value={emoteUpscale}
+          onChange={handleEmoteUpscaleChange}
+          items={[
+            { value: 'default', text: '서버 기본값' },
+            { value: 'never', text: '절대로 확대하지 않기', disabled: true },
+            { value: 'force', text: '무조건 확대하기', disabled: true },
+          ]}
+        />
         <br />
         <Box>
           <Typography variant="h5" gutterBottom component="div">
