@@ -66,7 +66,7 @@ const PersonalSettings: React.FC = () => {
       id: "notset",
       gender: "f",
       language: "ko-KR",
-      categoryName: "일반",
+      categoryName: "",
       disabled: true,
     });
 
@@ -122,13 +122,13 @@ const PersonalSettings: React.FC = () => {
         </div>
         {/* For variant="text", adjust the height via font-size */}
         <Dropdown
-          label="내 이모지 확대"
+          label="이모지 업스케일링"
           value={emoteUpscale}
           onChange={handleEmoteUpscaleChange}
           items={[
-            { value: 'default', text: '서버 기본값' },
-            { value: 'never', text: '절대로 확대하지 않기', disabled: true },
-            { value: 'force', text: '무조건 확대하기', disabled: true },
+            { value: 'default', text: '서버 기본값 (권장)' },
+            { value: 'never', text: '절대로 사용하지 않기', disabled: true },
+            { value: 'force', text: '무조건 사용하기', disabled: true },
           ]}
         />
         <br />

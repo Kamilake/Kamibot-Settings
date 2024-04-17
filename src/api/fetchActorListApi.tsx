@@ -30,7 +30,7 @@ const fetchActorListApi = (): FetchResult => {
     actorData = [
       {
         displayName: "로딩중...",
-        id: "auto",
+        id: "notset",
         gender: "f",
         language: "ko-KR",
         categoryName: "",
