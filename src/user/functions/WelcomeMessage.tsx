@@ -34,17 +34,17 @@ const FunctionBody: React.FC = () => {
 
     if (!loading) {
       setChannelSelectValue(
-        { 
+        {
           channelName: data.channelName,
           channelId: data.channelId,
           channelType: data.channelType,
           categoryName: "",
-         });
-         setIsFunctionEnabled(data.enabled);
-         setMode(data.mode || "ai");
-          setWelcomeMessage(data.prompt);
-          
-          console.log(`value has changed to: ${JSON.stringify(data)}`);
+        });
+      setIsFunctionEnabled(data.enabled);
+      setMode(data.mode || "ai");
+      setWelcomeMessage(data.prompt);
+
+      console.log(`value has changed to: ${JSON.stringify(data)}`);
     }
     if (channelSelectValue.channelId == -1) return;
     // alert(`value has changed to: ${channelSelectValue.channelId}`);
@@ -90,6 +90,13 @@ const FunctionBody: React.FC = () => {
         setIsSaved(false);
       });
   };
+
+  const sendTestMessage = () => {
+    // Send a test message here
+    setGuildFuncApi(
+      'welcome_message/test',
+      {});
+  }
 
   const enableFunction = () => {
     setIsFunctionEnabled(!isFunctionEnabled);
@@ -166,7 +173,7 @@ const FunctionBody: React.FC = () => {
             label="환영 메세지"
             multiline
             rows={4}
-            value={welcomePrompt}
+            value={welcomePrompt || ''}
             onChange={handleWelcomeMessageChange}
             disabled={!isFunctionEnabled}
           />
@@ -190,6 +197,12 @@ const FunctionBody: React.FC = () => {
         disabled={!isFunctionEnabled || isSaved}
         onClick={handleSave}
       >저장</Button>
+      <Button
+        variant="contained"
+        color="secondary"
+        disabled={!isFunctionEnabled || !isSaved}
+        onClick={sendTestMessage}
+      >테스트 메세지 보내기</Button>
     </Box>
   );
 };
