@@ -48,19 +48,34 @@ const FunctionBody: React.FC = () => {
   const [switchStates, setSwitchStates] = React.useState<Record<string, boolean>>({});
   const { data, loading, error } = fetchGuildFuncApi('tts');
   const [notificationStyle, setNotificationStyle] = React.useState(''); // 알림
-  const [timeout, setTimeout] = React.useState(0); // 미사용 자동 꺼짐 시간
+  const [idleTimeout, setIdleTimeout] = React.useState(0); // 미사용 자동 꺼짐 시간
+  const [messageAutoDeleteTime, setMessageAutoDeleteTime] = React.useState(0); // 메세지 자동삭제 시간
   const handleNotificationStyleChange = (event: SelectChangeEvent<string>) => {
     setGuildFuncApi(
       'tts',
       { 'notification_style': event.target.value as string },
       (data) => {
-        console.log(data);
         setNotificationStyle(event.target.value as string);
-        // onSuccess 람다 식
       },);
   };
-  const handleTimeoutChange = (event: SelectChangeEvent<number>) => {
-    setTimeout(event.target.value as number);
+  const handleIdleTimeoutChange = (event: SelectChangeEvent<number>) => {
+    // setIdleTimeout(event.target.value as number);
+    setGuildFuncApi(
+      'tts',
+      { 'idle_timeout': event.target.value as number },
+      (data) => {
+        setIdleTimeout(event.target.value as number);
+      },);
+  };
+
+  const handleMessageAutoDeleteTimeChange = (event: SelectChangeEvent<number>) => {
+    // setMessageAutoDeleteTime(event.target.value as number);
+    setGuildFuncApi(
+      'tts',
+      { 'message_auto_delete_time': event.target.value as number },
+      (data) => {
+        setMessageAutoDeleteTime(event.target.value as number);
+      },);
   };
 
   const [accessibilityOpen, setAccessibilityOpen] = React.useState(false);
@@ -85,7 +100,8 @@ const FunctionBody: React.FC = () => {
         }, {} as Record<string, boolean>);
       });
       setNotificationStyle(data.notification_style);
-      setTimeout(data.timeout);
+      setIdleTimeout(data.timeout);
+      setMessageAutoDeleteTime(data.message_auto_delete_time);
       console.log(data);
     }
   }, [data, loading]);
@@ -122,6 +138,9 @@ const FunctionBody: React.FC = () => {
       <Divider></Divider>
       <Dropdown
         label="/tts 명령 답장"
+        help={<>/tts 명령은 카미봇의 TTS 서비스를 시작하거나 종료하는데 사용해요.<br /><br />
+          이 메세지가 대화 기록에 남는 것이 지저분해 보인다면 여기서 설정할 수 있어요.<br /><br />
+          하지만 다른 사람들이 어느 채널에서 TTS가 작동 중인지 확인할 수 있도록 모두에게 표시하게 설정하는 것을 권장해요.</>}
         value={notificationStyle || 'global'}
         onChange={handleNotificationStyleChange}
         items={[
@@ -134,8 +153,20 @@ const FunctionBody: React.FC = () => {
       />
       <Dropdown
         label="미사용 자동 꺼짐 시간"
-        value={timeout || 0}
-        onChange={handleTimeoutChange}
+        value={idleTimeout || 0}
+        onChange={handleIdleTimeoutChange}
+        items={[
+          { value: 10, text: '10초', disabled: true },
+          { value: 60, text: '1분', disabled: true },
+          { value: 0, text: '사용 안함' },
+        ]}
+      />
+      <Dropdown
+        label="메세지 청소 시간"
+        help={<>TTS가 메세지를 읽어주면, 여러 사람들이 대화한 메세지가 기록에 남게 돼요.<br /><br />
+          그 메세지를 자동으로 카미봇이 청소해줄 시간을 정할 수 있어요. 깔끔한 채널을 만들어봐요!</>}
+        value={messageAutoDeleteTime || 0}
+        onChange={handleMessageAutoDeleteTimeChange}
         items={[
           { value: 10, text: '10초', disabled: true },
           { value: 60, text: '1분', disabled: true },
@@ -145,9 +176,9 @@ const FunctionBody: React.FC = () => {
       <br />
       <Box display="flex" alignItems="center" flexDirection="row">
         <Typography variant="h5" component="span">
-          접근성
+          음성 알림
         </Typography>
-        <Tooltip title="접근성에 대해 알아보기">
+        <Tooltip title="음성 알림에 대해 알아보기">
           <IconButton onClick={handleClickAccessibilityOpen}>
             <HelpOutline />
           </IconButton>
@@ -157,7 +188,7 @@ const FunctionBody: React.FC = () => {
         <DialogTitle>음성 채널 상호작용 읽어주기</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            이 옵션들을 활성화하면 음성 채널에서 일어나는 일을 카미봇이 읽어줄 수 있어요. 그렇게 하면 화면을 보지 않고도 대충 침대에 누워서 누가 들어왔는지, 누가 나갔는지, 또는 여러가지 상호작용을 쉽게 알 수 있어요! 이 기능을 사용하려면 카미봇이 음성 채널에 접속해 있어야 해요.
+            이 옵션들을 활성화하면 음성 채널에서 일어나는 일을 카미봇이 읽어줄 수 있어요. 그렇게 하면 화면을 보지 않고도 대충 침대에 누워서 누가 들어왔는지, 누가 나갔는지, 또는 여러가지 상호작용을 쉽게 알 수 있어요!<br /><br />이 기능을 사용하려면 카미봇이 음성 채널에 접속해 있어야 해요. 또한 채널 설정에서 특정 채널의 입장/퇴장 알림만 비활성화할 수도 있어요.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -193,8 +224,6 @@ const FunctionBody: React.FC = () => {
       <Divider></Divider>
       {/* </Box> */}
       <br />
-
-
     </>
   );
 }
