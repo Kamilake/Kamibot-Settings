@@ -6,9 +6,9 @@
 // GuildSettingsGrid.tsx 에서 사용됨
 
 import WelcomeMessageFunc from './WelcomeMessage';
-import Func1 from './TTS';
+import TTS from './TTS';
 import Func2 from './Func2';
-import Func3 from './Func3'; 
+import VVC from './VVC'; 
 
-const functions = [WelcomeMessageFunc, Func1, Func2, Func3];
+const functions = [WelcomeMessageFunc, TTS, Func2, VVC];
 export default functions;
