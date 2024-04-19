@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import { Cast, Downloading as DownloadingIcon, HelpOutline, Info, NoPhotography, PersonAdd, PersonRemove, PhotoCamera, PublicOff, RecordVoiceOver, Reviews, ScreenShare, Send, ShapeLine, StopScreenShare, TipsAndUpdates, VideogameAsset, VideogameAssetOff, VoiceChat, WavingHand } from '@mui/icons-material';
+import { HelpOutline, Info, VoiceChat } from '@mui/icons-material';
 import { FunctionInterface } from "../components/GuildSettingsGrid";
-import { Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, FormControl, Grid, IconButton, InputLabel, List, ListItem, ListItemButton, ListItemIcon, ListItemText, ListSubheader, MenuItem, Select, SelectChangeEvent, Switch, TextField, Tooltip, Typography } from "@mui/material";
+import { Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, List, ListItem, ListItemIcon, ListItemText, MenuItem, Select, SelectChangeEvent, TextField, Tooltip, Typography } from "@mui/material";
 import setGuildFuncApi from "../../api/setGuildFuncApi";
 import fetchGuildFuncApi from "../../api/fetchGuildFuncApi";
-import Dropdown from "../components/Dropdown";
+import DropdownLabel from "../components/DropdownLabel";
 
 const FunctionBody: React.FC = () => {
-  const { data, loading, error } = fetchGuildFuncApi('tts');
+  const { data, loading, error } = fetchGuildFuncApi('vvc');
   const [notificationStyle, setNotificationStyle] = React.useState(''); // 알림
-  const [timeout, setTimeout] = React.useState(0); // 미사용 자동 꺼짐 시간
+  const [timeout, setTimeout] = React.useState(-1); // 미사용 자동 꺼짐 시간
   const [isSaved, setIsSaved] = useState(true);
   const [mode, setMode] = useState('auto');
   const [title, setTitle] = useState('');
@@ -42,7 +42,8 @@ const FunctionBody: React.FC = () => {
 
   const insertVariable = (variable: string) => {
     setIsSaved(false);
-    setTitle(prevMessage => prevMessage + variable);
+    setTitleError(false);
+    setTitle(prevMessage => prevMessage ? prevMessage + variable : variable);
   };
 
 
@@ -59,7 +60,7 @@ const FunctionBody: React.FC = () => {
     } else {
       setTitleError(false);
       // 기존의 상태 업데이트 로직
-    } 
+    }
 
   };
 
@@ -153,11 +154,11 @@ const FunctionBody: React.FC = () => {
           <Chip label="시" onClick={() => insertVariable('{{현재_날짜_시}}')} disabled={mode !== 'manual'} />
           <Chip label="분" onClick={() => insertVariable('{{현재_날짜_분}}')} disabled={mode !== 'manual'} />
           <Chip label="초" onClick={() => insertVariable('{{현재_날짜_초}}')} disabled={mode !== 'manual'} />
-          <Chip label="동물식 이름" onClick={() => insertVariable('{{무작위_동물식_이름}}')} disabled={mode !== 'manual'} />
+          <Chip label="동물식 이름" onClick={() => insertVariable('{{무작위_동물식_이름}}의 채널')} disabled={mode !== 'manual'} />
           <Chip label="인디언식 이름" onClick={() => insertVariable('{{무작위_인디언식_이름}}')} disabled={mode !== 'manual'} />
-          <Chip label="이케아 가구 이름" onClick={() => insertVariable('{{무작위_이케아_가구_이름_스웨덴}}')} disabled={mode !== 'manual'} />
-          <Chip label="일본식 이름" onClick={() => insertVariable('{{무작위_일본식_이름}}')} disabled={mode !== 'manual'} />
-          <Chip label="행성 이름" onClick={() => insertVariable('{{무작위_행성_이름}}')} disabled={mode !== 'manual'} />
+          <Chip label="생일식 이름" onClick={() => insertVariable('{{무작위_생일식_이름}}의 채널')} disabled={mode !== 'manual'} />
+          <Chip label="오타쿠식 이름" onClick={() => insertVariable('{{무작위_오타쿠식_이름}}의 채널')} disabled={mode !== 'manual'} />
+          <Chip label="나라 이름" onClick={() => insertVariable('{{무작위_국가_이름}}')} disabled={mode !== 'manual'} />
           <Chip label="별자리 이름" onClick={() => insertVariable('{{무작위_별자리_이름}}')} disabled={mode !== 'manual'} />
         </Box>
         {mode === 'manual' ? (
@@ -215,7 +216,7 @@ const FunctionBody: React.FC = () => {
         쓰레기
       </Typography>
       <Divider />
-      <Dropdown
+      <DropdownLabel
         label="/tts 명령 답장"
         value={notificationStyle || 'global'}
         onChange={handleNotificationStyleChange}
@@ -227,7 +228,7 @@ const FunctionBody: React.FC = () => {
           { value: 'autohide_1h', text: '1시간 후 자동 숨김', disabled: false },
         ]}
       />
-      <Dropdown
+      <DropdownLabel
         label="미사용 자동 꺼짐 시간"
         value={timeout || 0}
         onChange={handleTimeoutChange}

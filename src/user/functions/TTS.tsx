@@ -1,12 +1,10 @@
-import React, { useState } from "react";
-import { Cast, Downloading as DownloadingIcon, HelpOutline, NoPhotography, PersonAdd, PersonRemove, PhotoCamera, PublicOff, RecordVoiceOver, Reviews, ScreenShare, Send, StopScreenShare, TipsAndUpdates, VideogameAsset, VideogameAssetOff, VoiceChat, WavingHand } from '@mui/icons-material';
+import React from "react";
+import { HelpOutline, NoPhotography, PersonAdd, PersonRemove, PhotoCamera, RecordVoiceOver, ScreenShare, StopScreenShare, VideogameAsset, VideogameAssetOff } from '@mui/icons-material';
 import { FunctionInterface } from "../components/GuildSettingsGrid";
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, FormControl, Grid, IconButton, InputLabel, List, ListItemButton, ListItemIcon, ListItemText, ListSubheader, MenuItem, Select, SelectChangeEvent, Switch, Tooltip, Typography } from "@mui/material";
-import { enqueueSnackbar } from "notistack";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, List, ListItemButton, ListItemIcon, ListItemText, ListSubheader, SelectChangeEvent, Switch, Tooltip, Typography } from "@mui/material";
 import setGuildFuncApi from "../../api/setGuildFuncApi";
-import { json } from "stream/consumers";
 import fetchGuildFuncApi from "../../api/fetchGuildFuncApi";
-import Dropdown from "../components/Dropdown";
+import DropdownLabel from "../components/DropdownLabel";
 // TTS 관련 설정
 
 // 음성 채널 상호작용 읽어주기
@@ -44,12 +42,11 @@ const listItemData: ListItemData[] = [
 
 
 const FunctionBody: React.FC = () => {
-  const [isFunctionEnabled, setIsFunctionEnabled] = useState(false);
   const [switchStates, setSwitchStates] = React.useState<Record<string, boolean>>({});
   const { data, loading, error } = fetchGuildFuncApi('tts');
   const [notificationStyle, setNotificationStyle] = React.useState(''); // 알림
-  const [idleTimeout, setIdleTimeout] = React.useState(0); // 미사용 자동 꺼짐 시간
-  const [messageAutoDeleteTime, setMessageAutoDeleteTime] = React.useState(0); // 메세지 자동삭제 시간
+  const [idleTimeout, setIdleTimeout] = React.useState(-1); // 미사용 자동 꺼짐 시간
+  const [messageAutoDeleteTime, setMessageAutoDeleteTime] = React.useState(-1); // 메세지 자동삭제 시간
   const handleNotificationStyleChange = (event: SelectChangeEvent<string>) => {
     setGuildFuncApi(
       'tts',
@@ -100,8 +97,7 @@ const FunctionBody: React.FC = () => {
         }, {} as Record<string, boolean>);
       });
       setNotificationStyle(data.notification_style);
-      setIdleTimeout(data.timeout);
-      setMessageAutoDeleteTime(data.message_auto_delete_time);
+      setIdleTimeout(data.idle_timeout);
       console.log(data);
     }
   }, [data, loading]);
@@ -136,7 +132,7 @@ const FunctionBody: React.FC = () => {
         일반
       </Typography>
       <Divider></Divider>
-      <Dropdown
+      <DropdownLabel
         label="/tts 명령 답장"
         help={<>/tts 명령은 카미봇의 TTS 서비스를 시작하거나 종료하는데 사용해요.<br /><br />
           이 메세지가 대화 기록에 남는 것이 지저분해 보인다면 여기서 설정할 수 있어요.<br /><br />
@@ -151,26 +147,28 @@ const FunctionBody: React.FC = () => {
           { value: 'autohide_1h', text: '1시간 후 자동 숨김', disabled: false },
         ]}
       />
-      <Dropdown
+      <DropdownLabel
         label="미사용 자동 꺼짐 시간"
         value={idleTimeout || 0}
         onChange={handleIdleTimeoutChange}
         items={[
+          { value: 0, text: '즉시', disabled: true },
           { value: 10, text: '10초', disabled: true },
           { value: 60, text: '1분', disabled: true },
-          { value: 0, text: '사용 안함' },
+          { value: -1, text: '사용 안함' },
         ]}
       />
-      <Dropdown
+      <DropdownLabel
         label="메세지 청소 시간"
         help={<>TTS가 메세지를 읽어주면, 여러 사람들이 대화한 메세지가 기록에 남게 돼요.<br /><br />
           그 메세지를 자동으로 카미봇이 청소해줄 시간을 정할 수 있어요. 깔끔한 채널을 만들어봐요!</>}
         value={messageAutoDeleteTime || 0}
         onChange={handleMessageAutoDeleteTimeChange}
         items={[
+          { value: 0, text: '즉시', disabled: true },
           { value: 10, text: '10초', disabled: true },
           { value: 60, text: '1분', disabled: true },
-          { value: 0, text: '사용 안함' },
+          { value: -1, text: '사용 안함' },
         ]}
       />
       <br />
@@ -196,10 +194,6 @@ const FunctionBody: React.FC = () => {
         </DialogActions>
       </Dialog>
       <Divider></Divider>
-      {/* <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', border: 1, borderColor: 'divider', borderRadius: 4, paddingBottom: 1.1 }}> */}
-      {/* <Typography variant="h6">
-          음성 채널 상호작용 읽어주기
-        </Typography> */}
       <List
         sx={{ width: '100%', bgcolor: 'background.paper' }}
         component="nav"
@@ -222,7 +216,6 @@ const FunctionBody: React.FC = () => {
         ))}
       </List>
       <Divider></Divider>
-      {/* </Box> */}
       <br />
     </>
   );

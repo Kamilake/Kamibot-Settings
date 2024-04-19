@@ -32,7 +32,7 @@ import Header from './components/Header';
 
 import { Actor } from '../api/fetchActorListApi';
 import { User } from '../api/fetchUserInfoApi';
-import Dropdown from './components/Dropdown';
+import DropdownLabel from './components/DropdownLabel';
 import { SelectChangeEvent } from '@mui/material';
 function findActorById(id: string, actorData: Actor[]): Actor | undefined {
   return actorData.find(actor => actor.id === id);
@@ -121,7 +121,7 @@ const PersonalSettings: React.FC = () => {
           홈은 여전히 공사중이어서 아직 여기에 이것 저것 채우는 중이에요.<br />
         </div>
         {/* For variant="text", adjust the height via font-size */}
-        <Dropdown
+        <DropdownLabel
           label="이모지 업스케일링"
           value={emoteUpscale}
           onChange={handleEmoteUpscaleChange}

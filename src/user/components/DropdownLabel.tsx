@@ -10,7 +10,7 @@ interface DropdownProps {
   help?: ReactNode;
 }
 
-const Dropdown: React.FC<DropdownProps> = ({
+const DropdownLabel: React.FC<DropdownProps> = ({
   label,
   value,
   onChange,
@@ -23,8 +23,8 @@ const Dropdown: React.FC<DropdownProps> = ({
   const handleClose = () => setOpen(false);
 
   return (
-    <Grid container spacing={2} alignItems="center" direction="row" marginTop={1} marginBottom={1}>
-      <Grid item xs={12} sm={5}>
+    <Grid container spacing={2} direction="row" marginTop={1} marginBottom={1}>
+      <Grid item xs={12} sm={7}>
         <Grid container alignItems="center">
           <InputLabel id={`${label}-label`}>{label}</InputLabel>
           {help && (
@@ -36,7 +36,7 @@ const Dropdown: React.FC<DropdownProps> = ({
           )}
         </Grid>
       </Grid>
-      <Grid item xs={12} sm={6}>
+      <Grid item xs={12} sm={5}>
         <FormControl fullWidth>
           <Select
             labelId={`${label}-label`}
@@ -66,4 +66,4 @@ const Dropdown: React.FC<DropdownProps> = ({
   );
 };
 
-export default Dropdown;
+export default DropdownLabel;
