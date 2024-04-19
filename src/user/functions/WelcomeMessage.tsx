@@ -14,6 +14,7 @@ const FunctionBody: React.FC = () => {
   const [welcomePrompt, setWelcomeMessage] = useState('');
   const [mode, setMode] = useState('ai');
   const [isSaved, setIsSaved] = useState(true);
+  const [sendMemberCard, setSendMemberCard] = useState(true);
   const [channelSelectValue, setChannelSelectValue] = React.useState<Channel>({
     channelName: '채널을 선택하세요...',
     channelType: "PRIVATE",
@@ -43,6 +44,7 @@ const FunctionBody: React.FC = () => {
       setIsFunctionEnabled(data.enabled);
       setMode(data.mode || "ai");
       setWelcomeMessage(data.prompt);
+      setSendMemberCard(data.sendMemberCard);
 
       console.log(`value has changed to: ${JSON.stringify(data)}`);
     }
@@ -52,11 +54,10 @@ const FunctionBody: React.FC = () => {
   }, [data, loading]);
 
 
-
-
-
-
-
+  const handleSendMemberCardChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSendMemberCard(event.target.checked);
+    setIsSaved(false);
+  }
 
 
 
@@ -80,6 +81,7 @@ const FunctionBody: React.FC = () => {
         channelId: channelSelectValue.channelId,
         mode: mode,
         prompt: welcomePrompt,
+        sendMemberCard: sendMemberCard,
       },
       (data) => {
         // onSuccess 람다 식
@@ -147,6 +149,7 @@ const FunctionBody: React.FC = () => {
             <Chip label="새 멤버 별명" onClick={() => insertVariable('{{새_멤버_별명}}')} disabled={!isFunctionEnabled} />
             <Chip label="새 멤버 사용자명" onClick={() => insertVariable('{{새_멤버_사용자명}}')} disabled={!isFunctionEnabled} />
             <Chip label="새 멤버 사용자 ID" onClick={() => insertVariable('{{새_멤버_사용자_ID}}')} disabled={!isFunctionEnabled} />
+            <Chip label="새 멤버 멘션" onClick={() => insertVariable('{{새_멤버_멘션}}')} disabled={!isFunctionEnabled} />
             <Chip label="기존 멤버 수" onClick={() => insertVariable('{{기존_멤버_수}}')} disabled={!isFunctionEnabled} />
             <Chip label="전체 멤버 수" onClick={() => insertVariable('{{전체_멤버_수}}')} disabled={!isFunctionEnabled} />
             <Chip label="서버 이름" onClick={() => insertVariable('{{서버_이름}}')} disabled={!isFunctionEnabled} />
@@ -163,11 +166,11 @@ const FunctionBody: React.FC = () => {
             <Chip label="초대링크 만든 멤버" onClick={() => insertVariable('{{초대링크_만든_멤버}}')} disabled={!isFunctionEnabled} />
             <Chip label="초대링크 만든 멤버의 초대횟수" onClick={() => insertVariable('{{초대링크_만든_멤버의_초대횟수}}')} disabled={!isFunctionEnabled} />
 
-            <Chip label="샘플 1" onClick={() => setWelcomeMessage('{{전체_멤버_수}}번째로 {{서버_이름}}에 오셨어요!')} disabled={!isFunctionEnabled} />
-            <Chip label="샘플 2" onClick={() => setWelcomeMessage('{{초대링크_만든_멤버}}님이 {{초대링크_만든_멤버의_초대횟수}}번째로 초대하신 {{새_멤버_이름}}님이 오셨어요!')} disabled={!isFunctionEnabled} />
-            <Chip label="샘플 3" onClick={() => setWelcomeMessage('{{들어온_날짜_월}}월 {{들어온_날짜_일}}일에 {{오늘_들어온_멤버_수}}번째로 들어오셨어요.')} disabled={!isFunctionEnabled} />
+            <Chip label="샘플 1" onClick={() => setWelcomeMessage('{{전체_멤버_수}}번째로 {{서버_이름}}에 오셨어요! {{새_멤버_멘션}}')} disabled={!isFunctionEnabled} />
+            <Chip label="샘플 2" onClick={() => setWelcomeMessage('{{초대링크_만든_멤버}}님이 {{초대링크_만든_멤버의_초대횟수}}번째로 초대하신 {{새_멤버_이름}}님이 오셨어요! {{새_멤버_멘션}}')} disabled={!isFunctionEnabled} />
+            <Chip label="샘플 3" onClick={() => setWelcomeMessage('{{들어온_날짜_월}}월 {{들어온_날짜_일}}일에 {{오늘_들어온_멤버_수}}번째로 들어오셨어요. {{새_멤버_멘션}}')} disabled={!isFunctionEnabled} />
             <Chip label="샘플 4" onClick={() => setWelcomeMessage('최고의 Discord 서버 - {{들어온_날짜_년}} {{서버_이름}}')} disabled={!isFunctionEnabled} />
-            <Chip label="샘플 5" onClick={() => setWelcomeMessage('공지 채널에서 규칙을 읽어주세요.')} disabled={!isFunctionEnabled} />
+            <Chip label="샘플 5" onClick={() => setWelcomeMessage('공지 채널에서 규칙을 읽어주세요. {{새_멤버_멘션}}')} disabled={!isFunctionEnabled} />
           </Box>
           <TextField
             label="환영 메세지"
@@ -191,6 +194,27 @@ const FunctionBody: React.FC = () => {
           />
         </>
       )}
+
+      {/* <Dropdown
+        label="메세지 청소 시간"
+        help={<>TTS가 메세지를 읽어주면, 여러 사람들이 대화한 메세지가 기록에 남게 돼요.<br /><br />
+          그 메세지를 자동으로 카미봇이 청소해줄 시간을 정할 수 있어요. 깔끔한 채널을 만들어봐요!</>}
+        value={sendMemberCard || false}
+        onChange={handleMessageAutoDeleteTimeChange}
+        items={[
+          { value: 0, text: '즉시', disabled: true },
+          { value: 10, text: '10초', disabled: true },
+          { value: 60, text: '1분', disabled: true },
+          { value: -1, text: '사용 안함' },
+        ]}
+      /> */}
+
+
+      <FormControlLabel
+        control={<Switch checked={sendMemberCard} onChange={handleSendMemberCardChange} />}
+        label={'메세지에 멤버 환영 카드 첨부하기'}
+      />
+
 
       <Button
         variant="contained"
