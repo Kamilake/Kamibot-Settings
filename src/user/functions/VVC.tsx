@@ -212,7 +212,7 @@ const FunctionBody: React.FC = () => {
       <Divider></Divider>
       <br />
       <br />
-      <Typography variant="h5">
+      {/* <Typography variant="h5">
         쓰레기
       </Typography>
       <Divider />
@@ -238,7 +238,7 @@ const FunctionBody: React.FC = () => {
           { value: 60, text: '1분', disabled: true },
           { value: -1, text: '사용 안함' },
         ]}
-      />
+      /> */}
     </>
   );
 }
