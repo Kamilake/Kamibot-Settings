@@ -8,7 +8,9 @@
 import WelcomeMessageFunc from './WelcomeMessage';
 import TTS from './TTS';
 import Func2 from './Func2';
-import VVC from './VVC'; 
+import VVC from './VVC';
+import MinecraftRemote from './MinecraftRemote';
+import KeywordNotify from './KeywordNotify';
 
-const functions = [WelcomeMessageFunc, TTS, Func2, VVC];
+const functions = [WelcomeMessageFunc, TTS, VVC, MinecraftRemote, KeywordNotify];
 export default functions;

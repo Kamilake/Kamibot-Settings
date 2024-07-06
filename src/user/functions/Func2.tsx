@@ -4,7 +4,7 @@ import { FunctionInterface } from "../components/GuildSettingsGrid";
 
 const body =
   <>
-    기능 2 본문
+    (아직 만들고 있어요..!)
   </>
 
 const functionInfo: FunctionInterface = {

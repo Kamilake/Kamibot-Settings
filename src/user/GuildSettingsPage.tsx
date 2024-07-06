@@ -34,8 +34,8 @@ const Settings: React.FC = () => {
           {loading ? `서버` : user.guildName} 설정
         </Typography>
         <Divider />
-        <h2>이곳은 아직 공사중이에요. 제대로 작동하지 않아요!</h2>
-        그래도 만드는 거 구경하라고 열어둘게요. 이것 저것 눌러보거나 설정해도 좋아요.
+        아직 만들고 있는 기능이 많아서 모두 작동하는 건 아니에요. 하지만 작동하는 건 마음껏 사용하세요!<br />
+        오작동이나 추가하면 좋을 만한 걸 발견한다면 언제든지 Kamilake에게 알려주세요! <br />
         <br /><br />
         <GridButton></GridButton>
         <ProTip />

@@ -44,12 +44,12 @@ const Settings: React.FC = () => {
     // 채널 바꾸면 실행되는곳
     if (!loading && channelSelectValue.channelId == -1) {
       setChannelSelectValue(
-        { 
+        {
           channelName: user.channelName,
           channelId: user.channelId,
           channelType: user.channelType,
           categoryName: "",
-         });
+        });
     }
     if (channelSelectValue.channelId == -1) return;
     // alert(`value has changed to: ${channelSelectValue.channelId}`);
@@ -62,7 +62,6 @@ const Settings: React.FC = () => {
   </div>;
 
   const myDrawer2 = myDrawer();
-
   return (
     <Container maxWidth="sm">
       <Box sx={{ my: 1 }}>

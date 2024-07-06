@@ -102,6 +102,7 @@ const FunctionBody: React.FC = () => {
 
   return (
     <>
+    <h1>가변 음성 채널</h1>
       <List>
         <ListItem>
           <ListItemIcon>

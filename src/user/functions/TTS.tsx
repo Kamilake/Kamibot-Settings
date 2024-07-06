@@ -56,7 +56,7 @@ const FunctionBody: React.FC = () => {
       },);
   };
   const handleIdleTimeoutChange = (event: SelectChangeEvent<number>) => {
-    // setIdleTimeout(event.target.value as number);
+    // setIdleTimeout(event.target.value as number); 
     setGuildFuncApi(
       'tts',
       { 'idle_timeout': event.target.value as number },
