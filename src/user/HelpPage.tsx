@@ -45,7 +45,7 @@ const Help: React.FC = () => {
               <ListItemText primary="알림" />
             </ListItem>
           </List>
-          <Button variant="contained" color="primary" onClick={gohome}>서버 설정으로 돌아가기</Button>
+          {/* <Button variant="contained" color="primary" onClick={gohome}>서버 설정으로 돌아가기</Button> */}
           <br />
           <br />
         </div>
