@@ -1,0 +1,5 @@
+.twemoji {
+  height: 1em;
+  width: 1em;
+  vertical-align: -0.1em; /* 텍스트와의 정렬을 맞추기 위해 */
+}
