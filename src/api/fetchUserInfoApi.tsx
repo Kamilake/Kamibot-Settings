@@ -3,6 +3,7 @@ import useFetch from "./useFetch";
 
 export interface User {
   userEffectiveName: string;
+  userLevel: number;
   userAvatarUrl: string;
   channelName: string;
   channelId: number;
@@ -30,6 +31,7 @@ const fetchUserInfoApi = (): FetchResult => {
     //예제 json 데이터로 대신 표시
     data = {
       "userEffectiveName": "사용자이름",
+      "userLevel": 0,
       "userAvatarUrl": "https://cdn.discordapp.com/avatars/450998273722023947/747975cad28f263db291e981b725dc67.png",
       "channelName": "채널이름",
       "channelType": "PRIVATE",

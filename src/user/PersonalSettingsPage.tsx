@@ -99,6 +99,8 @@ const PersonalSettings: React.FC = () => {
   // let memberName = data?.userEffectiveName ? `${data.userEffectiveName}님` : "여러분";
 
   let userName = userData.userEffectiveName;
+  let ttsFriendlyName = userData.ttsFriendlyName;
+  let userLevel = userData.userLevel;
   let avatar = userData.userAvatarUrl;
   let channelName = userData.channelName;
   let channelId = userData.channelId;
@@ -113,7 +115,7 @@ const PersonalSettings: React.FC = () => {
         <div className="personal">
           <BadgeAvatars userName={userName + "님, 안녕하세요!"} avatarUrl={avatar} />
           <br />
-          {userName} (도전과제 레벨 0)<br />
+          {userName} (도전과제 레벨 {userLevel})<br />
           {guildId == 0 ? null : <>
             {guildName + ' => ' + channelName}
             <br />
