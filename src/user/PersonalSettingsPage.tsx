@@ -63,8 +63,23 @@ const PersonalSettings: React.FC = () => {
 
   // handleEmoteUpscaleChange
   const handleEmoteUpscaleChange = (event: SelectChangeEvent<any>) => {
-    setEmoteUpscale(event.target.value as string);
+    // setEmoteUpscale(event.target.value as string);
+    const emoteUpscaleValue: string = event.target.value as string;
+    setGuildFuncApi(
+      'emote_upscale',
+      { 'personal_override': emoteUpscaleValue },
+      () => {
+        setEmoteUpscale(emoteUpscaleValue);
+      },
+    );
   };
+
+
+  const handleShortNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const shortNameValue: string = event.target.value;
+    setUserFuncApi('short_name', shortNameValue, '보이스 설정을 변경했어요!');
+  }
+
   let [voiceActorValue, setVoiceActorValue] = React.useState(
     {
       displayName: "로드 중...",
@@ -121,12 +136,17 @@ const PersonalSettings: React.FC = () => {
         <div className="personal">
           <BadgeAvatars userName={userName + "님, 안녕하세요!"} avatarUrl={avatar} />
           <br />
-          {userName} (도전과제 레벨 {userLevel})<br />
+          {userName} (도전과제 레벨 {userLevel}) (지금은 레벨이 그냥 장식이에요)<br />
           {guildId == 0 ? null : <>
-            {guildName + ' => ' + channelName}
+            <TwemojiText>
+              {guildName + ' => ' + channelName}
+            </TwemojiText>
             <br />
           </>}
-          홈은 여전히 공사중이어서 아직 여기에 이것 저것 채우는 중이에요.<br />
+          <TwemojiText>
+            이 개인 설정 페이지에서 여러 가지 설정을 바꿔보세요!😆
+          </TwemojiText>
+          <br />
         </div>
         {/* For variant="text", adjust the height via font-size */}
         <DropdownLabel
@@ -135,8 +155,8 @@ const PersonalSettings: React.FC = () => {
           onChange={handleEmoteUpscaleChange}
           items={[
             { value: 'default', text: '서버 기본값 (권장)' },
-            { value: 'never', text: '절대로 사용하지 않기', disabled: true },
-            { value: 'force', text: '무조건 사용하기', disabled: true },
+            { value: 'never', text: '절대로 사용하지 않기', disabled: false },
+            { value: 'force', text: '무조건 사용하기', disabled: false },
           ]}
         />
         <TextboxLabel
