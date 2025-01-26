@@ -4,20 +4,22 @@ import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 
 interface DropdownProps {
   label: string;
-  value: boolean;
+  checked: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   help?: ReactNode;
   right?: boolean;
   marginTop?: number;
+  disabled?: boolean;
 }
 
 const SwitchLabel: React.FC<DropdownProps> = ({
   label,
-  value,
+  checked,
   onChange,
   help,
   right = false,
-  marginTop = 1
+  marginTop = 1,
+  disabled = false
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -27,18 +29,18 @@ const SwitchLabel: React.FC<DropdownProps> = ({
   const handleLabelClick = () => {
     const event = {
       target: {
-        checked: !value,
+        checked: !checked,
       },
     } as React.ChangeEvent<HTMLInputElement>;
     onChange(event);
   };
 
   return (
-    <Grid container spacing={2} alignItems="center" direction="row" marginTop={marginTop} marginBottom={1}>
+    <Grid container spacing={2} direction="row" marginTop={marginTop} marginBottom={1}>
       <Grid item xs={12} sm={7}>
         <Grid container alignItems="center">
           <InputLabel id={`${label}-label`}
-          onClick={handleLabelClick}
+            onClick={handleLabelClick}
           >{label}</InputLabel>
           {help && (
             <Tooltip title="Help">
@@ -50,12 +52,13 @@ const SwitchLabel: React.FC<DropdownProps> = ({
         </Grid>
       </Grid>
       <Grid item xs={12} sm={5}>
-      <Grid container justifyContent={right ? "flex-end" : "flex-start"}>
+        <Grid container justifyContent={right ? "flex-end" : "flex-start"}>
           <FormControl>
             <Switch
-              checked={value}
+              checked={checked}
               onChange={onChange}
               inputProps={{ 'aria-label': 'controlled' }}
+              disabled={disabled}
             />
           </FormControl>
         </Grid>
