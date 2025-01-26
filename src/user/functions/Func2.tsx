@@ -10,9 +10,10 @@ const body =
 const functionInfo: FunctionInterface = {
   icon: <PhotoFilter />,
   title: 'AI 툴킷',
-  description: 'AI 그림, 동영상, 음성, 파일 변환 서비스',
+  description: 'AI 그림 그리기, 사진·그림으로 그림 그리기, 동영상·음성·파일 변환 서비스',
   url: 'func_2',
-  data: body
+  data: body,
+  disabled: true
 };
 
 export default functionInfo;
