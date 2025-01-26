@@ -34,6 +34,10 @@ import { Actor } from '../api/fetchActorListApi';
 import { User } from '../api/fetchUserInfoApi';
 import DropdownLabel from './components/DropdownLabel';
 import { SelectChangeEvent } from '@mui/material';
+import setGuildFuncApi from '../api/setGuildFuncApi';
+import TextboxLabel from './components/TextboxLabel';
+import setUserFuncApi from '../api/setUserFuncApi';
+import TwemojiText from '../../utils/twemojiUtil/TwemojiText';
 function findActorById(id: string, actorData: Actor[]): Actor | undefined {
   return actorData.find(actor => actor.id === id);
 }
@@ -55,6 +59,7 @@ const PersonalSettings: React.FC = () => {
   }
 
   const [emoteUpscale, setEmoteUpscale] = React.useState('default'); // 알림
+  const [shortName, setShortName] = React.useState(""); // 짧은 이름
 
   // handleEmoteUpscaleChange
   const handleEmoteUpscaleChange = (event: SelectChangeEvent<any>) => {
@@ -73,6 +78,7 @@ const PersonalSettings: React.FC = () => {
   React.useEffect(() => {
     if (!userLoading && !actorLoading && userData && actorData) {
       setVoiceActorValue(findActorById(userData.ttsActor == "notset" ? "kyuri" : userData.ttsActor, actorData) || voiceActorValue);
+      setShortName(userData.ttsFriendlyName);
     }
   }, [userLoading, actorLoading]);
 
@@ -133,7 +139,16 @@ const PersonalSettings: React.FC = () => {
             { value: 'force', text: '무조건 사용하기', disabled: true },
           ]}
         />
-        <br />
+        <TextboxLabel
+          label="짧은 닉네임"
+          // value={"기본값 텍스트"}
+          value={shortName}
+          onChange={handleShortNameChange}
+          placeholder="카미"
+          help={<>TTS 또는 AI 카미봇이 읽어줄 짧은 한글 사용자명을 설정해보세요.<br /><br />
+            원래 닉네임인 'Kamilake' 대신 '카미'처럼 사람들이 주로 부르는 이름을 소리나는 대로 설정하면 돼요.<br /><br />
+          </>}
+        />
         <Box>
           <Typography variant="h5" gutterBottom component="div">
             TTS 보이스 설정
