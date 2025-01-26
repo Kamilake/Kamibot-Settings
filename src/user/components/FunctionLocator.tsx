@@ -24,16 +24,14 @@ const FunctionLocator: React.FC<FunctionLocatorProps> = ({ url }) => {
 
   let functionComponent =
     <Container maxWidth="md">
-      <Box sx={{ my: 1 }}>
+      <Box>
         <Header
           title={functionInfo.title}
           userAvatarUrl={userFetchResult.data.userAvatarUrl}
           icon={<ArrowBack />}
           onIconClick={() => window.history.back()}
         />
-        <br />
         {functionInfo.data}
-        <br />
         <ProTip />
         <Molu />
       </Box>
