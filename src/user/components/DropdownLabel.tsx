@@ -23,7 +23,7 @@ const DropdownLabel: React.FC<DropdownProps> = ({
   const handleClose = () => setOpen(false);
 
   return (
-    <Grid container spacing={2} direction="row" marginTop={1} marginBottom={1}>
+    <Grid container spacing={2} direction="row" marginTop={1} marginBottom={1} alignItems="center">
       <Grid item xs={12} sm={7}>
         <Grid container alignItems="center">
           <InputLabel id={`${label}-label`}>{label}</InputLabel>
