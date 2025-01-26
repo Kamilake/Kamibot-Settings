@@ -32,7 +32,7 @@ const fetchUserInfoApi = (): FetchResult => {
     data = {
       "userEffectiveName": "사용자이름",
       "userLevel": 0,
-      "userAvatarUrl": "https://cdn.discordapp.com/avatars/450998273722023947/747975cad28f263db291e981b725dc67.png",
+      "userAvatarUrl": "https://cdn.discordapp.com/avatars/450998273722023947/eb67550ccabcf010657e916e0c093372.png",
       "channelName": "채널이름",
       "channelType": "PRIVATE",
       "userName": "kamikami",
