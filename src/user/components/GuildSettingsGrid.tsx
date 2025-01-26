@@ -12,6 +12,7 @@ export interface FunctionInterface {
   description: string;
   url: string;
   data: JSX.Element;
+  disabled?: boolean;
 }
 
 import settingsFunctions from '../functions';
@@ -24,7 +25,6 @@ const GridButton = () => {
     navigate('/user/guild/' + page + location.search);
   }
 
-
   return (
     <Grid container spacing={2}>
       {settingsFunctions.map((item, index) => (
@@ -33,8 +33,9 @@ const GridButton = () => {
             borderRadius: '12px',
             borderWidth: '2px',
             boxShadow: '0 0 10px #9ecaed',
-            '&:hover, &:active': { borderWidth: '3px', boxShadow: '0 0 20px #9ecaed', }
-          }} onClick={() => navigateToGuildSubSettingsPage(item.url)}>
+            '&:hover, &:active': { borderWidth: '3px', boxShadow: '0 0 20px #9ecaed', },
+            opacity: item.disabled ? 0.6 : 1, // 비활성화된 요소의 투명도를 조정합니다.
+          }} onClick={() => !item.disabled && navigateToGuildSubSettingsPage(item.url)} disabled={item.disabled}>
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '300px' }} >
               <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                 <Box sx={{ marginRight: '7px' }}>
@@ -42,7 +43,8 @@ const GridButton = () => {
                 </Box>
                 <Typography variant="h6" sx={{ marginTop: '-7px' }}>{item.title}</Typography>
               </Box>
-              <Typography align="left">{item.description}</Typography>
+              {/* <Typography align="left">{item.description}</Typography> */}
+              <Typography align="left" sx={{ minHeight: '3em' }}>{item.description}</Typography>
             </Box>
           </Button>
         </Grid>
