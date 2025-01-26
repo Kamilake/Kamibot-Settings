@@ -12,6 +12,7 @@ import Divider from '@mui/material/Divider';
 import axios from "axios";
 import Molu from './components/Molu';
 import Header from './components/Header';
+import TwemojiText from '../../utils/twemojiUtil/TwemojiText';
 
 const Help: React.FC = () => {
   const navigate = useNavigate();
@@ -30,7 +31,9 @@ const Help: React.FC = () => {
             도움말
           </Typography>
           <Typography variant="h6" gutterBottom component="div">
-            앗, 죄송해요ㅠ 도움말 작성이 늦어지고 있어요.<br />대신 /help 명령을 통해 카미봇의 도움말을 확인할 수 있어요!
+            <TwemojiText>
+              앗, 죄송해요ㅠㅠ 도움말 작성이 늦어지고 있어요😭<br />대신 /help 명령을 통해 카미봇의 도움말을 확인할 수 있어요!
+            </TwemojiText>
           </Typography>
           <List component="nav" aria-label="main mailbox folders">
             <ListItem button disabled>

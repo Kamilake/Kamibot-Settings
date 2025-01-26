@@ -18,6 +18,7 @@ import fetchUserInfoApi from '../api/fetchUserInfoApi';
 import myDrawer from './components/drawer';
 
 import { Channel } from '../api/fetchChannelListApi';
+import TwemojiText from '../../utils/twemojiUtil/TwemojiText';
 
 const Settings: React.FC = () => {
   const navigate = useNavigate();
@@ -71,7 +72,7 @@ const Settings: React.FC = () => {
           setValue={setChannelSelectValue}
         /><br />
         <Typography variant="h4" gutterBottom component="div">
-          {channelSelectValue.channelName ? channelSelectValue.channelName : `채널별`} 설정
+          <TwemojiText>{channelSelectValue.channelName ? channelSelectValue.channelName : `채널별`} 설정</TwemojiText>
         </Typography>
         <Divider />
         <NestedChannelSettingsList channelSelectValue={channelSelectValue} channelId={channelSelectValue.channelId} />

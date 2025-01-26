@@ -3,6 +3,7 @@ import { styled } from '@mui/material/styles';
 import Badge from '@mui/material/Badge';
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
+import TwemojiText from '../../../utils/twemojiUtil/TwemojiText';
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   '& .MuiBadge-badge': {
@@ -48,16 +49,20 @@ const BadgeAvatars: React.FC<BadgeAvatarsProps> = ({ userName = "Kamilake", avat
   return (
     <>
       <Stack direction="row" spacing={userName == "" ? 0 : 1}>
-        <StyledBadge
-          overlap="circular"
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-          variant="dot"
-        >
-          <Avatar src={avatarUrl}  alt={userName}/>
-        </StyledBadge>
-        {/* 상하 가운데 정렬, 닉네임 출력, 굵게, 크게 */}
+        <div style={{ height: '40px', position: 'relative' }}>
+          <StyledBadge
+            overlap="circular"
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+            variant="dot"
+          >
+            <Avatar src={avatarUrl} alt={userName} />
+          </StyledBadge>
+        </div>
         {userName == "" ? null :
-          <div style={{ textAlign: "center", marginTop: "2px", fontWeight: "bold", fontSize: "25px", whiteSpace: 'pre-wrap', wordBreak: 'keep-all' }}>{userName}</div>}
+          <TwemojiText>
+            <div style={{ textAlign: "center", marginTop: "2px", fontWeight: "bold", fontSize: "25px", whiteSpace: 'pre-wrap', wordBreak: 'keep-all' }}>{userName}</div>
+          </TwemojiText>
+        }
       </Stack>
 
     </>
