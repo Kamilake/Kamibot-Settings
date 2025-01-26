@@ -159,16 +159,15 @@ const PersonalSettings: React.FC = () => {
             value={voiceActorValue}
             setValue={setVoiceActorValue}
           />
-          <br />
-          {/*  style={{ fontFamily: 'Noto Color Emoji' }} */}
           <Typography
+            marginTop={2}
             style={{ fontFamily: 'Noto Color Emoji' }}
             variant="body1"
             gutterBottom
             component="div"
             sx={{ fontSize: '1rem' }}
           >
-            선택한 보이스: {voiceActorValue ? voiceActorValue.displayName : "없음"}
+            선택한 보이스: {voiceActorValue ? voiceActorValue.displayName.split("|")[0] : "없음"}
           </Typography>
           <br />
           <Divider />
@@ -189,22 +188,24 @@ const PersonalSettings: React.FC = () => {
               <ListItemIcon>
                 <InfoIcon />
               </ListItemIcon>
-              <ListItemText primary="비활성화된 목소리는 서비스 준비 중이지만, 꼭 써보고 싶다면 따로 연락해주세요!" />
+              <ListItemText primary={<TwemojiText>'베타' 표시가 있는 보이스는 실험적이라 언제든지 바뀔 수 있어요😅 (많은 피드백 부탁드려요!)</TwemojiText>} />
             </ListItem>
           </List>
 
           <br />
-          <Link href="https://www.ncloud.com/product/aiService/clovaVoice" target="_blank" rel="noopener noreferrer">
+          {/* <Link href="https://www.ncloud.com/product/aiService/clovaVoice" target="_blank" rel="noopener noreferrer">
             <Button variant="contained" color="secondary" endIcon={<OpenInNewIcon />}>
               (외부 사이트) 보이스 샘플 듣기
             </Button>
-          </Link>
+          </Link> */}
           <br />
 
           <br />
           {/* <Skeleton variant="text" sx={{ fontSize: '1rem' }} animation="wave" /> <br /> */}
 
           {/* <Button variant="contained" color="primary" onClick={gohome}> 채널 설정으로 이동 </Button> */}
+          <br />
+          <br />
           <br />
           <br />
           <br />
