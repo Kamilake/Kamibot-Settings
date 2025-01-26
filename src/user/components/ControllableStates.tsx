@@ -15,7 +15,7 @@ export default function ControllableStates({ value, setValue, disabled = false }
   const { data, loading, error } = fetchChannelListApi();
   const channelArray = data;
 
-  return (
+  return channelArray ? (
     <Autocomplete
       isOptionEqualToValue={(option: Channel, value: Channel) => option.channelId === value.channelId}
       value={value}
@@ -37,7 +37,7 @@ export default function ControllableStates({ value, setValue, disabled = false }
       fullWidth={true}
       disabled={disabled}
     />
+  ) : (
+    <></>
   );
 }
-
-
