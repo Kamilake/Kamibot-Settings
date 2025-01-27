@@ -30,7 +30,7 @@ import { enqueueSnackbar } from 'notistack'
 import fetchChannelInfoApi from '../../api/fetchChannelInfoApi';
 import setChannelFuncApi from '../../api/setChannelFuncApi';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Link, ListItem } from '@mui/material';
-import { Check, DoNotDisturb, HelpOutline, HorizontalRule } from '@mui/icons-material';
+import { Check, DocumentScanner, DoNotDisturb, HelpOutline, HorizontalRule } from '@mui/icons-material';
 import TriSwitch from './TriSwitch';
 
 
@@ -47,7 +47,8 @@ const listItemData = [
   { id: "emote_upscale", text: "이모지 업스케일링", icon: <AddReactionIcon />, shortName: '이모지 업스케일링', help: <>활성화하면 이모지를 크게 표시해요. 단순히 늘려서 보여주거나 봇이 다시 보내주는 것이 아니라 AI를 통해 정확히 스티커 크기만한 이모지를 제작해서 채널에 자연스럽게 스티커처럼 녹아 들어가듯 보여줄 수 있어요.<br></br><br></br>비활성화하면 이 채널에서 이모지 업스케일링이 작동하지 않아요.</> },
   // { id: "hello_world", text: "Sent mail", icon: <SendIcon />, shortName: 'Sent mail', disabled: true },
   { id: "twitter_embed", text: "트위터 링크에 미리보기 임베드 표시", icon: <Twitter />, shortName: '트위터 임베드', help: "트위터 링크를 누르지 않아도 동영상을 재생하거나 사진을 고화질로 보거나 민감한 게시물의 미리보기를 확인하세요! 이렇게 하면 트위터 유저와 트위터를 사용하지 않는 유저 모두 훨씬 편하게 포스트를 읽을 수 있어요.", disabled: false },
-  { id: "vchannel", text: "\"새 음성채널 추가\" 채널", icon: <RecordVoiceOverIcon />, shortName: '가변 음성채널', help: "\"음성채널 만들기\" 같이 알기 쉬운 이름으로 채널을 만들어두고 이 옵션을 켜 보세요. 그러면 그 채널을 눌렀을 때 나만의 음성 채널을 만들어 줄 수 있어요!", disabled: false },
+  { id: "hwp_convert", text: "HWP 문서 미리보기 변환기", icon: <DocumentScanner />, shortName: 'HWP 미리보기', help: "HWP 문서를 첨부파일로 올리면 한컴오피스 한글이 설치되어 있지 않은 멤버들도 파일을 볼 수 있게  PDF, Word와 같은 여러 형식으로 다운로드할 수 있는 작은 버튼을 만들어 주는 기능이에요.", disabled: true },
+  { id: "vchannel", text: "\"음성채널 생성하기\" 채널", icon: <RecordVoiceOverIcon />, shortName: '가변 음성채널', help: "\"음성채널 만들기\" 같이 알기 쉬운 이름으로 채널을 만들어두고 이 옵션을 켜 보세요. 그러면 그 채널을 눌렀을 때 나만의 음성 채널을 만들어 줄 수 있어요!", disabled: false },
   { id: "auto_tts", text: "대화하면 TTS 켜지는 채널", icon: <VoiceChatIcon />, shortName: 'TTS', category: 'tts', disabled: false },
   { id: "tts_join_notify", text: "음성 채널 입장/퇴장 알려주기", icon: <CampaignIcon />, shortName: '입퇴장 알림', category: 'tts', help: <>화면을 보고 있지 않아도 누가 들어오고 나간 지 알 수 있도록 할 수 있어요. 누군가 들어오면 카미봇이 "Kami님 입장" 처럼 알려줄 거예요.<br></br><Link href={`/user/guild/tts${window.location.search}`}>음성 알림</Link>에서 자세히 설정하거나 모든 채널에서 비활성화할 수 있어요.</> },
   { id: "ai_toolkit", text: "AI Toolkit (AI그림, 도구 모음)", icon: <PhotoFilterIcon />, shortName: 'AI 툴킷' },
@@ -164,7 +165,6 @@ export default function NestedChannelSettingsList({ channelSelectValue, channelI
             >
               <HelpOutline />
             </IconButton>}
-          {/* <Switch checked={!!switchStates[item.id]} onClick={() => handleSwitchToggle(item.id, switchStates[item.id])} disabled={loading} /> */}
           <TriSwitch checked={!!switchStates[item.id]} onClick={() => handleSwitchToggle(item.id, switchStates[item.id])} disabled={loading || item.disabled} />
         </ListItem>
         <Dialog open={helpOpen[item.id] || false} onClose={() => handleHelpClose(item.id)}>
@@ -233,7 +233,15 @@ export default function NestedChannelSettingsList({ channelSelectValue, channelI
         categories.map(category => (
           category !== undefined &&
           <>
-            <ListItemButton onClick={() => handleClick(category)}>
+            <ListItemButton
+              onClick={() => handleClick(category)}
+              sx={{
+                backgroundColor: '#DDDDDD',
+                '&:hover': {
+                  backgroundColor: '#BBBBBB',
+                }
+              }}
+            >
               <ListItemIcon>
                 {listItemData.find(item => item.category === category)?.icon}
               </ListItemIcon>
