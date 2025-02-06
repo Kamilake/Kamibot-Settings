@@ -51,7 +51,7 @@ const FunctionBody: React.FC = () => {
     notification_style: 'global', // 알림
     idle_timeout: -1, // 미사용 자동 꺼짐 시간
     read_voice_channel_member_only: false, // 음성 채널에 연결된 멤버의 메세지만 읽기
-    pronunciation_correction : false, // 'ㄲ' 를 끼역 대신 쌍기역으로 읽기
+    pronunciation_correction: false, // 'ㄲ' 를 끼역 대신 쌍기역으로 읽기
     message_auto_delete_time: -1, // 메세지 자동삭제 시간
     read_emoji: 'custom_only', // 이모지 읽기
     read_sticker: true, // 스티커 읽기
@@ -138,14 +138,13 @@ const FunctionBody: React.FC = () => {
           이 메세지가 대화 기록에 남는 것이 지저분해 보인다면 여기서 설정할 수 있어요.<br /><br />
           하지만 다른 사람들이 어느 채널에서 TTS가 작동 중인지 확인할 수 있도록 모두에게 표시하게 설정하는 것을 권장해요.</>}
         value={state.notification_style}
-        // onChange={handleNotificationStyleChange}
         onChange={e => handleChange('notification_style', e.target.value)}
         items={[
-          { value: 'global', text: '모두에게 표시' },
-          { value: 'local', text: '나에게만 표시', disabled: false },
+          { value: 'global', text: '표시 (기본값)' },
           { value: 'autohide_10s', text: '10초 후 자동 숨김', disabled: false },
           { value: 'autohide_1m', text: '1분 후 자동 숨김', disabled: false },
           { value: 'autohide_1h', text: '1시간 후 자동 숨김', disabled: false },
+          { value: 'local', text: '표시 안 함 (나에게만 표시)', disabled: false },
         ]}
       />
       <DropdownLabel

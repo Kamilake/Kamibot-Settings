@@ -328,11 +328,11 @@ const FunctionBody: React.FC = () => {
 
 const functionInfo: FunctionInterface = {
   icon: <RecordVoiceOver />,
-  title: '일반',
+  title: '일반 (공사중)',
   description: '일반적인 카미봇 설정\n',
   url: 'general',
   data: <FunctionBody />,
-  disabled: true
+  disabled: false
 };
 
 export default functionInfo;

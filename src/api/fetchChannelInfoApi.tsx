@@ -1,20 +1,21 @@
 // fetchChannelInfoApi.tsx
 import useFetch from "./useFetch";
 
+
+
 interface ChannelInfo {
   type: string;
   name: string;
-  channelId: bigint;
+  channel_id: bigint;
   timeCreated: string;
 
-  llm: boolean;
-  ai_toolkit: boolean;
-  twitter_embed: boolean;
-  minicuda: boolean;
-  vchannel: boolean;
-  emote_upload: boolean;
-  tts_join_notify: boolean;
-  auto_tts: boolean;
+  use_llm: ('on' | 'off' | 'unset');
+  use_twitter_embed: ('on' | 'off' | 'unset');
+  use_emote_upscaler: ('on' | 'off' | 'unset');
+  use_tts_join_notify: ('on' | 'off' | 'unset');
+  use_auto_tts: ('on' | 'off' | 'unset');
+  use_docs_converter: ('on' | 'off' | 'unset');
+  dedicated_channel: string;
 }
 
 interface FetchResult {
@@ -34,16 +35,15 @@ const fetchChannelInfoApi = (props: { channelId: string }): FetchResult => {
     data = {
       type: "TEXT",
       name: "채널이름",
-      channelId: 1077136010883907696n,
+      channel_id: 1077136010883907696n,
       timeCreated: "2023-02-20T07:53:57.214Z",
-      llm: false,
-      ai_toolkit: false,
-      twitter_embed: false,
-      minicuda: false,
-      vchannel: false,
-      emote_upload: false,
-      tts_join_notify: false,
-      auto_tts: false,
+      use_llm: 'unset',
+      use_twitter_embed: 'unset',
+      use_emote_upscaler: 'unset',
+      use_tts_join_notify: 'unset',
+      use_auto_tts: 'unset',
+      use_docs_converter: 'unset',
+      dedicated_channel: "default",
     };
   }
   return { data, loading, error };

@@ -7,9 +7,9 @@ const body =
   <>
     아, 이거 다 만들었는데 아직 웹 UI에는 구현을 안했어요. 마크 명령어쪽은 완성되어 있으니까 사용해보고 싶은 분은 kamilake에게 DM 주세요!<br />
     사용 가능 버전: <br />
-    Forge 1.20.x, 1.21.x <Link href="https://github.com/Kamilake/Kamibot-Remote-Forge">다운로드</Link><br />
-    Spigot/Paper 1.20.x, 1.12.x <Link href="https://github.com/Kamilake/Kamibot-Remote-Paper/releases">다운로드</Link><br />
-    Fabric 1.20.x, 1.21.x<br />
+    Forge 1.20.x, 1.21.x <Link href="https://github.com/Kamilake/Kamibot-Remote-Forge/releases/">다운로드</Link><br />
+    Spigot/Paper 1.20.x, 1.21.x <Link href="https://github.com/Kamilake/Kamibot-Remote-Paper/releases/">다운로드</Link><br />
+    Fabric 1.20.x, 1.21.x <Link href="https://github.com/Kamilake/Kamibot-Remote-Paper/releases/">다운로드</Link><br />
     Vanilla Java 1.20.x, 1.21.x (BungeeCord 사용)<br />
     Vanilla Bedrock 1.20.x, 1.21.x (GeyserMC 사용)<br />
     <video src="/public/m.webm" style={{ maxWidth: '100%', height: 'auto' }} autoPlay controls />

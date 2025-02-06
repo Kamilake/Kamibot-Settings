@@ -13,12 +13,16 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js|jsx|ts|tsx)$/, // .ts와 .tsx 확장자를 처리하도록 정규식을 수정합니다.
+        test: /\.(js|jsx|ts|tsx)$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript'] // @babel/preset-typescript를 추가합니다.
+            presets: [
+              '@babel/preset-env',
+              '@babel/preset-react',
+              '@babel/preset-typescript'
+            ]
           },
         },
       },

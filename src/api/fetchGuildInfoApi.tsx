@@ -7,7 +7,7 @@ interface GuildData {
   llm: boolean;
   type: string;
   guildId: string;
-  minicuda: boolean;
+  emote_upscale: boolean;
 }
 
 interface FetchResult {
@@ -30,7 +30,7 @@ const fetchGuildInfoApi = (props: { guildId: string }): FetchResult => {
       "llm": false,
       "type": "TEXT",
       "guildId": "1077136010883907696",
-      "minicuda": true
+      "emote_upscale": true
     };
   }
   return { data, loading, error };

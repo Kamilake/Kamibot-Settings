@@ -14,14 +14,21 @@ interface SwitchStates {
   [key: string]: boolean;
 }
 
-const setChannelFuncApi = async (func: string, channelId: string, enabled: boolean, callbackData: string, setSwitchStates: React.Dispatch<React.SetStateAction<SwitchStates>>): Promise<ResponseData | null> => {
+const setChannelFuncApi = async (
+  func: string,
+  channelId: string,
+  value: boolean | string,
+  callbackData: string,
+  setSwitchStates: React.Dispatch<React.SetStateAction<SwitchStates>> | React.Dispatch<React.SetStateAction<string>>,
+  prevState?: SwitchStates | string
+): Promise<ResponseData | null> => {
   const nowSettingSnackbarId = enqueueSnackbar('설정 중...', { variant: 'info', autoHideDuration: 10000 });
   try {
     let data: ResponseData = await postData(
       '/api/channel/' + func,
       {
         channelId: channelId,
-        enabled: enabled
+        enabled: value,
       }
     )
     console.log("API Response: success: " + (data?.success == 'true') + ", message: " + data.message);
@@ -34,25 +41,49 @@ const setChannelFuncApi = async (func: string, channelId: string, enabled: boole
           </IconButton>
         )
       });
-      setSwitchStates((prevState) => ({
-        ...prevState,
-        [func]: !prevState[func],
-      }));
+      if (isSwitchStatesAction(setSwitchStates)) {
+        setSwitchStates((prevState) => ({
+          ...prevState,
+          [func]: !prevState[func],
+        }));
+
+      }
+      if (isStringAction(setSwitchStates) && prevState && typeof prevState === 'string') {
+        setSwitchStates(prevState);
+      }
       return null;
     }
+
     closeSnackbar(nowSettingSnackbarId);
     enqueueSnackbar(callbackData, { variant: 'success' });
     return data;
   } catch (error) {
     closeSnackbar(nowSettingSnackbarId);
     enqueueSnackbar('설정에 실패했어요: ' + error, { variant: 'error', autoHideDuration: 5000 });
-    setSwitchStates((prevState) => ({
-      ...prevState,
-      [func]: !prevState[func],
-    }));
+    if (isSwitchStatesAction(setSwitchStates)) {
+      setSwitchStates((prevState) => ({
+        ...prevState,
+        [func]: !prevState[func],
+      }));
+    }
+    if (isStringAction(setSwitchStates) && prevState && typeof prevState === 'string') {
+      setSwitchStates(prevState);
+    }
     return null;
   }
 };
+
+function isSwitchStatesAction(
+  func: any
+): func is React.Dispatch<React.SetStateAction<SwitchStates>> {
+  return typeof func === 'function';
+}
+
+function isStringAction(
+  func: any
+): func is React.Dispatch<React.SetStateAction<string>> {
+  return typeof func === 'function';
+}
 
 export default setChannelFuncApi;
 

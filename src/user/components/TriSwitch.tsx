@@ -4,27 +4,27 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { Check, DoNotDisturb, HorizontalRule } from '@mui/icons-material';
 
 interface TriSwitchProps {
-  checked: boolean;
-  onClick: () => void;
+  status: 'on' | 'off' | 'unset';
+  onClick: (newStatus: 'on' | 'off' | 'unset') => void;
   disabled: boolean;
 }
 
-export default function TriSwitch({ checked, onClick, disabled }: TriSwitchProps) {
-  const [alignment, setAlignment] = React.useState<string>(checked ? 'enabled' : 'disabled');
+export default function TriSwitch({ status, onClick, disabled }: TriSwitchProps) {
+  const [alignment, setAlignment] = React.useState<string>(status);
 
   const handleAlignment = (
     event: React.MouseEvent<HTMLElement>,
-    newAlignment: string | null,
+    newAlignment: 'on' | 'off' | 'unset'
   ) => {
     if (newAlignment !== null) {
       setAlignment(newAlignment);
-      onClick();
+      onClick(newAlignment);
     }
   };
 
   return (
     <ToggleButtonGroup
-      value={disabled ? null : alignment} //
+      value={alignment}
       exclusive
       onChange={handleAlignment}
       aria-label="text alignment"
@@ -32,10 +32,11 @@ export default function TriSwitch({ checked, onClick, disabled }: TriSwitchProps
       sx={{ fontSize: '0.75rem', height: '40px' }} // 크기 조정
     >
       <ToggleButton
-        value="disabled"
+        value="off"
         aria-label="비활성화"
-        color='error'
+        // color={disabled ? 'default' : 'error'}
         sx={{
+          fontSize: '0.75rem',
           height: '40px',
           // backgroundColor: disabled ? 'grey' : 'inherit',
           // color: disabled ? 'grey' : 'inherit'
@@ -45,9 +46,10 @@ export default function TriSwitch({ checked, onClick, disabled }: TriSwitchProps
           sx={{ fontSize: '1rem' }} />
       </ToggleButton>
       <ToggleButton
-        value="default"
+        value="unset"
         aria-label="기본값"
         sx={{
+          fontSize: '0.75rem',
           height: '40px',
           // backgroundColor: disabled ? 'grey' : 'inherit',
           // color: disabled ? 'grey' : 'inherit'
@@ -56,10 +58,11 @@ export default function TriSwitch({ checked, onClick, disabled }: TriSwitchProps
           sx={{ fontSize: '1rem' }} />
       </ToggleButton>
       <ToggleButton
-        value="enabled"
+        value="on"
         aria-label="활성화"
-        color='success'
+        // color={disabled ? 'default' : 'success'}
         sx={{
+          fontSize: '0.75rem',
           height: '40px',
           // backgroundColor: disabled ? 'grey' : 'inherit',
           // color: disabled ? 'grey' : 'inherit'

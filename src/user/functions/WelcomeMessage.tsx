@@ -44,7 +44,7 @@ const FunctionBody: React.FC = () => {
       setIsFunctionEnabled(data.enabled);
       setMode(data.mode || "ai");
       setWelcomeMessage(data.prompt);
-      setSendMemberCard(data.sendMemberCard);
+      setSendMemberCard(data.send_member_card);
 
       console.log(`value has changed to: ${JSON.stringify(data)}`);
     }
@@ -81,7 +81,7 @@ const FunctionBody: React.FC = () => {
         channelId: channelSelectValue.channelId,
         mode: mode,
         prompt: welcomePrompt,
-        sendMemberCard: sendMemberCard,
+        send_member_card: sendMemberCard,
       },
       (data) => {
         // onSuccess 람다 식

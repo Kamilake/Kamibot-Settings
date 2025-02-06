@@ -15,10 +15,10 @@ import Header from './components/Header';
 import ProTip from './components/ProTip';
 import Molu from './components/Molu';
 import fetchUserInfoApi from '../api/fetchUserInfoApi';
-import myDrawer from './components/drawer';
 
 import { Channel } from '../api/fetchChannelListApi';
 import TwemojiText from '../../utils/twemojiUtil/TwemojiText';
+import DedicatedChannelSettingsRadioButtons from './components/DedicatedChannelSettingsRadioButtons';
 
 const Settings: React.FC = () => {
   const navigate = useNavigate();
@@ -62,7 +62,6 @@ const Settings: React.FC = () => {
     {error.message}
   </div>;
 
-  const myDrawer2 = myDrawer();
   return (
     <Container maxWidth="sm">
       <Box sx={{ my: 1 }}>
@@ -71,37 +70,21 @@ const Settings: React.FC = () => {
           value={channelSelectValue}
           setValue={setChannelSelectValue}
         /><br />
+        3상태 버튼은 아직 제작 중이라 가운데 기본값이 작동하지 않아요..!
+        <br />
         <Typography variant="h4" gutterBottom component="div">
           <TwemojiText>{channelSelectValue.channelName ? channelSelectValue.channelName : `채널별`} 설정</TwemojiText>
+          <Divider />
+          <NestedChannelSettingsList channelSelectValue={channelSelectValue} channelId={channelSelectValue.channelId} />
         </Typography>
-        <Divider />
-        <NestedChannelSettingsList channelSelectValue={channelSelectValue} channelId={channelSelectValue.channelId} />
+        <br />
+        <br />
+        <Typography variant="h4" gutterBottom component="div">
+          <TwemojiText>전용 채널 설정</TwemojiText>
+          <Divider />
+          <DedicatedChannelSettingsRadioButtons channelSelectValue={channelSelectValue} channelId={channelSelectValue.channelId} />
+        </Typography>
         {/* <NestedGuildSettingsList channelSelectValue={channelSelectValue} channelId={channelSelectValue.channelId} /> */}
-        {/* <TextField id="outlined-basic" label="JSON" variant="outlined" value={loading ? 'Loading...' : JSON.stringify(data)} multiline rows={4} fullWidth /> */}
-        {/* <br></br> */}
-        {/* <br />
-        안녕하세요 {data.userEffectiveName}님!<br />
-        <img src={data.userAvatarUrl} width="100px" /><br />
-        현재 채널 이름: {data.channelName}<br />
-        현재 채널 ID: {data.channelId}<br />
-        현재 채널 타입: {data.channelType}<br />
-        현재 유저 이름: {data.userName}<br />
-        현재 길드 ID: {data.guildId}<br />
-        현재 길드 이름: {data.guildName}<br />
-
-        {`채널 고른거: ${channelSelectValue.channelName} `}
-        <br></br>{` 채널 ID: ${channelSelectValue.channelId} `} */}
-
-        {/* <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br /> */}
-        {/* <Button variant="contained" color="primary" onClick={navigateToUserPersonalPage}> 홈으로 이동 </Button>
-        <Button >테스트</Button> */}
         <ProTip />
         <Molu />
       </Box>
