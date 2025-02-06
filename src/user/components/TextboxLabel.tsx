@@ -1,4 +1,4 @@
-import React, { useState, ReactNode } from 'react';
+import React, { useState, useEffect, ReactNode } from 'react';
 import { Grid, InputLabel, FormControl, TextField, IconButton, Tooltip, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@mui/material';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 
@@ -23,6 +23,10 @@ const TextboxLabel: React.FC<TextboxLabelProps> = ({
   const [showApplyButton, setShowApplyButton] = useState(false);
   const [localChangeEvent, setLocalChangeEvent] = useState<React.ChangeEvent<HTMLInputElement>>(); // TextField의 로컬 상태를 관리합니다.
   const [localValue, setLocalValue] = useState<string>(value); // 로컬 상태를 value로 초기화합니다.
+
+  useEffect(() => {
+    setLocalValue(value); // 서버로부터 받은 value를 로컬 상태로 설정합니다.
+  }, [value]);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
