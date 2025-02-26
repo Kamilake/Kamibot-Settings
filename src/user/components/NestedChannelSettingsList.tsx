@@ -29,6 +29,7 @@ import setChannelFuncApi from '../../api/setChannelFuncApi';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Link, ListItem } from '@mui/material';
 import { Check, DocumentScanner, DoNotDisturb, HelpOutline, HorizontalRule } from '@mui/icons-material';
 import TriSwitch from './TriSwitch';
+import L from './L';
 
 
 interface ListItem {
@@ -48,7 +49,7 @@ const listItemData = [
   { id: "hwp_convert", name: 'HWP 미리보기', text: "한컴오피스 한글 문서를 PDF, Word로 변환", icon: <DocumentScanner />, help: "HWP 문서를 첨부파일로 올리면 한컴오피스 한글이 설치되어 있지 않은 멤버들도 파일을 볼 수 있게  PDF, Word와 같은 여러 형식으로 다운로드할 수 있는 작은 버튼을 만들어 주는 기능이에요.", disabled: false },
   // { id: "vchannel", name: '가변 음성채널', text: "\"🔊음성채널 생성하기\" 채널로 임시 음성채널 만들기", icon: <RecordVoiceOverIcon />, help: "\"음성채널 만들기\" 같이 알기 쉬운 이름으로 채널을 만들어두고 이 옵션을 켜 보세요. 그러면 그 채널을 눌렀을 때 나만의 음성 채널을 만들어 줄 수 있어요!", disabled: false },
   { id: "auto_tts", name: 'TTS 자동 시작', text: "명령을 입력하지 않아도 TTS 자동으로 켜기", icon: <VoiceChatIcon />, category: 'tts', disabled: false },
-  { id: "tts_join_notify", name: '입퇴장 알림', text: "멤버 음성 채널 입장퇴장 알려주기", icon: <CampaignIcon />, help: <>화면을 보고 있지 않아도 누가 들어오고 나간 지 알 수 있도록 할 수 있어요. 누군가 들어오면 카미봇이 "Kami님 입장" 처럼 알려줄 거예요.<br></br><Link href={`/user/guild/tts${window.location.search}`}>음성 알림</Link>에서 자세히 설정하거나 모든 채널에서 비활성화할 수 있어요.</>, category: 'tts', disabled: false },
+  { id: "tts_join_notify", name: '입퇴장 알림', text: "멤버 음성 채널 입장퇴장 알려주기", icon: <CampaignIcon />, help: <>화면을 보고 있지 않아도 누가 들어오고 나간 지 알 수 있도록 할 수 있어요. 누군가 들어오면 카미봇이 "Kami님 입장" 처럼 알려줄 거예요.<br></br><L to={`/user/guild/tts${window.location.search}`}>음성 알림</L>에서 자세히 설정하거나 모든 채널에서 비활성화할 수 있어요.</>, category: 'tts', disabled: false },
   // { id: "ai_toolkit", name: 'AI 툴킷', text: "AI Toolkit, AI그림과 도구 모음", icon: <PhotoFilterIcon />, disabled: false },
   // { id: "emote_upload", name: '이모지 업로드', text: "커스텀 이모지 업로드 전용 채널", icon: <AddReactionIcon />, help: <>"이모지 추가하기" 같은 이름으로 채널을 만들어 두고 이 옵션을 켜 보세요. 그렇게 하면 이 채널에 사진과 이름을 입력하는 것만으로도 이모지를 업로드할 수 있어요. 매우 길이가 긴 GIF 또는 고해상도 이모지도 처리할 수 있고 '이모지 업스케일링'과 함께 사용하면 Discord 용량 제한보다 더 큰 이모지도 표현할 수 있어요!<img src="/public/custom_emoji_help.png" alt="Discord 서버에서 이모지 등록하는 모습" style={{ maxWidth: '100%', height: 'auto' }} /></>, disabled: false },
   // { id: "wave", name: '안녕하세요', text: "안녕하세요!", icon: <WavingHandIcon />, help: "이 기능은 서버 설정으로 이동했어요", disabled: true },
@@ -213,7 +214,8 @@ export default function NestedChannelSettingsList({ channelSelectValue, channelI
               <ListItemIcon>
                 <HorizontalRule />
               </ListItemIcon>
-              <ListItemText primary="서버 설정에 따라 자동으로 적용 (기본값)" />
+              <ListItemText primary="서버 기본값 채널 설정에 따르기"
+                secondary={<>전체 설정을 바꾸시려면 <L to={`/user/guild/general${window.location.search}`}>채널 기본값 설정</L>을 사용하세요</>} />
             </ListItem>
             <ListItem>
               <ListItemIcon>

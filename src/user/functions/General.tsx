@@ -10,6 +10,7 @@ import CampaignIcon from '@mui/icons-material/Campaign';
 import AddReactionIcon from '@mui/icons-material/AddReaction';
 import MarkChatReadIcon from '@mui/icons-material/MarkChatRead';
 import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
+import L from "../components/L";
 interface ListItemData {
   id: string;
   text: string;
@@ -24,7 +25,7 @@ interface ListItemData {
 const listItemData: ListItemData[] = [
   { id: "use_emote_upscaler", text: "이모지 업스케일링", icon: <AddReactionIcon />, disabled: false },
   { id: "use_twitter_embed", text: "트위터 링크 미리보기", icon: <Twitter />, disabled: false },
-  { id: "use_docs_preview", text: "HWP 미리보기", icon: <TipsAndUpdatesIcon />, disabled: true },
+  { id: "use_docs_converter", text: "미디어 변환", icon: <TipsAndUpdatesIcon />, disabled: false },
   { id: "use_update", text: "업데이트 소식", icon: <TipsAndUpdatesIcon />, disabled: true },
   { id: "use_auto_tts", text: "TTS 자동 시작", icon: < VoiceChatIcon />, disabled: false, confirmEnable: true, confirmText: "이 기능을 활성화하면 모든 채널에서 대화를 할 때마다 전부 카미봇이 TTS로 대화를 읽어줘요. 채널 설정이 아니라 정말 이 기능을 찾는 게 맞나요?" },
   { id: "use_tts_join_notify", text: "입퇴장 알림", icon: <CampaignIcon />, disabled: false },
@@ -160,7 +161,7 @@ const FunctionBody: React.FC = () => {
         <DialogTitle>TTS 자동으로 시작</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            이 기능을 활성화하면 서버에 있는 <b>모든 채널</b>에서 대화를 할 때마다 전부 카미봇이 TTS로 대화를 읽어줘요.<br></br>채널 설정이 아니라 정말 이 기능을 찾는 게 맞나요?
+            이 기능을 활성화하면 서버에 있는 <b>모든 채널</b>에서 대화를 할 때마다 전부 카미봇이 TTS로 대화를 읽어줘요.<br></br>TTS 전용 채널을 설정하려면 <L to={`/user/channel${window.location.search}`}>채널 설정</L>으로 가 보세요.<br></br>채널 설정이 아니라 정말 이 기능을 찾는 게 맞나요?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -175,7 +176,7 @@ const FunctionBody: React.FC = () => {
         aria-labelledby="nested-list-subheader"
         subheader={
           <ListSubheader component="div" id="nested-list-subheader">
-            모든 채널의 기본값 설정
+            모든 채널의 기본값 설정. 기능별 설명은 <L to={`/user/channel${window.location.search}`}>채널 설정</L>에서 확인하세요.
           </ListSubheader>
         }
       >
