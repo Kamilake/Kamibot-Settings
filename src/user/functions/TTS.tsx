@@ -1,12 +1,11 @@
-import React, { ChangeEvent } from "react";
-import { HelpOutline, NoPhotography, PersonAdd, PersonRemove, PhotoCamera, RecordVoiceOver, ScreenShare, StopScreenShare, VideogameAsset, VideogameAssetOff, VolumeOff } from '@mui/icons-material';
+import React, { JSX } from "react";
+import { HelpOutline, NoPhotography, PersonAdd, PersonRemove, PhotoCamera, RecordVoiceOver, ScreenShare, StopScreenShare, VideogameAsset, VideogameAssetOff } from '@mui/icons-material';
 import { FunctionInterface } from "../components/GuildSettingsGrid";
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, List, ListItemButton, ListItemIcon, ListItemText, ListSubheader, SelectChangeEvent, Switch, Tooltip, Typography } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, List, ListItemButton, ListItemIcon, ListItemText, ListSubheader, Switch, Tooltip, Typography } from "@mui/material";
 import setGuildFuncApi from "../../api/setGuildFuncApi";
 import fetchGuildFuncApi from "../../api/fetchGuildFuncApi";
 import DropdownLabel from "../components/DropdownLabel";
 import SwitchLabel from "../components/SwitchLabel";
-import TextboxLabel from "../components/TextboxLabel";
 // TTS 관련 설정
 
 // 음성 채널 상호작용 읽어주기
@@ -166,7 +165,7 @@ const FunctionBody: React.FC = () => {
       />
       <SwitchLabel
         label="'ㄲ' 를 끼역 대신 쌍기역으로 읽기"
-        checked={false}
+        checked={state.pronunciation_correction}
         onChange={e => handleChange('pronunciation_correction', e.target.checked)}
         disabled={false}
       />
