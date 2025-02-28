@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Typography, Paper } from "@mui/material";
 import { DataPoint } from "./DataPoint";
 
@@ -7,10 +7,15 @@ interface VoiceCountProps {
 }
 
 const VoiceCount: React.FC<VoiceCountProps> = ({ data }) => {
+  const [perMinute, setPerMinute] = useState(true);
+
   if (!data) return <Typography>Loading...</Typography>;
 
   const totalVoiceChannels = data.audioSendHandlers;
   const eventsPerSecond = data.eventsPerSecond;
+  const displayValue = perMinute ? eventsPerSecond * 60 : eventsPerSecond;
+  const label = perMinute ? "1분당 카미봇 사용" : "1초당 카미봇 사용";
+  const unit = perMinute ? "rpm" : "rps";
 
   return (
     <Paper elevation={2} sx={{ padding: 2, margin: 2 }}>
@@ -33,18 +38,21 @@ const VoiceCount: React.FC<VoiceCountProps> = ({ data }) => {
 
         <Box sx={{ width: "1px", height: "60px", borderLeft: "1px solid #ccc" }} />
 
-        <Box sx={{ flex: 1, textAlign: "center" }}>
+        <Box
+          sx={{ flex: 1, textAlign: "center", cursor: "pointer" }}
+          onClick={() => setPerMinute(!perMinute)}
+        >
           <Typography variant="caption" display="block">
-            초당 TTS 연산
+            {label}
           </Typography>
           <Typography variant="h4" sx={{ fontWeight: "bold" }}>
-            {eventsPerSecond.toLocaleString()}
+            {displayValue.toLocaleString()}
             <Typography
               component="span"
               variant="h6"
               sx={{ fontWeight: "normal", ml: 0.5 }}
             >
-              /s
+              {unit}
             </Typography>
           </Typography>
         </Box>
