@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useState, useEffect, ReactElement } from 'react';
-import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import LightBulbIcon from '@mui/icons-material/LightbulbOutlined';
 import L from './L';

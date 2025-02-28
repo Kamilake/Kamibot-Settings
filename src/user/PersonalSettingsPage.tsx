@@ -1,9 +1,7 @@
 import * as React from 'react';
-import { useLocation, useNavigate } from "react-router-dom";
 
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 
@@ -21,13 +19,10 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import InfoIcon from '@mui/icons-material/Info';
 
 import BadgeAvatars from './components/BadgeAvatars';
-import Link from '@mui/material/Link';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import VoiceActorComboBox from './components/VoiceActorComboBox';
 
 import fetchUserInfoApi from '../api/fetchUserInfoApi';
 
-import Molu from './components/Molu';
 import Header from './components/Header';
 
 import { Actor } from '../api/fetchActorListApi';
@@ -45,8 +40,6 @@ function findActorById(id: string, actorData: Actor[]): Actor | undefined {
 
 
 const PersonalSettings: React.FC = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
   const { data: actorData, loading: actorLoading, error: actorError } = fetchActorListApi();
 
   let actors: Actor[] = actorData;
@@ -232,7 +225,6 @@ const PersonalSettings: React.FC = () => {
           <br />
         </Box>
         <br />
-        <Molu />
       </Box>
       <SnackbarProvider
         maxSnack={5}

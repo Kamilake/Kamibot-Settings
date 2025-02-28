@@ -100,7 +100,7 @@ export async function postData(url: string, param: any): Promise<ResponseData> {
       data: jwt
     }, param)
 
-    console.log("jwt: " + JSON.stringify(requestParam));
+    // console.log("jwt: " + JSON.stringify(requestParam));
     const response: AxiosResponse<ResponseData> = await axios.post(url, requestParam, {
       headers: {
         Authorization: `Bearer ${jwt}`

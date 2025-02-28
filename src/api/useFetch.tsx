@@ -16,7 +16,7 @@ const useFetch = <T,>(url: string): { data: T, loading: boolean, error: any } =>
           jwt = "default";
         }
 
-        console.log("jwt: " + jwt);
+        // console.log("jwt: " + jwt);
 
         const response: AxiosResponse<T> = await axios.get(url, {
           headers: {
