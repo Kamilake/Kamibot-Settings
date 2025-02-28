@@ -1,4 +1,4 @@
-import React from "react";
+import React, { JSX } from "react";
 import { DisplaySettings, HelpOutline, RecordVoiceOver, } from '@mui/icons-material';
 import { FunctionInterface } from "../components/GuildSettingsGrid";
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, List, ListItemButton, ListItemIcon, ListItemText, ListSubheader, Switch, Tooltip, Typography } from "@mui/material";
@@ -29,7 +29,7 @@ const listItemData: ListItemData[] = [
   { id: "use_update", text: "업데이트 소식", icon: <TipsAndUpdatesIcon />, disabled: true },
   { id: "use_auto_tts", text: "TTS 자동 시작", icon: < VoiceChatIcon />, disabled: false, confirmEnable: true, confirmText: "이 기능을 활성화하면 모든 채널에서 대화를 할 때마다 전부 카미봇이 TTS로 대화를 읽어줘요. 채널 설정이 아니라 정말 이 기능을 찾는 게 맞나요?" },
   { id: "use_tts_join_notify", text: "입퇴장 알림", icon: <CampaignIcon />, disabled: false },
-  { id: "use_llm", text: "멘션으로 카미봇 호출", icon: < MarkChatReadIcon />, disabled: false },
+  { id: "use_llm", text: "멘션으로 AI 어시스턴트 호출", icon: < MarkChatReadIcon />, disabled: false },
 ];
 
 
@@ -180,27 +180,33 @@ const FunctionBody: React.FC = () => {
           </ListSubheader>
         }
       >
-        {listItemData.map((item) => (
-          item.category == null ?
-            <ListItemButton key={item.id} onClick={() => {
-              if ((item.confirmEnable && !switchStates[item.id])
-                || (item.confirmDisable && switchStates[item.id])) {
-                handleConfirmDialogOpen(item.id);
-              } else {
-                handleSwitchToggle(item.id, switchStates[item.id]);
-              }
-            }
-
-            } disabled={loading || item.disabled}>
-              <ListItemIcon>
-                {item.icon}
-              </ListItemIcon>
-              <ListItemText primary={item.text} />
-              <Switch checked={!!switchStates[item.id]} onClick={() => { }} disabled={loading} />
-            </ListItemButton> : null
-        ))}
+        {listItemData.map((item, index) => {
+          if (item.category == null) {
+            const isLastItem = index === listItemData.length - 1;
+            return (
+              <React.Fragment key={item.id}>
+                <ListItemButton
+                  onClick={() => {
+                    if ((item.confirmEnable && !switchStates[item.id]) ||
+                      (item.confirmDisable && switchStates[item.id])) {
+                      handleConfirmDialogOpen(item.id);
+                    } else {
+                      handleSwitchToggle(item.id, switchStates[item.id]);
+                    }
+                  }}
+                  disabled={loading || item.disabled}
+                >
+                  <ListItemIcon>{item.icon}</ListItemIcon>
+                  <ListItemText primary={item.text} />
+                  <Switch checked={!!switchStates[item.id]} onClick={() => { }} disabled={loading} />
+                </ListItemButton>
+                {!isLastItem && <Divider />}
+              </React.Fragment>
+            );
+          }
+          return null;
+        })}
       </List>
-      <Divider></Divider>
       <br />
       <br />
     </>
