@@ -6,23 +6,28 @@
     "start": "webpack serve"
   },
   "dependencies": {
-    "@emotion/react": "latest",
-    "@emotion/styled": "latest",
+    "@babel/runtime": "^7.26.9",
+    "@emotion/cache": "^11.14.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "latest",
     "@mui/material": "latest",
-    "@types/node": "^20.11.27",
-    "@types/react": "^18.2.65",
-    "@types/react-dom": "^18.2.22",
+    "@mui/x-charts": "^7.27.0",
+    "@types/node": "^22.13.5",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
     "axios": "^1.7.9",
     "cross-env": "latest",
     "hangul-js": "^0.2.6",
-    "notistack": "^3.0.1",
-    "npm-check-updates": "^16.14.15",
+    "html-entities": "^2.5.2",
+    "notistack": "^3.0.2",
+    "npm-check-updates": "^17.1.15",
     "react": "latest",
     "react-dom": "latest",
     "react-router-dom": "latest",
+    "recharts": "^2.15.1",
     "twemoji": "^14.0.2",
-    "typescript": "^5.4.2"
+    "typescript": "^5.7.3"
   },
   "browserslist": {
     "production": [
@@ -37,16 +42,16 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "^7.22.5",
-    "@babel/preset-env": "^7.22.5",
-    "@babel/preset-react": "^7.22.5",
-    "@babel/preset-typescript": "^7.23.3",
-    "babel-loader": "^9.1.2",
-    "css-loader": "^6.8.1",
-    "html-webpack-plugin": "^5.5.3",
-    "style-loader": "^3.3.3",
-    "webpack": "^5.88.0",
-    "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^4.15.1"
+    "@babel/core": "^7.26.9",
+    "@babel/preset-env": "^7.26.9",
+    "@babel/preset-react": "^7.26.3",
+    "@babel/preset-typescript": "^7.26.0",
+    "babel-loader": "^9.2.1",
+    "css-loader": "^7.1.2",
+    "html-webpack-plugin": "^5.6.3",
+    "style-loader": "^4.0.0",
+    "webpack": "^5.98.0",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.0"
   }
 }
