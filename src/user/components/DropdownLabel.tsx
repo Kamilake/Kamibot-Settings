@@ -8,6 +8,7 @@ interface DropdownProps {
   onChange: (event: SelectChangeEvent<any>) => void;
   items: { value: string | number; text: string; disabled?: boolean }[];
   help?: ReactNode;
+  disabled?: boolean;
 }
 
 const DropdownLabel: React.FC<DropdownProps> = ({
@@ -15,7 +16,8 @@ const DropdownLabel: React.FC<DropdownProps> = ({
   value,
   onChange,
   items,
-  help
+  help,
+  disabled,
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -42,6 +44,7 @@ const DropdownLabel: React.FC<DropdownProps> = ({
             labelId={`${label}-label`}
             value={value}
             onChange={onChange}
+            disabled={disabled}
           >
             {items.map((item) => (
               <MenuItem key={item.value} value={item.value} disabled={item.disabled}>
