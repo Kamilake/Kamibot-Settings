@@ -2,8 +2,6 @@ import * as React from 'react';
 
 import { useLocation, useNavigate } from "react-router-dom";
 
-import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -18,22 +16,6 @@ import GuildSettingsPage from './user/GuildSettingsPage';
 import HelpPage from './user/HelpPage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-// import fetchUserInfoApi from './api/fetchUserInfoApi';
-// const userFetchResult = fetchUserInfoApi();
-
-function Copyright(): React.ReactElement {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
 import settingsFunctions from './user/functions';
 import FunctionLocator from './user/components/FunctionLocator';
 
@@ -45,20 +27,20 @@ function Root(): React.ReactElement {
 
   React.useEffect(() => {
     let pathname = location.pathname;
-    let paths = ['/user/personal', '/user/channel','/user/guild', '/user/help'];
+    let paths = ['/user/personal', '/user/channel', '/user/guild', '/user/help'];
     setValue(paths.indexOf(location.pathname));
   }, [location]);
   return (
-    <div>
+    <>
       <Routes>
-        <Route path={"/"} element={<PersonalSettingsPage />}></Route>
+        <Route path={"/"} element={<HelpPage />}></Route>
         <Route path={"/user/personal"} element={<PersonalSettingsPage />}></Route>
         <Route path={"/user/channel"} element={<ChannelSettingsPage />}></Route>
         <Route path={"/user/guild"} element={<GuildSettingsPage />}></Route>
         <Route path={"/user/help"} element={<HelpPage />}></Route>
         {settingsFunctions.map((Item, index) => (
-        <Route key={index} path={"/user/guild/"+Item.url} element={<FunctionLocator url={Item.url} />}></Route>
-      ))}
+          <Route key={index} path={"/user/guild/" + Item.url} element={<FunctionLocator url={Item.url} />}></Route>
+        ))}
       </Routes>
 
       <BottomNavigation
@@ -95,7 +77,7 @@ function Root(): React.ReactElement {
       </BottomNavigation>
       <Box pb={7}></Box>
 
-    </div>
+    </>
 
   );
 }
