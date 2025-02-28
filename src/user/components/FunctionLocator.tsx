@@ -6,7 +6,6 @@ import fetchUserInfoApi from '../../api/fetchUserInfoApi';
 import { Box, Container } from '@mui/material';
 import Header from './Header';
 import ProTip from './ProTip';
-import Molu from './Molu';
 import { SnackbarProvider } from 'notistack';
 import { ArrowBack } from '@mui/icons-material';
 
@@ -33,7 +32,6 @@ const FunctionLocator: React.FC<FunctionLocatorProps> = ({ url }) => {
         />
         {functionInfo.data}
         <ProTip />
-        <Molu />
       </Box>
       <SnackbarProvider
         maxSnack={5}
