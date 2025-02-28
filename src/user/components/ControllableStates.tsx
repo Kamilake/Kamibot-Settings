@@ -33,6 +33,11 @@ export default function ControllableStates({ value, setValue, disabled = false }
       options={channelArray}
       groupBy={(option: Channel) => option.categoryName}
       getOptionLabel={(option: Channel) => option.channelName}
+      renderOption={(props, option) => (
+        <li {...props} key={option.channelId}>
+          {option.channelName}
+        </li>
+      )}
       renderInput={(params) => <TextField {...params} label="채널" />}
       fullWidth={true}
       disabled={disabled}
