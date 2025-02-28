@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography, Paper } from "@mui/material";
+import { Box, Typography, Paper, useMediaQuery } from "@mui/material";
 import { DataPoint } from "./DataPoint";
 
 interface KamibotCountProps {
@@ -11,6 +11,7 @@ const KamibotCount: React.FC<KamibotCountProps> = ({ data }) => {
 
   const totalGuilds = data.guilds;
   const onlineMembers = data.onlineUsers;
+  const isMobile = useMediaQuery("(max-width:600px)");
 
   return (
     <Paper elevation={2} sx={{ padding: 2, margin: 2 }}>
@@ -26,7 +27,7 @@ const KamibotCount: React.FC<KamibotCountProps> = ({ data }) => {
               variant="h6"
               sx={{ fontWeight: "normal", ml: 0.5 }}
             >
-              서버
+              {!isMobile && "서버"}
             </Typography>
           </Typography>
         </Box>
@@ -44,7 +45,7 @@ const KamibotCount: React.FC<KamibotCountProps> = ({ data }) => {
               variant="h6"
               sx={{ fontWeight: "normal", ml: 0.5 }}
             >
-              명
+              {!isMobile && "명"}
             </Typography>
           </Typography>
         </Box>
