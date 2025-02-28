@@ -1,22 +1,34 @@
 import React from 'react';
 import { parseTwemoji } from './parseTwemoji';
-import './twemoji.css'; // CSS 파일 포함
-import ReactDOMServer from 'react-dom/server';
+import './twemoji.css';
 
 interface TwemojiTextProps {
   children: React.ReactNode;
 }
 
-const TwemojiText: React.FC<TwemojiTextProps> = ({ children }) => {
-  let element : string | HTMLElement;
+const processChildren = (children: React.ReactNode): React.ReactNode => {
   if (typeof children === 'string') {
-    element = children;
-  } else {
-    element = ReactDOMServer.renderToString(children);
+    return (
+      <span dangerouslySetInnerHTML={{ __html: parseTwemoji(children) }} />
+    );
   }
-  return (
-    <span dangerouslySetInnerHTML={{ __html: parseTwemoji(element) }} />
-  );
+
+  if (Array.isArray(children)) {
+    return children.map((child, index) => (
+      <React.Fragment key={index}>{processChildren(child)}</React.Fragment>
+    ));
+  }
+
+  if (React.isValidElement(children)) {
+    const element = children as React.ReactElement<any>;
+    const processedChild = processChildren(element.props.children);
+    return React.cloneElement(element, { ...element.props, children: processedChild });
+  }
+  return children;
+};
+
+const TwemojiText: React.FC<TwemojiTextProps> = ({ children }) => {
+  return <>{processChildren(children)}</>;
 };
 
 export default TwemojiText;
