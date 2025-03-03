@@ -6,15 +6,15 @@ import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import { SnackbarProvider } from 'notistack';
 
-import NestedChannelSettingsList from './components/NestedChannelSettingsList';
-import ControllableStates from './components/ControllableStates';
-import Header from './components/Header';
-import ProTip from './components/ProTip';
-import DedicatedChannelSettingsRadioButtons from './components/DedicatedChannelSettingsRadioButtons';
+import NestedChannelSettingsList from '../components/NestedChannelSettingsList';
+import ControllableStates from '../components/ChannelSelectDropdown';
+import Header from '../components/Header';
+import ProTip from '../components/ProTip';
+import DedicatedChannelSettingsRadioButtons from '../components/DedicatedChannelSettingsRadioButtons';
 
-import fetchUserInfoApi from '../api/fetchUserInfoApi';
-import { Channel } from '../api/fetchChannelListApi';
-import TwemojiText from '../../utils/twemojiUtil/TwemojiText';
+import fetchUserInfoApi from '../../api/fetchUserInfoApi';
+import { Channel } from '../../api/fetchChannelListApi';
+import TwemojiText from '../../../utils/twemojiUtil/TwemojiText';
 
 const Settings: React.FC = () => {
   // const navigate = useNavigate();
@@ -52,7 +52,7 @@ const Settings: React.FC = () => {
   return (
     <Container maxWidth="sm">
       <Box sx={{ my: 1 }}>
-        <Header title="서버 설정" userAvatarUrl={user.userAvatarUrl} />
+        <Header title="채널 설정" userAvatarUrl={user.userAvatarUrl} />
         <ControllableStates
           value={channelSelectValue}
           setValue={setChannelSelectValue}

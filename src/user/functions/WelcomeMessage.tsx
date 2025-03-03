@@ -5,7 +5,7 @@ import Switch from "@mui/material/Switch";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { Box, Button, TextField, Select, MenuItem, SelectChangeEvent, Typography, Chip } from "@mui/material";
 import setGuildFuncApi from "../../api/setGuildFuncApi";
-import ControllableStates from "../components/ControllableStates";
+import ControllableStates from "../components/ChannelSelectDropdown";
 import { Channel } from "../../api/fetchChannelListApi";
 import fetchGuildFuncApi from "../../api/fetchGuildFuncApi";
 import DropdownLabel from "../components/DropdownLabel";

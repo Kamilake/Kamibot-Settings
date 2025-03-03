@@ -38,7 +38,7 @@ export default function ControllableStates({ value, setValue, disabled = false }
           {option.channelName}
         </li>
       )}
-      renderInput={(params) => <TextField {...params} label="채널" />}
+      renderInput={(params) => <TextField {...params} label="채널을 선택하세요" />}
       fullWidth={true}
       disabled={disabled}
     />

@@ -11,7 +11,7 @@ import HelpIcon from '@mui/icons-material/Help';
 import GroupsIcon from '@mui/icons-material/Groups';
 
 import PersonalSettingsPage from './user/PersonalSettingsPage';
-import ChannelSettingsPage from './user/ChannelSettingsPage';
+import ChannelSettingsPage from './user/ChannelSettings/ChannelSettingsPage';
 import GuildSettingsPage from './user/GuildSettingsPage';
 import HelpPage from './user/HelpPage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -26,7 +26,6 @@ function Root(): React.ReactElement {
   const location = useLocation();
 
   React.useEffect(() => {
-    let pathname = location.pathname;
     let paths = ['/user/personal', '/user/channel', '/user/guild', '/user/help'];
     setValue(paths.indexOf(location.pathname));
   }, [location]);
@@ -70,9 +69,9 @@ function Root(): React.ReactElement {
           zIndex: 100
         }}
       >
-        <BottomNavigationAction label="개인" icon={<AccountCircleIcon />} />
-        <BottomNavigationAction label="채널" icon={<StorageIcon />} />
-        <BottomNavigationAction label="서버" icon={<GroupsIcon />} />
+        <BottomNavigationAction label="개인 설정" icon={<AccountCircleIcon />} />
+        <BottomNavigationAction label="채널 설정" icon={<StorageIcon />} />
+        <BottomNavigationAction label="서버 설정" icon={<GroupsIcon />} />
         <BottomNavigationAction label="도움말" icon={<HelpIcon />} />
       </BottomNavigation>
       <Box pb={7}></Box>
