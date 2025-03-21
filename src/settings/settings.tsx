@@ -10,16 +10,16 @@ import StorageIcon from '@mui/icons-material/Storage';
 import GroupsIcon from '@mui/icons-material/Groups';
 import HelpIcon from '@mui/icons-material/Help';
 
-// import PersonalSettingsPage from './user/PersonalSettingsPage';
-// import ChannelSettingsPage from './user/ChannelSettings/ChannelSettingsPage';
-// import GuildSettingsPage from './user/GuildSettingsPage';
-// import HelpPage from './user/HelpPage';
+// import PersonalSettingsPage from './PersonalSettingsPage';
+// import ChannelSettingsPage from './ChannelSettings/ChannelSettingsPage';
+// import GuildSettingsPage from './GuildSettingsPage';
+// import HelpPage from './HelpPage';
 // 동적 임포트로 변경
 
-const PersonalSettingsPage = React.lazy(() => import('./user/PersonalSettingsPage'));
-const ChannelSettingsPage = React.lazy(() => import('./user/ChannelSettings/ChannelSettingsPage'));
-const GuildSettingsPage = React.lazy(() => import('./user/GuildSettingsPage'));
-const HelpPage = React.lazy(() => import('./user/HelpPage'));
+const PersonalSettingsPage = React.lazy(() => import('./PersonalSettingsPage'));
+const ChannelSettingsPage = React.lazy(() => import('./ChannelSettings/ChannelSettingsPage'));
+const GuildSettingsPage = React.lazy(() => import('./GuildSettingsPage'));
+const HelpPage = React.lazy(() => import('./HelpPage'));
 
 // 프리로드 유틸리티
 const preloadComponents = () => {
@@ -29,26 +29,26 @@ const preloadComponents = () => {
 
   requestIdleCallback(() => {
     // 현재 페이지에 표시되지 않은 컴포넌트들 프리로드
-    import('./user/PersonalSettingsPage');
-    import('./user/ChannelSettings/ChannelSettingsPage');
-    import('./user/GuildSettingsPage');
-    import('./user/HelpPage');
+    import('./PersonalSettingsPage');
+    import('./ChannelSettings/ChannelSettingsPage');
+    import('./GuildSettingsPage');
+    import('./HelpPage');
 
     // settingsFunctions에 있는 컴포넌트들도 프리로드 가능
     settingsFunctions.forEach(item => {
       if (item.data) {
         // 컴포넌트가 있는 경우에만 프리로드
-        import(`./user/${item.data}`).catch(() => { });
+        import(`./${item.data}`).catch(() => { });
       }
     });
   });
 };
 
-import settingsFunctions from './user/functions';
-import FunctionLocator from './user/components/FunctionLocator';
+import settingsFunctions from './functions';
+import FunctionLocator from './components/FunctionLocator';
 import { CircularProgress } from '@mui/material';
-import FetchUserData from './contexts/User/FetchUserData';
-import { UserProvider } from './contexts/User/UserContext';
+import FetchUserData from '../contexts/User/FetchUserData';
+import { UserProvider } from '../contexts/User/UserContext';
 
 // 로딩 컴포넌트
 const PageLoadingFallback = () => (
@@ -107,16 +107,16 @@ const UserRoutes: React.FC = () => {
           onChange={(event, newValue) => {
             setValue(newValue);
             if (newValue === 0) {
-              navigate('/user/personal' + location.search);
+              navigate('/settings/personal' + location.search);
             }
             if (newValue === 1) {
-              navigate('/user/channel' + location.search);
+              navigate('/settings/channel' + location.search);
             }
             if (newValue === 2) {
-              navigate('/user/guild' + location.search);
+              navigate('/settings/guild' + location.search);
             }
             if (newValue === 3) {
-              navigate('/user/help' + location.search);
+              navigate('/settings/help' + location.search);
             }
           }}
           sx={{

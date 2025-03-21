@@ -1,6 +1,6 @@
 import { Button } from '@mui/material';
 import * as React from 'react';
-import L from '../user/components/L';
+import L from '../settings/components/L';
 
 const HomePage: React.FC = () => {
   return (
@@ -15,7 +15,7 @@ const HomePage: React.FC = () => {
         카미봇 설명이나 도움말 있는데로 가는 버튼!!
       </Button>
       또는..
-      <L to={`/user/guild${window.location.search}`}>서버 설정으로 가는 버튼</L>
+      <L to={`/settings/guild${window.location.search}`}>서버 설정으로 가는 버튼</L>
     </>
   );
 };

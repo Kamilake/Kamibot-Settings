@@ -9,12 +9,6 @@ import TwemojiText from '../../utils/twemojiUtil/TwemojiText';
 import L from './components/L';
 
 const Help: React.FC = () => {
-  // const navigate = useNavigate();
-  // const location = useLocation();
-
-  // function gohome() {
-  //   navigate('/user/settings' + location.search);
-  // }
 
   return (
     <Container maxWidth="sm">
@@ -34,7 +28,6 @@ const Help: React.FC = () => {
               <L to="https://help.kamibot.app/">작성중이지만.. 조금 더 내용이 많은 도움말 사이트로 이동하기</L>
             </TwemojiText>
           </Typography>
-          {/* <Button variant="contained" color="primary" onClick={gohome}>서버 설정으로 돌아가기</Button> */}
           <br />
           <br />
         </div>

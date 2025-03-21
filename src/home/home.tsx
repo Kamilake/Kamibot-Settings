@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 
-import { UserProvider } from './contexts/User/UserContext';
-import FetchUserData from './contexts/User/FetchUserData';
-import HomePage from './home/HomePage';
+import { UserProvider } from '../contexts/User/UserContext';
+import FetchUserData from '../contexts/User/FetchUserData';
+import HomePage from '../home/HomePage';
 
 const HomeRoutes: React.FC = () => {
   const [value, setValue] = React.useState<number>(0);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { JSX } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
@@ -22,7 +22,7 @@ const GridButton = () => {
   const navigate = useNavigate();
 
   const navigateToGuildSubSettingsPage = (page: string): void => {
-    navigate('/user/guild/' + page + location.search);
+    navigate('/settings/guild/' + page + location.search);
   }
 
   return (

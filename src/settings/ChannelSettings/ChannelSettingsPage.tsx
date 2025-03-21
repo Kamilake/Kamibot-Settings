@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useLocation, useNavigate } from "react-router-dom";
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -17,12 +16,6 @@ import { Channel } from '../../api/fetchChannelListApi';
 import TwemojiText from '../../../utils/twemojiUtil/TwemojiText';
 
 const Settings: React.FC = () => {
-  // const navigate = useNavigate();
-  // const location = useLocation();
-
-  // const navigateToUserPersonalPage = (): void => {
-  //   navigate('/user/personal' + location.search);
-  // }
 
   const { data: user, loading, error } = fetchUserInfoApi();
   const [channelSelectValue, setChannelSelectValue] = React.useState<Channel>({

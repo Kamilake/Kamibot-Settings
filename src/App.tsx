@@ -1,13 +1,13 @@
 import * as React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { Suspense } from 'react';
 import { CircularProgress, Box } from '@mui/material';
 import ErrorBoundary from './components/ErrorBoundary';
 
 // 동적 임포트로 변경
-const UserRoutes = React.lazy(() => import('./user'));
-const SystemRoutes = React.lazy(() => import('./system'));
-const HomeRoutes = React.lazy(() => import('./home'));
+const UserRoutes = React.lazy(() => import('./settings/settings'));
+const SystemRoutes = React.lazy(() => import('./system/system'));
+const HomeRoutes = React.lazy(() => import('./home/home'));
 
 // 로딩 컴포넌트
 const LoadingFallback = () => (
@@ -15,6 +15,14 @@ const LoadingFallback = () => (
     <CircularProgress />
   </Box>
 );
+
+// 새로운 리디렉션 컴포넌트 추가
+const RedirectUserToSettings: React.FC = () => {
+  const location = useLocation();
+  // /user 경로 부분을 /settings로 변경하며, 나머지 경로 및 쿼리스트링 유지
+  const newPath = location.pathname.replace(/^\/user/, '/settings');
+  return <Navigate to={newPath + location.search} replace />;
+};
 
 const App: React.FC = () => {
   return (
@@ -24,7 +32,9 @@ const App: React.FC = () => {
           <Suspense fallback={<LoadingFallback />}>
             <Routes>
               <Route path="/*" element={<HomeRoutes />} />
-              <Route path="user/*" element={<UserRoutes />} />
+              <Route path="settings/*" element={<UserRoutes />} />
+              {/* /user 경로의 뒷부분 유지하며 /settings로 리디렉션 */}
+              <Route path="user/*" element={<RedirectUserToSettings />} />
               <Route path="system/*" element={<SystemRoutes />} />
             </Routes>
           </Suspense>

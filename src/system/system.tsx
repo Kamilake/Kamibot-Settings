@@ -8,10 +8,10 @@ import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ListIcon from '@mui/icons-material/List';
 
-import SystemSettingsPage from './system/SystemSettingsPage';
-import SystemLogsPage from './system/SystemLogsPage';
-import { UserProvider } from './contexts/User/UserContext';
-import FetchUserData from './contexts/User/FetchUserData';
+import SystemSettingsPage from '../system/SystemSettingsPage'; 
+import SystemLogsPage from '../system/SystemLogsPage';
+import { UserProvider } from '../contexts/User/UserContext';
+import FetchUserData from '../contexts/User/FetchUserData';
 
 const SystemRoutes: React.FC = () => {
   const [value, setValue] = React.useState<number>(0);

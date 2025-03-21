@@ -161,7 +161,7 @@ const FunctionBody: React.FC = () => {
         <DialogTitle>TTS 자동으로 시작</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            이 기능을 활성화하면 서버에 있는 <b>모든 채널</b>에서 대화를 할 때마다 전부 카미봇이 TTS로 대화를 읽어줘요.<br></br>TTS 전용 채널을 설정하려면 <L to={`/user/channel${window.location.search}`}>채널 설정</L>으로 가 보세요.<br></br>채널 설정이 아니라 정말 이 기능을 찾는 게 맞나요?
+            이 기능을 활성화하면 서버에 있는 <b>모든 채널</b>에서 대화를 할 때마다 전부 카미봇이 TTS로 대화를 읽어줘요.<br></br>TTS 전용 채널을 설정하려면 <L to={`/settings/channel${window.location.search}`}>채널 설정</L>으로 가 보세요.<br></br>채널 설정이 아니라 정말 이 기능을 찾는 게 맞나요?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -176,7 +176,7 @@ const FunctionBody: React.FC = () => {
         aria-labelledby="nested-list-subheader"
         subheader={
           <ListSubheader component="div" id="nested-list-subheader">
-            모든 채널의 기본값 설정. 기능별 설명은 <L to={`/user/channel${window.location.search}`}>채널 설정</L>에서 확인하세요.
+            모든 채널의 기본값 설정. 기능별 설명은 <L to={`/settings/channel${window.location.search}`}>채널 설정</L>에서 확인하세요.
           </ListSubheader>
         }
       >

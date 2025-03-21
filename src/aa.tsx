@@ -2,7 +2,7 @@ import * as React from 'react';
 import Link from '@mui/material/Link';
 import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon';
 import Typography from '@mui/material/Typography';
-import L from './user/components/L';
+import L from './settings/components/L';
 
 function LightBulbIcon(props: SvgIconProps) {
   return (
