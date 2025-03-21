@@ -66,6 +66,12 @@ module.exports = {
     hot: true,
     host: '0.0.0.0',
     allowedHosts: ['kamibot.kami.live', 'cf-kamibot.kami.live', 'kamibot.app', 'dev.kamibot.app', 'localhost'],
+    /* 자격 증명 관련 설정 */
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+      'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization',
+    },
     historyApiFallback: true,
   },
   resolve: {
