@@ -30,11 +30,12 @@ interface ListItem {
 const listItemData = [
   { id: "unset", color: 'standard', name: '일반 채널 (기본값)', icon: <ChannelIcon />, disabled: false },
   { id: "llm", name: 'AI채팅 채널', text: "카미봇 AI채팅 채널", icon: <ReviewsIcon />, help: "AI채팅 채널로 설정한 채널에선 카미봇이 여러분의 질문에 답하거나 원하는 동작을 수행할 수 있어요. 예를 들어 멤버 채팅 통계를 만들거나 그림을 그리거나 서버를 관리할 수 있어요.", category: 'llm', disabled: false },
-  { id: "tts", name: '자동 TTS 읽기 채널', text: "채팅하면 명령어 없이 자동으로 TTS 사용하기", icon: <RecordVoiceOverIcon />, help: "자동 TTS 읽기 채널로 설정해 둔 채널에서는 음성 채널에 들어간 멤버가 채팅을 입력하면 자동으로 카미봇이 음성 채널에 참여하고 텍스트를 읽어주도록 되어 있어요. 그렇게 하면 /tts 명령을 사용하지 않아도 되어서 편리해요. /tts 명령으로 15분 간 비활성화할 수도 있어요", disabled: true },
+  { id: "tts", name: '자동 TTS 읽기 채널', text: "이 기능은 바로 위 일반 설정에 있어요", icon: <RecordVoiceOverIcon />, disabled: true },
+  // { id: "tts", name: '자동 TTS 읽기 채널', text: "채팅하면 명령어 없이 자동으로 TTS 사용하기", icon: <RecordVoiceOverIcon />, help: "자동 TTS 읽기 채널로 설정해 둔 채널에서는 음성 채널에 들어간 멤버가 채팅을 입력하면 자동으로 카미봇이 음성 채널에 참여하고 텍스트를 읽어주도록 되어 있어요. 그렇게 하면 /tts 명령을 사용하지 않아도 되어서 편리해요. /tts 명령으로 15분 간 비활성화할 수도 있어요", disabled: true },
   { id: "vchannel", name: '가변 음성채널', text: "\"🔊음성채널 생성하기\" 채널로 임시 음성채널 만들기", icon: <VolumeUp />, help: "\"음성채널 만들기\" 같이 알기 쉬운 이름으로 채널을 만들어두고 이 옵션을 켜 보세요. 그러면 그 채널을 눌렀을 때 나만의 음성 채널을 만들어 줄 수 있어요!", disabled: false },
   { id: "ai_toolkit", name: 'AI 툴킷 채널', text: "미디어를 업로드하고 AI로 편집하기", icon: <PhotoFilterIcon />, disabled: false },
   { id: "emote_upload", name: '이모지 업로드 채널', text: "커스텀 이모지 업로드 전용 채널", icon: <AddReactionIcon />, help: <>"이모지 추가하기" 같은 이름으로 채널을 만들어 두고 이 옵션을 켜 보세요. 그렇게 하면 이 채널에 사진과 이름을 입력하는 것만으로도 이모지를 업로드할 수 있어요. 매우 길이가 긴 GIF 또는 고해상도 이모지도 처리할 수 있고 '이모지 업스케일링'과 함께 사용하면 Discord 용량 제한보다 더 큰 이모지도 표현할 수 있어요!<img src="/public/custom_emoji_help.png" alt="Discord 서버에서 이모지 등록하는 모습" style={{ maxWidth: '100%', height: 'auto' }} /></>, disabled: false },
-  { id: "translate", name: '자동 번역 채널', text: "여러 나라의 언어를 번역하는 채널", icon: <VoiceChatIcon />, help: "트위터 링크를 누르지 않아도 동영상을 재생하거나 사진을 고화질로 보거나 민감한 게시물의 미리보기를 확인하세요! 이렇게 하면 트위터 유저와 트위터를 사용하지 않는 유저 모두 훨씬 편하게 포스트를 읽을 수 있어요.", disabled: false },
+  { id: "translate", name: '자동 번역 채널', text: "여러 나라의 언어를 번역하는 채널", icon: <VoiceChatIcon />, help: "트위터 링크를 누르지 않아도 동영상을 재생하거나 사진을 고화질로 보거나 민감한 게시물의 미리보기를 확인하세요! 이렇게 하면 트위터 유저와 트위터를 사용하지 않는 유저 모두 훨씬 편하게 포스트를 읽을 수 있어요.", disabled: true },
 ] as ListItem[];
 
 
@@ -133,14 +134,19 @@ export default function DedicatedChannelSettingsRadioButtons({ channelSelectValu
                     component="span"
                     onClick={(event) => {
                       // 상위 동작 취소
-                      event.preventDefault();
                       event.stopPropagation();
                       handleHelpOpen(item.id);
                     }}
                   >
                     <HelpOutline />
                   </IconButton>}
-                <Dialog open={helpOpen[item.id] || false} onClose={() => handleHelpClose(item.id)}>
+                <Dialog
+                  open={helpOpen[item.id] || false}
+                  onClose={() => handleHelpClose(item.id)}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                  }}
+                >
                   <DialogTitle>{"도움말"}</DialogTitle>
                   <DialogContent>
                     <DialogContentText>

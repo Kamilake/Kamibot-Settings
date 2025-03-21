@@ -102,7 +102,7 @@ const FunctionBody: React.FC = () => {
 
   return (
     <>
-    <h1>가변 음성 채널</h1>
+      <h1>가변 음성 채널</h1>
       <List>
         <ListItem>
           <ListItemIcon>
@@ -191,7 +191,7 @@ const FunctionBody: React.FC = () => {
       <br />
       <Box display="flex" alignItems="center" flexDirection="row">
         <Typography variant="h5" component="span">
-          음성 알림
+          일반
         </Typography>
         <Tooltip title="음성 알림에 대해 알아보기">
           <IconButton onClick={handleClickAccessibilityOpen}>
@@ -212,11 +212,6 @@ const FunctionBody: React.FC = () => {
       </Dialog>
       <Divider></Divider>
       <br />
-      <br />
-      {/* <Typography variant="h5">
-        쓰레기
-      </Typography>
-      <Divider />
       <DropdownLabel
         label="/tts 명령 답장"
         value={notificationStyle || 'global'}
@@ -230,16 +225,15 @@ const FunctionBody: React.FC = () => {
         ]}
       />
       <DropdownLabel
-        label="미사용 자동 꺼짐 시간"
-        value={timeout || 0}
+        label="새 음성채널 기능 메세지"
+        value={"true"}
         onChange={handleTimeoutChange}
+        help="새로운 음성 채널이 만들어진 다음 카미봇이 여러가지 단축 버튼(채널 이름 변경, 채널 잠금, TTS 켜기 등)이 있는 메세지를 자동으로 보내둘지 결정하세요."
         items={[
-          { value: 0, text: '즉시', disabled: true },
-          { value: 10, text: '10초', disabled: true },
-          { value: 60, text: '1분', disabled: true },
-          { value: -1, text: '사용 안함' },
+          { value: "true", text: '보내기', disabled: false },
+          { value: "false", text: '보내지 않음', disabled: true },
         ]}
-      /> */}
+      />
     </>
   );
 }

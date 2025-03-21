@@ -59,13 +59,13 @@ const Settings: React.FC = () => {
         />
         <br />
         <Typography variant="h4" gutterBottom component="div">
-          <TwemojiText>{channelSelectValue.channelName ? channelSelectValue.channelName : `채널별`} 설정</TwemojiText>
+          일반
           <Divider />
           <NestedChannelSettingsList channelSelectValue={channelSelectValue} channelId={channelSelectValue.channelId} />
         </Typography>
         <br />
         <Typography variant="h4" gutterBottom component="div">
-          <TwemojiText>전용 채널 설정</TwemojiText>
+          <TwemojiText>전용 채널</TwemojiText>
           <Divider />
           <DedicatedChannelSettingsRadioButtons channelSelectValue={channelSelectValue} channelId={channelSelectValue.channelId} />
         </Typography>
