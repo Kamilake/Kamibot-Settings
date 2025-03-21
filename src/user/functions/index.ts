@@ -13,9 +13,8 @@ import VVC from './VVC';
 import MinecraftRemote from './MinecraftRemote';
 import KeywordNotify from './KeywordNotify';
 import General from './General';
-import InviteRole from './InviteRole_del';
+import InviteRole from './InviteRole';
 import Dashboard from './Dashboard/Dashboard';
-// import InviteRole from './InviteRole';
 
 const functions = [General, WelcomeMessageFunc, TTS, Func2, AiChat, VVC, MinecraftRemote, KeywordNotify, InviteRole, Dashboard];
 export default functions;
