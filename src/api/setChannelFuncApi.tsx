@@ -87,32 +87,23 @@ function isStringAction(
 
 export default setChannelFuncApi;
 
-export async function postData(url: string, param: any): Promise<ResponseData> {
+export async function postData(url: string, requestParam: any): Promise<ResponseData> {
   try {
+    console.log("setChannelFuncApi Request: ", requestParam);
     const urlParams = new URLSearchParams(window.location.search);
-    let jwt = urlParams.get('data');
-    if (!jwt) {
-      jwt = "default";
-    }
-    console.log("setChannelFuncApi: " + url, param);
-
-    let requestParam = Object.assign({
-      data: jwt
-    }, param)
-
-    // console.log("jwt: " + JSON.stringify(requestParam));
-    const response: AxiosResponse<ResponseData> = await axios.post(url, requestParam, {
-      headers: {
-        Authorization: `Bearer ${jwt}`
-      }
-    });
-
-    console.log("setChannelFuncApi Response: " + response.data);
-
+    const requestOptions: any = {};
+    let data = urlParams.get('data');
+    if (data)
+      requestOptions.params = { data };
+    const response: AxiosResponse<ResponseData> = await axios.post(url, requestParam, requestOptions);
+    console.log("setChannelFuncApi Response: ", response.data);
     return response.data;
-
   } catch (error) {
     console.log("setChannelFuncApi Error: " + error);
+    if (axios.isAxiosError(error) && error.response && error.response.status === 400) {
+      // 400 에러인 경우 정상으로 처리
+      return error.response.data as ResponseData;
+    }
     throw error;
   }
 };
