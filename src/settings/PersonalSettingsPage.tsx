@@ -33,6 +33,7 @@ import setGuildFuncApi from '../api/setGuildFuncApi';
 import TextboxLabel from './components/TextboxLabel';
 import setUserFuncApi from '../api/setUserFuncApi';
 import TwemojiText from '../../utils/twemojiUtil/TwemojiText';
+import { useUser } from '../contexts/User/UserContext';
 function findActorById(id: string, actorData: Actor[]): Actor | undefined {
   return actorData.find(actor => actor.id === id);
 }
@@ -121,6 +122,7 @@ const PersonalSettings: React.FC = () => {
   let guildName = userData.guildName;
   let guildId = userData.guildId;
 
+  const { user: user_ } = useUser();
 
   return (
     <Container maxWidth="sm">
@@ -129,7 +131,7 @@ const PersonalSettings: React.FC = () => {
         <div className="personal">
           <BadgeAvatars userName={userName + "님, 안녕하세요!"} avatarUrl={avatar} />
           <br />
-          {userName} (도전과제 레벨 {userLevel}) (지금은 레벨이 그냥 장식이에요)<br />
+          {/* {userName} (레벨 {userLevel}) (지금은 레벨이 그냥 장식이에요)<br /> */}
           {guildId == 0 ? null : <>
             <TwemojiText>
               {guildName + ' => ' + channelName}
