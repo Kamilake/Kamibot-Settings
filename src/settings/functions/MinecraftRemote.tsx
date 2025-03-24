@@ -1,11 +1,12 @@
 import React from "react";
-import { PhotoFilter, Smartphone, ViewInAr } from '@mui/icons-material';
+import { ViewInAr } from '@mui/icons-material';
 import { FunctionInterface } from "../components/GuildSettingsGrid";
 import { Link } from "@mui/material";
 
 const body =
   <>
-    아, 이거 다 만들었는데 아직 웹 UI에는 구현을 안했어요. 마크 명령어쪽은 완성되어 있으니까 사용해보고 싶은 분은 kamilake에게 DM 주세요!<br />
+    자세한 사용 방법은 <Link href="https://help.kamibot.app/minecraft/">도움말 사이트</Link>를 참고해주세요<br />
+    <br />
     사용 가능 버전: <br />
     Forge 1.20.x, 1.21.x <Link href="https://github.com/Kamilake/Kamibot-Remote-Forge/releases/">다운로드</Link><br />
     Spigot/Paper 1.20.x, 1.21.x <Link href="https://github.com/Kamilake/Kamibot-Remote-Paper/releases/">다운로드</Link><br />
@@ -18,7 +19,7 @@ const body =
 const functionInfo: FunctionInterface = {
   icon: <ViewInAr />,
   title: 'Minecraft 연동',
-  description: '양방향 채팅, 서버 명령어 전송, 서버 상태 확인 같은 기능들이 있어요!',
+  description: '양방향 채팅, 서버 명령어 전송, 마크에서 AI채팅 사용',
   url: 'minecraft-remote',
   data: body
 };

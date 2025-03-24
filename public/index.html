@@ -1,81 +1,82 @@
 <!DOCTYPE html>
 <html lang="ko-KR">
-  <head>
-    <meta charset="utf-8" lang="ko-KR" />
-    <meta name="viewport" content="initial-scale=1, width=device-width" />
-    <meta name="theme-color" content="#556CD6" />
-    <title>Kamibot</title>
-    
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="/public/favicon.ico" />
-    
-    <!-- Web App Manifest -->
-    <link rel="manifest" href="/public/manifest.json" />
-    
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto%20Color%20Emoji" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-    
-    <!-- App Loader Styles -->
-    <style>
-      .app-loader {
-        display: none;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-        width: 100vw;
+
+<head>
+  <meta charset="utf-8" lang="ko-KR" />
+  <meta name="viewport" content="initial-scale=1, width=device-width" />
+  <meta name="theme-color" content="#556CD6" />
+  <title>Kamibot</title>
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="/public/favicon.ico" />
+
+  <!-- Web App Manifest -->
+  <link rel="manifest" href="/public/manifest.json" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto%20Color%20Emoji" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+
+  <!-- App Loader Styles -->
+  <style>
+    .app-loader {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    .app-loader.visible {
+      display: flex;
+    }
+
+    .app-loader__spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #3498db;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    .app-loader__text {
+      margin-top: 16px;
+      font-size: 1.2em;
+      color: #333;
+      font-family: "Roboto", sans-serif;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
       }
-      .app-loader.visible {
-        display: flex;
+
+      100% {
+        transform: rotate(360deg);
       }
-      .app-loader__spinner {
-        width: 50px;
-        height: 50px;
-        border: 5px solid #f3f3f3;
-        border-top: 5px solid #3498db;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-      }
-      .app-loader__text {
-        margin-top: 16px;
-        font-size: 1.2em;
-        color: #333;
-        font-family: "Roboto", sans-serif;
-      }
-      @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-      }
-    </style>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    
-    <div id="root">
-      <div class="app-loader">
-        <div class="app-loader__spinner"></div>
-        <p class="app-loader__text">카미봇 로딩 중...!</p>
-      </div>
+    }
+  </style>
+</head>
+
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+
+  <div id="root">
+    <div class="app-loader">
+      <div class="app-loader__spinner"></div>
+      <p class="app-loader__text">카미봇 로딩 중...!</p>
     </div>
-    
-    <!-- 
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-    
-    <script>
-      // 2초 후에 로딩 스피너를 표시하는 코드
-      setTimeout(function() {
-        const appLoader = document.querySelector('.app-loader');
-        if (appLoader) {
-          appLoader.classList.add('visible');
-        }
-      }, 2000);
-    </script>
-  </body>
+  </div>
+  <script>
+    setTimeout(function () {
+      const appLoader = document.querySelector('.app-loader');
+      if (appLoader) {
+        appLoader.classList.add('visible');
+      }
+    }, 2000);
+  </script>
+</body>
+
 </html>
