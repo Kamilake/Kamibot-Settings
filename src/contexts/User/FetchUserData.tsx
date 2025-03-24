@@ -17,6 +17,11 @@ const FetchUserData = () => {
           return;
         }
         const data: User = await response.json();
+        if (!data || (data as any).success === "false") {
+          // 데이터가 없을 때 처리
+          console.error("No user data found. data: ", data);
+          return;
+        }
         setUser(data);
       } catch (error) {
         console.error('Error fetching user data:', error);

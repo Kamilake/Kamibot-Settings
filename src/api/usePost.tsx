@@ -31,9 +31,9 @@ const usePost = <T,>(url: string, param: object): PostResult<T> => {
         const response: AxiosResponse<T> = await axios.post(url, Object.assign({
           data: jwt
         }, param), {
-          headers: {
-            Authorization: `Bearer ${jwt}`
-          }
+          // headers: {
+          //   Authorization: `Bearer ${jwt}`
+          // }
         });
 
         setData(response.data);

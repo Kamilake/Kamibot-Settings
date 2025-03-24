@@ -19,9 +19,9 @@ const useFetch = <T,>(url: string): { data: T, loading: boolean, error: any } =>
         // console.log("jwt: " + jwt);
 
         const response: AxiosResponse<T> = await axios.get(url, {
-          headers: {
-            Authorization: `Bearer ${jwt}`
-          },
+          // headers: {
+          //   Authorization: `Bearer ${jwt}`
+          // },
           params: {
             data: jwt
           }
