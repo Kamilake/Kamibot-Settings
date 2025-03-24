@@ -7,7 +7,7 @@ import IconClose from '@mui/icons-material/Close';
 import { postData } from './setChannelFuncApi';
 
 interface ResponseData {
-  success: string;
+  success: boolean;
   message: string;
 }
 
@@ -26,8 +26,8 @@ const setUserFuncApi = async (func: string, value: boolean | string | number, ca
     //   enabled: enabled
     // }
     // );
-    console.log("API Response: success: " + (data?.success == 'true') + ", message: " + data.message);
-    if ((data?.success != 'true')) {
+    console.log("API Response: success: " + (data?.success == true) + ", message: " + data.message);
+    if ((data?.success != true)) {
       closeSnackbar(nowSettingSnackbarId);
       enqueueSnackbar('설정에 실패했어요: ' + data.message, {
         variant: 'error', autoHideDuration: 5000, action: (key) => (

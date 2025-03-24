@@ -7,7 +7,7 @@ import IconClose from '@mui/icons-material/Close';
 import { postData } from './setChannelFuncApi';
 
 interface ResponseData {
-  success: string;
+  success: boolean;
   message: string;
 }
 
@@ -38,8 +38,8 @@ const setGuildFuncApi = async (
     let data: ResponseData = await postData(
       '/api/guild/0/' + func, param
     )
-    console.log("API Response: success: " + (data?.success == 'true') + ", message: " + data.message);
-    if ((data?.success != 'true')) {
+    console.log("API Response: success: " + (data?.success == true) + ", message: " + data.message);
+    if ((data?.success != true)) {
       closeSnackbar(nowSettingSnackbarId);
       onFailureMessage(data.message);
       onFailure(data.message);
