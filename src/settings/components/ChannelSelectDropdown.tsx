@@ -1,8 +1,7 @@
 import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-import fetchChannelListApi from '../../api/fetchChannelListApi';
-import { Channel } from '../../api/fetchChannelListApi';
+import { Channel, useChannels } from '../../contexts/User/Channels/ChannelContext';
 
 interface ControllableStatesProps {
   value: Channel;
@@ -12,10 +11,8 @@ interface ControllableStatesProps {
 
 export default function ControllableStates({ value, setValue, disabled = false }: ControllableStatesProps) {
   const [inputValue, setInputValue] = React.useState<string>('');
-  const { data, loading, error } = fetchChannelListApi();
-  const channelArray = data;
-
-  return channelArray ? (
+  const { channelList } = useChannels();
+  return channelList ? (
     <Autocomplete
       isOptionEqualToValue={(option: Channel, value: Channel) => option.channelId === value.channelId}
       value={value}
@@ -30,7 +27,7 @@ export default function ControllableStates({ value, setValue, disabled = false }
         setInputValue(newInputValue);
       }}
       id="controllable-states-demo"
-      options={channelArray}
+      options={channelList}
       groupBy={(option: Channel) => option.categoryName}
       getOptionLabel={(option: Channel) => option.channelName}
       renderOption={(props, option) => (

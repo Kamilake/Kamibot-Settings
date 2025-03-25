@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 
 import { UserProvider } from '../contexts/User/UserContext';
-import FetchUserData from '../contexts/User/FetchUserData';
+import FetchUserData from '../contexts/User/FetchUser';
 import HomePage from '../home/HomePage';
 
 const HomeRoutes: React.FC = () => {

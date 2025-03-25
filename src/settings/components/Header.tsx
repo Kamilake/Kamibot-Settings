@@ -7,18 +7,20 @@ import MenuIcon from '@mui/icons-material/Menu';
 import BadgeAvatars from './BadgeAvatars';
 import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider, Drawer } from '@mui/material';
 import { Inbox, Mail } from '@mui/icons-material';
+import { useUser } from '../../contexts/User/UserContext';
 
 interface HeaderProps {
   title: string;
-  userAvatarUrl: string;
   icon?: React.ReactElement;
   onIconClick?: () => void;
 }
-const Header: React.FC<HeaderProps> = ({ title, userAvatarUrl, icon = <MenuIcon />, onIconClick = () => { } }) => {
+const Header: React.FC<HeaderProps> = ({ title, icon = <MenuIcon />, onIconClick = () => { } }) => {
   const [openDrawer, setOpenDrawer] = React.useState(false);
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpenDrawer(newOpen);
   };
+
+  const { user } = useUser();
 
   const DrawerList = (
     <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
@@ -61,7 +63,7 @@ const Header: React.FC<HeaderProps> = ({ title, userAvatarUrl, icon = <MenuIcon 
             {title}
           </Typography>
           자동 로그인됨&nbsp;&nbsp;
-          <BadgeAvatars userName="" avatarUrl={userAvatarUrl} />
+          <BadgeAvatars userName="" avatarUrl={user.userAvatarUrl} />
         </Toolbar>
         {/* <Drawer
           open={openDrawer} onClose={toggleDrawer(false)}>

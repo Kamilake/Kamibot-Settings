@@ -1,63 +1,67 @@
 import * as React from 'react';
 
+// MUI Components
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-
-// ThemeProvider 
-import { createTheme } from '@mui/material/styles';
-
-import fetchActorListApi from '../api/fetchActorListApi';
-
-import { SnackbarProvider } from 'notistack'
-
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
+import { SelectChangeEvent } from '@mui/material';
+import { createTheme } from '@mui/material/styles';
+
+// Icons
 import InfoIcon from '@mui/icons-material/Info';
 
+// Notifications
+import { SnackbarProvider } from 'notistack';
+
+// Custom Components
 import BadgeAvatars from './components/BadgeAvatars';
 import VoiceActorComboBox from './components/VoiceActorComboBox';
-
-import fetchUserInfoApi from '../api/fetchUserInfoApi';
-
 import Header from './components/Header';
-
-import { Actor } from '../api/fetchActorListApi';
-import { User } from '../api/fetchUserInfoApi';
 import DropdownLabel from './components/DropdownLabel';
-import { SelectChangeEvent } from '@mui/material';
-import setGuildFuncApi from '../api/setGuildFuncApi';
 import TextboxLabel from './components/TextboxLabel';
-import setUserFuncApi from '../api/setUserFuncApi';
 import TwemojiText from '../../utils/twemojiUtil/TwemojiText';
+
+// API Services
+import setGuildFuncApi from '../api/setGuildFuncApi';
+import setUserFuncApi from '../api/setUserFuncApi';
+
+// Context
 import { useUser } from '../contexts/User/UserContext';
+import { useActor } from '../contexts/User/Actors/ActorContext';
+import { Actor } from '../contexts/User/Actors/FetchActors';
+
 function findActorById(id: string, actorData: Actor[]): Actor | undefined {
   return actorData.find(actor => actor.id === id);
 }
 
-
-
 const PersonalSettings: React.FC = () => {
-  const { data: actorData, loading: actorLoading, error: actorError } = fetchActorListApi();
+  const { actorList, isActorLoaded } = useActor();
+  const { user, isUserLoaded } = useUser();
 
-  let actors: Actor[] = actorData;
-  let user: User = fetchUserInfoApi().data;
-  let { data: userData, loading: userLoading, error: userError } = fetchUserInfoApi();
-
-  // 만약 데이터가 {}이면 로그인 페이지로 리디렉션
-  if (JSON.stringify(userData) === JSON.stringify({})) {
+  // 로그인 체크
+  if (JSON.stringify(user) === JSON.stringify({})) {
     window.location.href = "https://discord.com/application-directory/1019061779357245521";
   }
 
-  const [emoteUpscale, setEmoteUpscale] = React.useState('default'); // 알림
-  const [shortName, setShortName] = React.useState(""); // 짧은 이름
+  const [emoteUpscale, setEmoteUpscale] = React.useState('default');
+  const [shortName, setShortName] = React.useState("");
+  const [voiceActorValue, setVoiceActorValue] = React.useState({
+    displayName: "로드 중...",
+    id: "notset",
+    gender: "f",
+    language: "ko-KR",
+    categoryName: "",
+    disabled: true,
+    hidden: false,
+  });
 
-  // handleEmoteUpscaleChange
+  // 이모지 업스케일 변경 핸들러
   const handleEmoteUpscaleChange = (event: SelectChangeEvent<any>) => {
-    // setEmoteUpscale(event.target.value as string);
     const emoteUpscaleValue: string = event.target.value as string;
     setGuildFuncApi(
       'emote_upscale',
@@ -68,28 +72,18 @@ const PersonalSettings: React.FC = () => {
     );
   };
 
-
+  // 짧은 이름 변경 핸들러
   const handleShortNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const shortNameValue: string = event.target.value;
     setUserFuncApi('short_name', shortNameValue, '보이스 설정을 변경했어요!');
   }
 
-  let [voiceActorValue, setVoiceActorValue] = React.useState(
-    {
-      displayName: "로드 중...",
-      id: "notset",
-      gender: "f",
-      language: "ko-KR",
-      categoryName: "",
-      disabled: true,
-    });
-
   React.useEffect(() => {
-    if (!userLoading && !actorLoading && userData && actorData) {
-      setVoiceActorValue(findActorById(userData.ttsActor == "notset" ? "kyuri" : userData.ttsActor, actorData) || voiceActorValue);
-      setShortName(userData.ttsFriendlyName);
+    if (isUserLoaded && isActorLoaded && user) {
+      setVoiceActorValue(findActorById(user.ttsActor == "notset" ? "kyuri" : user.ttsActor, actorList) || voiceActorValue);
+      setShortName(user.ttsFriendlyName);
     }
-  }, [userLoading, actorLoading]);
+  }, [isUserLoaded, isActorLoaded]);
 
   const theme = createTheme({
     components: {
@@ -111,39 +105,28 @@ const PersonalSettings: React.FC = () => {
     },
   });
 
-  // let memberName = data?.userEffectiveName ? `${data.userEffectiveName}님` : "여러분";
-
-  let userName = userData.userEffectiveName;
-  let ttsFriendlyName = userData.ttsFriendlyName;
-  let userLevel = userData.userLevel;
-  let avatar = userData.userAvatarUrl;
-  let channelName = userData.channelName;
-  let channelId = userData.channelId;
-  let guildName = userData.guildName;
-  let guildId = userData.guildId;
-
-  const { user: user_ } = useUser();
-
   return (
     <Container maxWidth="sm">
       <Box sx={{ my: 1 }}>
-        <Header title="개인 설정" userAvatarUrl={avatar} />
+        <Header title="개인 설정" />
         <div className="personal">
-          <BadgeAvatars userName={userName + "님, 안녕하세요!"} avatarUrl={avatar} />
+          <BadgeAvatars userName={user.userEffectiveName + "님, 안녕하세요!"} avatarUrl={user.userAvatarUrl} />
           <br />
-          {/* {userName} (레벨 {userLevel}) (지금은 레벨이 그냥 장식이에요)<br /> */}
-          {guildId == 0 ? null : <>
-            <TwemojiText>
-              {guildName + ' => ' + channelName}
-            </TwemojiText>
-            <br />
-          </>}
+          <br />
+          {user.guildId == 0 ? null : (
+            <>
+              <TwemojiText>
+                {user.guildName + ' => ' + user.channelName}
+              </TwemojiText>
+              <br />
+            </>
+          )}
           <TwemojiText>
             이 개인 설정 페이지에서 여러 가지 설정을 바꿔보세요!😆
           </TwemojiText>
           <br />
         </div>
-        {/* For variant="text", adjust the height via font-size */}
+
         <DropdownLabel
           label="이모지 업스케일링"
           value={emoteUpscale}
@@ -154,16 +137,18 @@ const PersonalSettings: React.FC = () => {
             { value: 'force', text: '무조건 사용하기', disabled: false },
           ]}
         />
+
         <TextboxLabel
           label="짧은 닉네임"
-          // value={"기본값 텍스트"}
           value={shortName}
           onChange={handleShortNameChange}
           placeholder="카미"
-          help={<>TTS 또는 AI 카미봇이 읽어줄 짧은 한글 사용자명을 설정해보세요.<br /><br />
+          help={<>
+            TTS 또는 AI 카미봇이 읽어줄 짧은 한글 사용자명을 설정해보세요.<br /><br />
             원래 닉네임인 'Kamilake' 대신 '카미'처럼 사람들이 주로 부르는 이름을 소리나는 대로 설정하면 돼요.<br /><br />
           </>}
         />
+
         <Box>
           <Typography variant="h5" gutterBottom component="div">
             TTS 보이스 설정
@@ -206,19 +191,7 @@ const PersonalSettings: React.FC = () => {
               <ListItemText primary={<TwemojiText>'베타' 표시가 있는 보이스는 실험적이라 언제든지 바뀔 수 있어요😅 (많은 피드백 부탁드려요!)</TwemojiText>} />
             </ListItem>
           </List>
-
           <br />
-          {/* <Link href="https://www.ncloud.com/product/aiService/clovaVoice" target="_blank" rel="noopener noreferrer">
-            <Button variant="contained" color="secondary" endIcon={<OpenInNewIcon />}>
-              (외부 사이트) 보이스 샘플 듣기
-            </Button>
-          </Link> */}
-          <br />
-
-          <br />
-          {/* <Skeleton variant="text" sx={{ fontSize: '1rem' }} animation="wave" /> <br /> */}
-
-          {/* <Button variant="contained" color="primary" onClick={gohome}> 채널 설정으로 이동 </Button> */}
           <br />
           <br />
           <br />
@@ -234,7 +207,8 @@ const PersonalSettings: React.FC = () => {
         anchorOrigin={{
           vertical: 'top',
           horizontal: 'center',
-        }} />
+        }}
+      />
     </Container>
   );
 }

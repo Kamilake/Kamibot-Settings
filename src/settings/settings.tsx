@@ -47,8 +47,11 @@ const preloadComponents = () => {
 import settingsFunctions from './functions';
 import FunctionLocator from './components/FunctionLocator';
 import { CircularProgress } from '@mui/material';
-import FetchUserData from '../contexts/User/FetchUserData';
+import FetchUserData from '../contexts/User/FetchUser';
 import { UserProvider } from '../contexts/User/UserContext';
+import { ActorProvider } from '../contexts/User/Actors/ActorContext';
+import FetchActors from '../contexts/User/Actors/FetchActors';
+import { ChannelProvider } from '../contexts/User/Channels/ChannelContext';
 
 // 로딩 컴포넌트
 const PageLoadingFallback = () => (
@@ -82,58 +85,64 @@ const UserRoutes: React.FC = () => {
   return (
     <>
       <UserProvider>
-        <React.Suspense fallback={<PageLoadingFallback />}>
-          <FetchUserData />
-          <Routes>
-            <Route path="personal" element={<PersonalSettingsPage />} />
-            <Route path="channel" element={<ChannelSettingsPage />} />
-            <Route path="guild" element={<GuildSettingsPage />} />
-            <Route path="help" element={<HelpPage />} />
-            {settingsFunctions.map((Item, index) => (
-              <Route
-                key={index}
-                path={`guild/${Item.url}`}
-                element={<FunctionLocator url={Item.url} />}
-              />
-            ))}
-          </Routes>
+        <ActorProvider>
+          <ChannelProvider>
+            <React.Suspense fallback={<PageLoadingFallback />}>
+              <FetchUserData />
+              <FetchActors />
+              <Routes>
+                <Route path="personal" element={<PersonalSettingsPage />} />
+                <Route path="channel" element={<ChannelSettingsPage />} />
+                <Route path="guild" element={<GuildSettingsPage />} />
+                <Route path="help" element={<HelpPage />} />
+                {settingsFunctions.map((Item, index) => (
+                  <Route
+                    key={index}
+                    path={`guild/${Item.url}`}
+                    element={<FunctionLocator url={Item.url} />}
+                  />
+                ))}
+              </Routes>
+            </React.Suspense>
 
-        </React.Suspense>
 
+            <BottomNavigation
+              showLabels
+              value={value}
+              onChange={(event, newValue) => {
+                setValue(newValue);
+                if (newValue === 0) {
+                  navigate('/settings/personal' + location.search);
+                }
+                if (newValue === 1) {
+                  navigate('/settings/channel' + location.search);
+                }
+                if (newValue === 2) {
+                  navigate('/settings/guild' + location.search);
+                }
+                if (newValue === 3) {
+                  navigate('/settings/help' + location.search);
+                }
+              }}
+              sx={{
+                position: 'fixed',
+                bottom: 0,
+                left: 0,
+                right: 0,
+                zIndex: 100
+              }}
+            >
+              <BottomNavigationAction label="개인 설정" icon={<AccountCircleIcon />} />
+              <BottomNavigationAction label="채널 설정" icon={<StorageIcon />} />
+              <BottomNavigationAction label="서버 설정" icon={<GroupsIcon />} />
+              <BottomNavigationAction label="도움말" icon={<HelpIcon />} />
+            </BottomNavigation>
+            <Box pb={7}></Box>
+          </ChannelProvider>
+        </ActorProvider>
 
-        <BottomNavigation
-          showLabels
-          value={value}
-          onChange={(event, newValue) => {
-            setValue(newValue);
-            if (newValue === 0) {
-              navigate('/settings/personal' + location.search);
-            }
-            if (newValue === 1) {
-              navigate('/settings/channel' + location.search);
-            }
-            if (newValue === 2) {
-              navigate('/settings/guild' + location.search);
-            }
-            if (newValue === 3) {
-              navigate('/settings/help' + location.search);
-            }
-          }}
-          sx={{
-            position: 'fixed',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            zIndex: 100
-          }}
-        >
-          <BottomNavigationAction label="개인 설정" icon={<AccountCircleIcon />} />
-          <BottomNavigationAction label="채널 설정" icon={<StorageIcon />} />
-          <BottomNavigationAction label="서버 설정" icon={<GroupsIcon />} />
-          <BottomNavigationAction label="도움말" icon={<HelpIcon />} />
-        </BottomNavigation>
-        <Box pb={7}></Box>
       </UserProvider>
+
     </>
   );
 };

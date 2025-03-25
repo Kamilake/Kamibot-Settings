@@ -7,7 +7,7 @@ import AuthCheck from './components/AuthCheck';
 import RedirectUserToSettings from './components/RedirectUserToSettings';
 
 // 동적 임포트로 변경
-const UserRoutes = React.lazy(() => import('./settings/settings'));
+const SettingsRoutes = React.lazy(() => import('./settings/settings'));
 const SystemRoutes = React.lazy(() => import('./system/system'));
 const HomeRoutes = React.lazy(() => import('./home/home'));
 
@@ -28,7 +28,7 @@ const App: React.FC = () => {
             <AuthCheck />
             <Routes>
               <Route path="/*" element={<HomeRoutes />} />
-              <Route path="settings/*" element={<UserRoutes />} />
+              <Route path="settings/*" element={<SettingsRoutes />} />
               {/* /user 경로의 뒷부분 유지하며 /settings로 리디렉션 */}
               <Route path="user/*" element={<RedirectUserToSettings />} />
               <Route path="system/*" element={<SystemRoutes />} />

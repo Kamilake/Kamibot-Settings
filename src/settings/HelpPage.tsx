@@ -13,7 +13,7 @@ const Help: React.FC = () => {
   return (
     <Container maxWidth="sm">
       <Box sx={{ my: 1 }}>
-        <Header title="도움말" userAvatarUrl={""} />
+        <Header title="도움말" />
         <div className="home">
           <Typography variant="h4" gutterBottom component="div">
             카미봇 도움말

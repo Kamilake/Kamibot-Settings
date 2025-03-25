@@ -11,13 +11,13 @@ import Header from '../components/Header';
 import ProTip from '../components/ProTip';
 import DedicatedChannelSettingsRadioButtons from '../components/DedicatedChannelSettingsRadioButtons';
 
-import fetchUserInfoApi from '../../api/fetchUserInfoApi';
-import { Channel } from '../../api/fetchChannelListApi';
 import TwemojiText from '../../../utils/twemojiUtil/TwemojiText';
+import { useUser } from '../../contexts/User/UserContext';
+import { Channel } from '../../contexts/User/Channels/ChannelContext';
 
 const Settings: React.FC = () => {
 
-  const { data: user, loading, error } = fetchUserInfoApi();
+  const { user, isUserLoaded } = useUser();
   const [channelSelectValue, setChannelSelectValue] = React.useState<Channel>({
     channelName: '로드 중...',
     channelType: "PRIVATE",
@@ -26,7 +26,7 @@ const Settings: React.FC = () => {
   });
 
   React.useEffect(() => {
-    if (!loading && channelSelectValue.channelId == -1) {
+    if (isUserLoaded && channelSelectValue.channelId == -1) {
       setChannelSelectValue({
         channelName: user.channelName,
         channelId: user.channelId,
@@ -35,17 +35,11 @@ const Settings: React.FC = () => {
       });
     }
     if (channelSelectValue.channelId == -1) return;
-  }, [channelSelectValue, loading]);
-
-  if (error) return <div>Error occurred!
-    <br />
-    {error.message}
-  </div>;
-
+  }, [channelSelectValue, isUserLoaded]);
   return (
     <Container maxWidth="sm">
       <Box sx={{ my: 1 }}>
-        <Header title="채널 설정" userAvatarUrl={user.userAvatarUrl} />
+        <Header title={isUserLoaded ? user.guildName + " > " + channelSelectValue.channelName + " 설정" : "채널 설정"} />
         <ControllableStates
           value={channelSelectValue}
           setValue={setChannelSelectValue}

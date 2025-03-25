@@ -2,7 +2,6 @@ import settingsFunctions from '../functions';
 
 import React from 'react';
 
-import fetchUserInfoApi from '../../api/fetchUserInfoApi';
 import { Box, Container } from '@mui/material';
 import Header from './Header';
 import ProTip from './ProTip';
@@ -14,9 +13,7 @@ interface FunctionLocatorProps {
 }
 
 const FunctionLocator: React.FC<FunctionLocatorProps> = ({ url }) => {
-  const userFetchResult = fetchUserInfoApi();
   const functionInfo = settingsFunctions.find(func => func.url === url);
-
   if (!functionInfo) {
     return <div>Function not found</div>;
   }
@@ -26,7 +23,6 @@ const FunctionLocator: React.FC<FunctionLocatorProps> = ({ url }) => {
       <Box>
         <Header
           title={functionInfo.title}
-          userAvatarUrl={userFetchResult.data.userAvatarUrl}
           icon={<ArrowBack />}
           onIconClick={() => window.history.back()}
         />

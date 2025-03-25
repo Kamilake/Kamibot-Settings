@@ -7,24 +7,20 @@ import Divider from '@mui/material/Divider';
 import { SnackbarProvider } from 'notistack'
 import Header from './components/Header';
 import ProTip from './components/ProTip';
-import fetchUserInfoApi from '../api/fetchUserInfoApi';
 import GridButton from './components/GuildSettingsGrid';
 import TwemojiText from '../../utils/twemojiUtil/TwemojiText';
+import { useUser } from '../contexts/User/UserContext';
 
 const Settings: React.FC = () => {
 
-  const { data: user, loading, error } = fetchUserInfoApi();
-  if (error) return <div>Error occurred!
-    <br />
-    {error.message}
-  </div>;
+  const { user, isUserLoaded } = useUser();
 
   return (
     <Container maxWidth="md">
       <Box sx={{ my: 1 }}>
-        <Header title="서버 설정" userAvatarUrl={user.userAvatarUrl} />
+        <Header title={isUserLoaded ? user.guildName + ` 설정` : `서버 설정`} />
         <Typography variant="h4" gutterBottom component="div">
-          <TwemojiText>{loading ? `서버` : user.guildName}</TwemojiText> 설정
+          <TwemojiText>{isUserLoaded ? user.guildName : `서버`}</TwemojiText> 설정
         </Typography>
         <Divider />
         <br />
