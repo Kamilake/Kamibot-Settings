@@ -13,17 +13,25 @@ import DedicatedChannelSettingsRadioButtons from '../components/DedicatedChannel
 
 import TwemojiText from '../../../utils/twemojiUtil/TwemojiText';
 import { useUser } from '../../contexts/User/UserContext';
-import { Channel } from '../../contexts/User/Channels/ChannelContext';
+import { Channel, useChannels } from '../../contexts/User/Channels/ChannelContext';
+import { useHeader } from '../../contexts/HeaderContext';
 
 const Settings: React.FC = () => {
 
   const { user, isUserLoaded } = useUser();
+  const { channelList, isChannelListLoaded } = useChannels();
+  const { setTitle } = useHeader();
   const [channelSelectValue, setChannelSelectValue] = React.useState<Channel>({
     channelName: '로드 중...',
     channelType: "PRIVATE",
     channelId: -1,
     categoryName: "일반",
   });
+
+  React.useEffect(() => {
+    setTitle(isUserLoaded ? channelSelectValue.channelName + " 설정" : "채널 설정");
+    return () => setTitle('카미봇');
+  }, [setTitle, channelSelectValue]);
 
   React.useEffect(() => {
     if (isUserLoaded && channelSelectValue.channelId == -1) {
@@ -39,7 +47,7 @@ const Settings: React.FC = () => {
   return (
     <Container maxWidth="sm">
       <Box sx={{ my: 1 }}>
-        <Header title={isUserLoaded ? user.guildName + " > " + channelSelectValue.channelName + " 설정" : "채널 설정"} />
+        <Header />
         <ControllableStates
           value={channelSelectValue}
           setValue={setChannelSelectValue}

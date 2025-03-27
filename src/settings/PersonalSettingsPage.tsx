@@ -34,6 +34,7 @@ import setUserFuncApi from '../api/setUserFuncApi';
 import { useUser } from '../contexts/User/UserContext';
 import { useActor } from '../contexts/User/Actors/ActorContext';
 import { Actor } from '../contexts/User/Actors/FetchActors';
+import { useHeader } from '../contexts/HeaderContext';
 
 function findActorById(id: string, actorData: Actor[]): Actor | undefined {
   return actorData.find(actor => actor.id === id);
@@ -42,6 +43,13 @@ function findActorById(id: string, actorData: Actor[]): Actor | undefined {
 const PersonalSettings: React.FC = () => {
   const { actorList, isActorLoaded } = useActor();
   const { user, isUserLoaded } = useUser();
+  const { setTitle } = useHeader();
+
+  React.useEffect(() => {
+    setTitle('개인 설정');
+    return () => setTitle('카미봇');
+  }, [setTitle]);
+
 
   // 로그인 체크
   if (JSON.stringify(user) === JSON.stringify({})) {
@@ -107,8 +115,8 @@ const PersonalSettings: React.FC = () => {
 
   return (
     <Container maxWidth="sm">
-      <Box sx={{ my: 1 }}>
-        <Header title="개인 설정" />
+      <Box sx={{ my: 0 }}>
+        <Header />
         <div className="personal">
           <BadgeAvatars userName={user.userEffectiveName + "님, 안녕하세요!"} avatarUrl={user.userAvatarUrl} />
           <br />

@@ -3,7 +3,11 @@ import { styled } from '@mui/material/styles';
 import Badge from '@mui/material/Badge';
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import { Link } from 'react-router-dom';
 import TwemojiText from '../../../utils/twemojiUtil/TwemojiText';
+import { useUser } from '../../contexts/User/UserContext';
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   '& .MuiBadge-badge': {
@@ -46,10 +50,33 @@ interface BadgeAvatarsProps {
 }
 
 const BadgeAvatars: React.FC<BadgeAvatarsProps> = ({ userName = "Kamilake", avatarUrl = "" }) => {
+  const { user } = useUser();
+  const isLogin = user.userInfo !== undefined;
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (isLogin) {
+      setAnchorEl(event.currentTarget);
+    }
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    handleClose();
+    window.location.href = `/api/logout?redirect=${encodeURIComponent(window.location.href)}`;
+  };
+
   return (
     <>
       <Stack direction="row" spacing={userName == "" ? 0 : 1}>
-        <div style={{ height: '40px', position: 'relative' }}>
+        <div
+          style={{ height: '40px', position: 'relative', cursor: isLogin ? 'pointer' : 'default' }}
+          onClick={handleClick}
+        >
           <StyledBadge
             overlap="circular"
             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
@@ -65,6 +92,21 @@ const BadgeAvatars: React.FC<BadgeAvatarsProps> = ({ userName = "Kamilake", avat
         }
       </Stack>
 
+      {isLogin && (
+        <Menu
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          MenuListProps={{
+            'aria-labelledby': 'profile-button',
+          }}
+        >
+          <MenuItem component={Link} to="/settings/personal" onClick={handleClose}>
+            계정 설정
+          </MenuItem>
+          <MenuItem onClick={handleLogout}>로그아웃</MenuItem>
+        </Menu>
+      )}
     </>
   );
 }

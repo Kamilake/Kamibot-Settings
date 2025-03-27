@@ -10,15 +10,22 @@ import ProTip from './components/ProTip';
 import GridButton from './components/GuildSettingsGrid';
 import TwemojiText from '../../utils/twemojiUtil/TwemojiText';
 import { useUser } from '../contexts/User/UserContext';
+import { useHeader } from '../contexts/HeaderContext';
 
 const Settings: React.FC = () => {
 
   const { user, isUserLoaded } = useUser();
+  const { setTitle } = useHeader();
+
+  React.useEffect(() => {
+    setTitle(isUserLoaded ? user.guildName + ` 설정` : `서버 설정`);
+    return () => setTitle('카미봇');
+  }, [setTitle]);
 
   return (
     <Container maxWidth="md">
       <Box sx={{ my: 1 }}>
-        <Header title={isUserLoaded ? user.guildName + ` 설정` : `서버 설정`} />
+        <Header />
         <Typography variant="h4" gutterBottom component="div">
           <TwemojiText>{isUserLoaded ? user.guildName : `서버`}</TwemojiText> 설정
         </Typography>

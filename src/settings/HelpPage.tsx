@@ -4,16 +4,21 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 import Molu from './components/Molu';
-import Header from './components/Header';
 import TwemojiText from '../../utils/twemojiUtil/TwemojiText';
 import L from './components/L';
+import { useHeader } from '../contexts/HeaderContext';
 
 const Help: React.FC = () => {
+  const { setTitle } = useHeader();
+  
+  React.useEffect(() => {
+    setTitle('도움말');
+    return () => setTitle('카미봇');
+  }, [setTitle]);
 
   return (
     <Container maxWidth="sm">
       <Box sx={{ my: 1 }}>
-        <Header title="도움말" />
         <div className="home">
           <Typography variant="h4" gutterBottom component="div">
             카미봇 도움말
