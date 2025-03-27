@@ -6,7 +6,7 @@ export interface ChannelList {
 }
 
 const FetchChannels = () => {
-  const { setChannel, setIsChannelLoaded } = useChannels();
+  const { setChannelList: setChannel, setIsChannelListLoaded: setIsChannelLoaded } = useChannels();
 
   createApiService<ChannelList, Channel[]>('/api/channelList')({
     dataMapper: (data: ChannelList) => data.channelList,

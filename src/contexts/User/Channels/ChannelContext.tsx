@@ -1,9 +1,9 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 interface ChannelContextType {
   channelList: Channel[];
-  setChannel: (channel: Channel[]) => void;
-  isChannelLoaded: boolean;  // 새로운 상태 추가
-  setIsChannelLoaded: (loaded: boolean) => void;  // 새로운 설정 함수
+  setChannelList: (channel: Channel[]) => void;
+  isChannelListLoaded: boolean;  // 새로운 상태 추가
+  setIsChannelListLoaded: (loaded: boolean) => void;  // 새로운 설정 함수
 }
 export interface Channel {
   channelName: string;
@@ -26,7 +26,7 @@ export const ChannelProvider = ({ children }: { children: ReactNode }) => {
   const [isChannelLoaded, setIsChannelLoaded] = useState(false);
 
   return (
-    <ChannelContext.Provider value={{ channelList, setChannel, isChannelLoaded, setIsChannelLoaded }}>
+    <ChannelContext.Provider value={{ channelList, setChannelList: setChannel, isChannelListLoaded: isChannelLoaded, setIsChannelListLoaded: setIsChannelLoaded }}>
       {children}
     </ChannelContext.Provider>
   );
