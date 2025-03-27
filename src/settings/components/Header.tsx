@@ -20,7 +20,11 @@ const Header: React.FC<HeaderProps> = ({ title, icon = <MenuIcon />, onIconClick
     setOpenDrawer(newOpen);
   };
 
-  const { user } = useUser();
+  // 로그인 함수 - 동적 리다이렉트 URL 사용
+  const handleLogin = () => {
+    const redirectUri = getRedirectUri();
+    window.location.href = `https://discord.com/api/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=${encodeURIComponent(SCOPES)}`;
+  };
 
   const DrawerList = (
     <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
@@ -52,6 +56,8 @@ const Header: React.FC<HeaderProps> = ({ title, icon = <MenuIcon />, onIconClick
     </Box>
   );
 
+  const isLogin = user.userInfo !== undefined;
+
   return (
     <div>
       <AppBar position="fixed">
@@ -62,7 +68,20 @@ const Header: React.FC<HeaderProps> = ({ title, icon = <MenuIcon />, onIconClick
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             {title}
           </Typography>
-          자동 로그인됨&nbsp;&nbsp;
+
+          {isLogin ? (
+            <>{user.userInfo?.global_name}&nbsp;&nbsp;</>
+          ) : (
+            <Button
+              color="inherit"
+              variant="outlined"
+              onClick={handleLogin}
+              sx={{ mr: 2 }}
+            >
+              로그인
+            </Button>
+          )}
+
           <BadgeAvatars userName="" avatarUrl={user.userAvatarUrl} />
         </Toolbar>
         {/* <Drawer
