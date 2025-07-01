@@ -11,6 +11,7 @@ import AddReactionIcon from '@mui/icons-material/AddReaction';
 import MarkChatReadIcon from '@mui/icons-material/MarkChatRead';
 import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates';
 import L from "../components/L";
+import { useUser } from "../../contexts/User/UserContext";
 interface ListItemData {
   id: string;
   text: string;
@@ -35,7 +36,8 @@ const listItemData: ListItemData[] = [
 
 const FunctionBody: React.FC = () => {
   const [switchStates, setSwitchStates] = React.useState<Record<string, boolean>>({});
-  const { data, loading, error } = fetchGuildFuncApi('general');
+  const { user } = useUser();
+  const { data, loading, error } = fetchGuildFuncApi(user.guildId, 'general');
 
   const [state, setState] = React.useState({
     use_emote_upscaler: false,
@@ -51,6 +53,7 @@ const FunctionBody: React.FC = () => {
 
   const handleChange = (key: string, value: any) => {
     setGuildFuncApi(
+      user.guildId,
       'general',
       { [key]: value },
       () => {
@@ -97,6 +100,7 @@ const FunctionBody: React.FC = () => {
       [id]: !prevState[id],
     }));
     setGuildFuncApi(
+      user.guildId,
       'general',
       {
         [id]: !switchStates[id]

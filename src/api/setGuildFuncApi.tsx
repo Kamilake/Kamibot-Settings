@@ -19,6 +19,7 @@ interface SwitchStates {
 
 
 const setGuildFuncApi = async (
+  guildId: string,
   func: string,
   param: any,
   onSuccess: (data: ResponseData) => void = (data) => {
@@ -36,7 +37,7 @@ const setGuildFuncApi = async (
   const nowSettingSnackbarId = enqueueSnackbar('설정 중...', { variant: 'info', autoHideDuration: 10000 });
   try {
     let data: ResponseData = await postData(
-      '/api/guild/0/' + func, param
+      `/api/guild/${guildId}/${func}`, param
     )
     console.log("API Response: success: " + (data?.success == true) + ", message: " + data.message);
     if ((data?.success != true)) {

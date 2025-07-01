@@ -8,10 +8,10 @@ interface FetchResult {
   error: any;
 }
 
-const fetchGuildFuncApi = (func: string): FetchResult => {
+const fetchGuildFuncApi = (guildId: string, func: string): FetchResult => {
 
   let { data, loading, error } = useFetch<any>(
-    '/api/guild/0/' + func
+    `/api/guild/${guildId}/${func}`
   );
 
   if (loading) {

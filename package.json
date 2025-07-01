@@ -33,6 +33,7 @@
     "react-router-dom": "latest",
     "recharts": "^2.15.1",
     "styled-components": "^6.1.15",
+    "swr": "^2.3.3",
     "twemoji": "^14.0.2",
     "typescript": "^5.7.3"
   },

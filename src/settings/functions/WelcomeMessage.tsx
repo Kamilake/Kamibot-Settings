@@ -6,11 +6,13 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import { Box, Button, TextField, Select, MenuItem, SelectChangeEvent, Typography, Chip } from "@mui/material";
 import setGuildFuncApi from "../../api/setGuildFuncApi";
 import ControllableStates from "../components/ChannelSelectDropdown";
-import { Channel } from "../../api/fetchChannelListApi";
 import fetchGuildFuncApi from "../../api/fetchGuildFuncApi";
 import DropdownLabel from "../components/DropdownLabel";
+import { useUser } from "../../contexts/User/UserContext";
+import { Channel } from "../../contexts/User/Channels/ChannelContext";
 
 const FunctionBody: React.FC = () => {
+  const { user } = useUser();
   const [isFunctionEnabled, setIsFunctionEnabled] = useState(false);
   const [welcomePrompt, setWelcomeMessage] = useState("");
   const [mode, setMode] = useState("ai");
@@ -28,7 +30,8 @@ const FunctionBody: React.FC = () => {
     setIsSaved(false);
   }, [channelSelectValue]);
 
-  const { data, loading, error } = fetchGuildFuncApi("welcome_message");
+
+  const { data, loading, error } = fetchGuildFuncApi(user.guildId, "welcome_message");
 
   useEffect(() => {
     // data.channelId 출력
@@ -76,6 +79,7 @@ const FunctionBody: React.FC = () => {
   const handleSave = () => {
     setIsSaved(true);
     setGuildFuncApi(
+      user.guildId,
       "welcome_message",
       {
         enabled: isFunctionEnabled,
@@ -97,12 +101,13 @@ const FunctionBody: React.FC = () => {
   };
 
   const sendTestMessage = () => {
-    setGuildFuncApi("welcome_message/test", {});
+    setGuildFuncApi(user.guildId, "welcome_message/test", {});
   };
 
   const enableFunction = () => {
     setIsFunctionEnabled(!isFunctionEnabled);
     setGuildFuncApi(
+      user.guildId,
       "welcome_message",
       { enabled: !isFunctionEnabled },
       (data) => {

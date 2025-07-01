@@ -28,3 +28,5 @@ yarn-error.log*
 
 debug.log
 public/
+
+src/templates/

@@ -25,10 +25,10 @@ export interface User {
   userLevel: number;
   userAvatarUrl: string;
   channelName: string;
-  channelId: number;
+  channelId: string;
   channelType: string;
   userName: string;
-  guildId: number;
+  guildId: string;
   guildName: string;
   ttsActor: string;
   ttsFriendlyName: string;
@@ -51,8 +51,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     "channelName": "새 채널",
     "channelType": "PRIVATE",
     "userName": "kamikami",
-    "channelId": 1077136010883907696,
-    "guildId": 1234567890,
+    "channelId": "1234567890",
+    "guildId": "1234567890",
     "guildName": "내 서버",
     "ttsActor": "kyuri",
     "ttsFriendlyName": "...",

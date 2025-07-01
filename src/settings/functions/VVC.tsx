@@ -5,9 +5,11 @@ import { Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogContentT
 import setGuildFuncApi from "../../api/setGuildFuncApi";
 import fetchGuildFuncApi from "../../api/fetchGuildFuncApi";
 import DropdownLabel from "../components/DropdownLabel";
+import { useUser } from "../../contexts/User/UserContext";
 
 const FunctionBody: React.FC = () => {
-  const { data, loading, error } = fetchGuildFuncApi('vvc');
+  const { user } = useUser();
+  const { data, loading, error } = fetchGuildFuncApi(user.guildId, 'vvc');
   const [notificationStyle, setNotificationStyle] = React.useState(''); // 알림
   const [timeout, setTimeout] = React.useState(-1); // 미사용 자동 꺼짐 시간
   const [isSaved, setIsSaved] = useState(true);
@@ -74,6 +76,7 @@ const FunctionBody: React.FC = () => {
 
     setIsSaved(true);
     setGuildFuncApi(
+      user.guildId,
       'vvc',
       {
         mode: mode,

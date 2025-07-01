@@ -6,6 +6,7 @@ import setGuildFuncApi from "../../api/setGuildFuncApi";
 import fetchGuildFuncApi from "../../api/fetchGuildFuncApi";
 import DropdownLabel from "../components/DropdownLabel";
 import SwitchLabel from "../components/SwitchLabel";
+import { useUser } from "../../contexts/User/UserContext";
 // TTS 관련 설정
 
 // 음성 채널 상호작용 읽어주기
@@ -44,7 +45,8 @@ const listItemData: ListItemData[] = [
 
 const FunctionBody: React.FC = () => {
   const [switchStates, setSwitchStates] = React.useState<Record<string, boolean>>({});
-  const { data, loading, error } = fetchGuildFuncApi('tts');
+  const { user } = useUser();
+  const { data, loading, error } = fetchGuildFuncApi(user.guildId, 'tts');
 
   const [state, setState] = React.useState({
     notification_style: 'global', // 알림
@@ -61,6 +63,7 @@ const FunctionBody: React.FC = () => {
 
   const handleChange = (key: string, value: any) => {
     setGuildFuncApi(
+      user.guildId,
       'tts',
       { [key]: value },
       () => {
@@ -107,6 +110,7 @@ const FunctionBody: React.FC = () => {
       [id]: !prevState[id],
     }));
     setGuildFuncApi(
+      user.guildId,
       'tts',
       {
         [id]: !switchStates[id]
