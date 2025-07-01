@@ -6,6 +6,7 @@ import CpuGraphChart from "./ThreadMemoryChart";
 import { DataPoint } from "./DataPoint";
 import KamibotCount from "./OnlineCount";
 import VoiceCount from "./VoiceCount";
+import AsyncTaskMonitor from "./AsyncTaskMonitor";
 
 const intervalTime = 500;
 const dataWindowSize = 60;
@@ -57,6 +58,7 @@ const Dashboard: React.FC = () => {
       <VoiceCount data={latestData} />
       <CpuGraph data={latestData} />
       <CpuGraphChart data={data} totalMemory={totalMemory} />
+      <AsyncTaskMonitor />
       <br></br>
       <br></br>
       <br></br>
