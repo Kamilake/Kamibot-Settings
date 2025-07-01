@@ -92,12 +92,12 @@ const CpuGraphChart: React.FC<CpuGraphChartProps> = ({ data, totalMemory }) => {
                 yAxisId: "audio",
               },
               {
-                label: "접속 중인 음성 채널",
-                data: data.map((point) => point.audioSendHandlers),
+                label: "1분당 카미봇 사용량",
+                data: data.map((point) => point.eventsPerSecond * 60),
                 showMark: false,
                 valueFormatter: (value: number | null) =>
-                  value === null ? "N/A" : `${value} 채널`,
-                yAxisId: "audio",
+                  value === null ? "N/A" : `${value} rpm`,
+                yAxisId: "memory",
               },
             ]}
             yAxis={[
@@ -112,7 +112,7 @@ const CpuGraphChart: React.FC<CpuGraphChartProps> = ({ data, totalMemory }) => {
                 id: "audio",
                 label: "스레드 / 커넥션 수",
                 min: 0,
-                max: 1000,
+                max: 1500,
                 position: "right",
               },
             ]}

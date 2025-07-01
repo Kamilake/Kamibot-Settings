@@ -20,7 +20,7 @@ const CpuGraph: React.FC<CpuGraphProps> = ({ data }) => {
       </Box>
       <Box sx={{ marginY: 1 }}>
         <Typography variant="body2">
-          JVM 메모리: {ramPercentage.toFixed(1)}%
+          JVM 메모리: {ramPercentage.toFixed(1)}% ({data.usedMemory}MB / {data.totalMemory}MB)
         </Typography>
         <LinearProgress variant="determinate" value={ramPercentage} />
       </Box>
