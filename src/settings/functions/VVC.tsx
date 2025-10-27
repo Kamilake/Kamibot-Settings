@@ -117,7 +117,7 @@ const FunctionBody: React.FC = () => {
           <ListItemIcon>
             <Info />
           </ListItemIcon>
-          <ListItemText primary="채널 설정에서 하나 이상의 트리거 채널을 활성화하세요." />
+          <ListItemText primary="기능이 오래되어서 임시 설명 간단하게 추가해 둘게요! 지금 보고계시는 화면이 가변 음성채널의 고급설정 화면이에요. 여러분이 원하시는 '➕ㅣ새 음성 채널'을 만드시려면 화면 아래 4개의 전환 탭 중 두번째 '채널 설정' 버튼을 누르세요. 그런 다음 미리 만들어 둔 '➕ㅣ새 음성 채널' 채널을 고르세요. 마지막으로, 맨 아래로 스크롤하면 '가변 음성채널' 이라는 버튼이 있어요." />
         </ListItem>
       </List>
       <br />
