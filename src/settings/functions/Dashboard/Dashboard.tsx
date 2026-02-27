@@ -3,10 +3,11 @@ import { Troubleshoot } from "@mui/icons-material";
 import { FunctionInterface } from "../../components/GuildSettingsGrid";
 import CpuGraph from "./CpuRamGraph";
 import CpuGraphChart from "./ThreadMemoryChart";
-import { DataPoint } from "./DataPoint";
+import { DataPoint, mapApiResponseToDataPoint } from "./DataPoint";
 import KamibotCount from "./OnlineCount";
 import VoiceCount from "./VoiceCount";
 import AsyncTaskMonitor from "./AsyncTaskMonitor";
+import RateLimiterMonitor from "./RateLimiterMonitor";
 
 const intervalTime = 500;
 const dataWindowSize = 60;
@@ -18,10 +19,11 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("/api/kamibotStatus?json=true");
-        const responseData = await response.json();
-        setTotalMemory(responseData.totalMemory);
-        const currentData: DataPoint = { ...responseData };
+        const response = await fetch("/api/kamibot/status");
+        const result = await response.json();
+        const responseData = result.data;
+        const currentData = mapApiResponseToDataPoint(responseData);
+        setTotalMemory(currentData.totalMemory);
         const currentDate = new Date(currentData.currentTime);
 
         setData((prevData) => {
@@ -59,6 +61,7 @@ const Dashboard: React.FC = () => {
       <CpuGraph data={latestData} />
       <CpuGraphChart data={data} totalMemory={totalMemory} />
       <AsyncTaskMonitor />
+      <RateLimiterMonitor />
       <br></br>
       <br></br>
       <br></br>

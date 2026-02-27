@@ -10,6 +10,7 @@ const KamibotCount: React.FC<KamibotCountProps> = ({ data }) => {
   if (!data) return <Typography>Loading...</Typography>;
 
   const totalGuilds = data.guilds;
+  const totalUsers = data.users;
   const onlineMembers = data.onlineUsers;
   const isMobile = useMediaQuery("(max-width:600px)");
 
@@ -31,6 +32,28 @@ const KamibotCount: React.FC<KamibotCountProps> = ({ data }) => {
             </Typography>
           </Typography>
         </Box>
+
+        {!isMobile && (
+          <>
+            <Box sx={{ width: "1px", height: "60px", borderLeft: "1px solid #ccc" }} />
+
+            <Box sx={{ flex: 1, textAlign: "center" }}>
+              <Typography variant="caption" display="block">
+                전체 사용자 수
+              </Typography>
+              <Typography variant="h4" sx={{ fontWeight: "bold" }}>
+                {totalUsers.toLocaleString()}
+                <Typography
+                  component="span"
+                  variant="h6"
+                  sx={{ fontWeight: "normal", ml: 0.5 }}
+                >
+                  명
+                </Typography>
+              </Typography>
+            </Box>
+          </>
+        )}
 
         <Box sx={{ width: "1px", height: "60px", borderLeft: "1px solid #ccc" }} />
 

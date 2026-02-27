@@ -10,68 +10,51 @@ import {
   Divider,
   LinearProgress
 } from "@mui/material";
-import { Assignment, PlayArrow, Queue, Memory } from "@mui/icons-material";
+import { Assignment, PlayArrow, Queue, Memory, CheckCircle } from "@mui/icons-material";
 
-interface TaskInfo {
-  label: string;
+interface RunningTask {
+  threadId: string;
+  name: string;
+  startTime: string; // epoch millis as string
+}
+
+interface SnapshotData {
+  activeVirtualThreads: number;
+  completedTaskCount: number;
+  totalTaskCount: number;
+  carrierThreadsTotal: number;
+  carrierThreadsActive: number;
+  carrierThreadsIdle: number;
+  runningTasks: RunningTask[];
+}
+
+/** 같은 이름의 작업을 묶어서 카운트 */
+interface GroupedTask {
+  name: string;
   count: number;
 }
 
-interface AsyncTaskData {
-  activeThreads: number;
-  poolSize: number;
-  queueSize: number;
-  tasks: TaskInfo[];
-}
-
 const AsyncTaskMonitor: React.FC = () => {
-  const [taskData, setTaskData] = useState<AsyncTaskData | null>(null);
+  const [snapshot, setSnapshot] = useState<SnapshotData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const parseTaskData = (statusText: string): AsyncTaskData => {
-    const lines = statusText.split('\n');
-    
-    let activeThreads = 0;
-    let poolSize = 0;
-    let queueSize = 0;
-    const tasks: TaskInfo[] = [];
-
-    let inTasksSection = false;
-
-    for (const line of lines) {
-      const trimmedLine = line.trim();
-      
-      if (trimmedLine.startsWith('Active threads:')) {
-        activeThreads = parseInt(trimmedLine.split(':')[1].trim()) || 0;
-      } else if (trimmedLine.startsWith('Pool size:')) {
-        poolSize = parseInt(trimmedLine.split(':')[1].trim()) || 0;
-      } else if (trimmedLine.startsWith('Queue size:')) {
-        queueSize = parseInt(trimmedLine.split(':')[1].trim()) || 0;
-      } else if (trimmedLine === 'Tasks by label:') {
-        inTasksSection = true;
-      } else if (inTasksSection && trimmedLine.includes(':')) {
-        const taskMatch = trimmedLine.match(/^\s*(.+):\s*(\d+)$/);
-        if (taskMatch) {
-          tasks.push({
-            label: taskMatch[1].trim(),
-            count: parseInt(taskMatch[2]) || 0
-          });
-        }
-      }
-    }
-
-    return { activeThreads, poolSize, queueSize, tasks };
-  };
-
   const fetchTaskData = async () => {
     try {
-      const response = await fetch('/api/kamibot/snapshot');
+      const response = await fetch('/api/kamibot/snapshot/json');
       const result = await response.json();
       
-      if (result.success && result.data?.status) {
-        const parsedData = parseTaskData(result.data.status);
-        setTaskData(parsedData);
+      if (result.success && result.data) {
+        const d = result.data;
+        setSnapshot({
+          activeVirtualThreads: Number(d.activeVirtualThreads),
+          completedTaskCount: Number(d.completedTaskCount),
+          totalTaskCount: Number(d.totalTaskCount),
+          carrierThreadsTotal: Number(d.carrierThreadsTotal),
+          carrierThreadsActive: Number(d.carrierThreadsActive),
+          carrierThreadsIdle: Number(d.carrierThreadsIdle),
+          runningTasks: d.runningTasks || [],
+        });
         setError(null);
       } else {
         setError('데이터를 불러올 수 없습니다');
@@ -119,10 +102,33 @@ const AsyncTaskMonitor: React.FC = () => {
     );
   }
 
-  if (!taskData) return null;
+  if (!snapshot) return null;
 
-  const { activeThreads, poolSize, queueSize, tasks } = taskData;
-  const threadUtilization = poolSize > 0 ? (activeThreads / poolSize) * 100 : 0;
+  const {
+    activeVirtualThreads,
+    completedTaskCount,
+    totalTaskCount,
+    carrierThreadsTotal,
+    carrierThreadsActive,
+    runningTasks,
+  } = snapshot;
+
+  const carrierUtilization = carrierThreadsTotal > 0
+    ? (carrierThreadsActive / carrierThreadsTotal) * 100
+    : 0;
+
+  const pendingTasks = totalTaskCount - completedTaskCount;
+
+  // 실행 중인 작업을 이름별로 그룹핑
+  const grouped: GroupedTask[] = [];
+  const countMap = new Map<string, number>();
+  for (const t of runningTasks) {
+    countMap.set(t.name, (countMap.get(t.name) || 0) + 1);
+  }
+  for (const [name, count] of countMap) {
+    grouped.push({ name, count });
+  }
+  grouped.sort((a, b) => b.count - a.count);
 
   return (
     <Paper elevation={2} sx={{ padding: 2, margin: 2 }}>
@@ -131,22 +137,22 @@ const AsyncTaskMonitor: React.FC = () => {
         <Typography variant="h6">비동기 작업 모니터</Typography>
       </Box>
 
-      {/* 스레드 풀 상태 */}
+      {/* 캐리어 스레드 사용률 */}
       <Box sx={{ mb: 2 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Memory sx={{ mr: 1, fontSize: 20 }} />
-            <Typography variant="body2">스레드 풀 사용률</Typography>
+            <Typography variant="body2">캐리어 스레드 사용률</Typography>
           </Box>
           <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-            {activeThreads}/{poolSize} ({threadUtilization.toFixed(1)}%)
+            {carrierThreadsActive}/{carrierThreadsTotal} ({carrierUtilization.toFixed(1)}%)
           </Typography>
         </Box>
         <LinearProgress 
           variant="determinate" 
-          value={threadUtilization} 
+          value={carrierUtilization} 
           sx={{ height: 8, borderRadius: 4 }}
-          color={threadUtilization > 80 ? 'error' : threadUtilization > 50 ? 'warning' : 'primary'}
+          color={carrierUtilization > 80 ? 'error' : carrierUtilization > 50 ? 'warning' : 'primary'}
         />
       </Box>
 
@@ -154,41 +160,47 @@ const AsyncTaskMonitor: React.FC = () => {
       <Box sx={{ display: 'flex', gap: 1, mb: 2, flexWrap: 'wrap' }}>
         <Chip 
           icon={<PlayArrow />} 
-          label={`활성 스레드: ${activeThreads}`}
+          label={`가상 스레드: ${activeVirtualThreads}`}
           size="small"
-          color={activeThreads > 0 ? 'success' : 'default'}
+          color={activeVirtualThreads > 0 ? 'success' : 'default'}
         />
         <Chip 
           icon={<Memory />} 
-          label={`풀 크기: ${poolSize}`}
+          label={`캐리어: ${carrierThreadsTotal}`}
           size="small"
           color="primary"
         />
         <Chip 
           icon={<Queue />} 
-          label={`대기열: ${queueSize}`}
+          label={`대기: ${pendingTasks}`}
           size="small"
-          color={queueSize > 0 ? 'warning' : 'default'}
+          color={pendingTasks > 10 ? 'warning' : 'default'}
+        />
+        <Chip 
+          icon={<CheckCircle />} 
+          label={`완료: ${completedTaskCount.toLocaleString()}`}
+          size="small"
+          color="default"
         />
       </Box>
 
       <Divider sx={{ my: 2 }} />
 
-      {/* 작업 목록 */}
+      {/* 실행중인 작업 목록 */}
       <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 'bold' }}>
-        실행중인 작업 ({tasks.length})
+        실행중인 작업 ({runningTasks.length})
       </Typography>
       
-      {tasks.length === 0 ? (
+      {grouped.length === 0 ? (
         <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center', py: 2 }}>
           현재 실행중인 작업이 없습니다
         </Typography>
       ) : (
         <List dense sx={{ maxHeight: 300, overflow: 'auto' }}>
-          {tasks.map((task, index) => (
+          {grouped.map((task, index) => (
             <ListItem key={index} sx={{ px: 0 }}>
               <ListItemText 
-                primary={task.label}
+                primary={task.name}
                 secondary={`${task.count}개 작업`}
                 primaryTypographyProps={{ 
                   variant: 'body2',
