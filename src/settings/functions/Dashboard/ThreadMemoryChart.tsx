@@ -76,16 +76,16 @@ const CpuGraphChart: React.FC<CpuGraphChartProps> = ({ data, totalMemory }) => {
                 yAxisId: "memory",
               },
               {
-                label: "캐리어 스레드",
-                data: data.map((point) => point.carrierThreadsTotal * 10),
+                label: "가용 스레드",
+                data: data.map((point) => point.totalThreads * 10),
                 showMark: false,
                 valueFormatter: (value: number | null) =>
                   value === null ? "N/A" : `${value / 10} 스레드`,
                 yAxisId: "audio",
               },
               {
-                label: "활성 가상 스레드",
-                data: data.map((point) => point.activeVirtualThreads * 10),
+                label: "활성 스레드",
+                data: data.map((point) => point.activeThreads * 10),
                 showMark: false,
                 valueFormatter: (value: number | null) =>
                   value === null ? "N/A" : `${value / 10} 스레드`,

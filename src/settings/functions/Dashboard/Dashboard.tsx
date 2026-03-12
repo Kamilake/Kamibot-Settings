@@ -3,7 +3,7 @@ import { Troubleshoot } from "@mui/icons-material";
 import { FunctionInterface } from "../../components/GuildSettingsGrid";
 import CpuGraph from "./CpuRamGraph";
 import CpuGraphChart from "./ThreadMemoryChart";
-import { DataPoint, mapApiResponseToDataPoint } from "./DataPoint";
+import { DataPoint } from "./DataPoint";
 import KamibotCount from "./OnlineCount";
 import VoiceCount from "./VoiceCount";
 import AsyncTaskMonitor from "./AsyncTaskMonitor";
@@ -19,11 +19,10 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("/api/kamibot/status");
-        const result = await response.json();
-        const responseData = result.data;
-        const currentData = mapApiResponseToDataPoint(responseData);
-        setTotalMemory(currentData.totalMemory);
+        const response = await fetch("/api/kamibotStatus?json=true");
+        const responseData = await response.json();
+        setTotalMemory(responseData.totalMemory);
+        const currentData: DataPoint = { ...responseData };
         const currentDate = new Date(currentData.currentTime);
 
         setData((prevData) => {
